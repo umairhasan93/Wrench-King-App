@@ -7,8 +7,6 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 const BikeMechanic = ({ navigation }) => {
     const [mechanic, setMechanic] = useState([])
 
-
-
     const image = {
         uri: 'https://live.staticflickr.com/65535/49357672303_973df140a6_h.jpg'
     }

@@ -52,7 +52,7 @@ const CarMechanic = ({ navigation }) => {
                 <MenuButton onPress={() => navigation.openDrawer()} />
                 {/* <Image source= {require('')}/> */}
                 <Text style={styles.headerText}>Wrench King</Text>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
+                <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
                     <Icon style={styles.backIcon} name="chevron-left" size={24} color="red" />
                 </TouchableOpacity>
             </View>
@@ -66,8 +66,14 @@ const CarMechanic = ({ navigation }) => {
 
                             tuningMechanic.map((mechanic, index) => {
                                 return (
-                                    <TouchableOpacity key={index} style={{ marginLeft: 5, marginTop: 12 }}>
-                                        <Card style={styles.CardTuning}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('BookingScreen', {
+                                        name: mechanic.name,
+                                        number: mechanic.contactNo,
+                                        address: mechanic.address,
+                                        rating: mechanic.rating
+                                    })}
+                                        key={index} style={{ marginLeft: 5, marginTop: 12 }}>
+                                        <Card key={index} style={styles.CardTuning}>
                                             <View style={{ flexDirection: 'row' }}>
                                                 <View>
                                                     <View style={styles.container}>
@@ -102,7 +108,7 @@ const CarMechanic = ({ navigation }) => {
                         {
                             axleMechanic.map((mechanic, index) => {
                                 return (
-                                    <TouchableOpacity style={{ marginLeft: 5, marginTop: 12 }}>
+                                    <TouchableOpacity key={index} style={{ marginLeft: 5, marginTop: 12 }}>
                                         <Card style={styles.CardAxle}>
                                             <View style={{ flexDirection: 'row' }}>
                                                 <View>
@@ -136,7 +142,7 @@ const CarMechanic = ({ navigation }) => {
                         {
                             acMechanic.map((mechanic, index) => {
                                 return (
-                                    <TouchableOpacity style={{ marginLeft: 5, marginTop: 12 }} >
+                                    <TouchableOpacity key={index} style={{ marginLeft: 5, marginTop: 12 }} >
                                         <Card style={styles.CardAC}>
                                             <View style={{ flexDirection: 'row' }}>
                                                 <View>
