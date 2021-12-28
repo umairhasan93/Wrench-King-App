@@ -9,6 +9,9 @@ const CarMechanic = ({ navigation }) => {
     const [axleMechanic, setAxleMechanic] = useState([])
     const [acMechanic, setACMechanic] = useState([])
 
+    const starImgFilled = 'https://raw.githubusercontent.com/tranhonghan/images/main/star_filled.png'
+    const starImgCorner = 'https://raw.githubusercontent.com/tranhonghan/images/main/star_corner.png'
+
 
     const image = {
         uri: 'https://www.mechanicustaad.pk/wp-content/uploads/2019/01/48421042_621075531679514_6562751771075149824_n-2.jpg'

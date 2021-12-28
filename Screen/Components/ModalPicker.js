@@ -2,15 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Dimensions, ScrollView } from 'react-native'
 
 const Companies = ["Daihatsu", "Faw", "Honda", "Hyundai", "Kia", "Nissan", "Suzuki", "Toyota"]
-const Daihatsu = ["Mira", "Cuore", "Move", "Hijet"]
-const Faw = ["Carrier", "X-PV", "V2"]
-const Honda = ["Civic", "City", "B-RV", "Vezel", "Accord"]
-const Hyundai = ["Sonata", "Elantra", "Tucson"]
-const Kia = ["Spotage", "Picanto"]
-const Nissan = ["Days", "Sunny", "Juke"]
-const Suzuki = ["Mehran", "Cultus", "Alto", "Bolan", "WagonR", "APV"]
-const Toyota = ["Corolla", "Yaris", "Vitz", "Camry", "Prado", "Land Cruiser", "Fortuner", "Prius", "Hilux", "Rush", "Surf", "Premio", "Fielder", "C-HR", "Axio", "Aqua", "Passo"]
-
+const Years = [1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
 const WIDTH = Dimensions.get('window').width
 const HEIGHT = Dimensions.get('window').height
 
@@ -41,7 +33,7 @@ const ModalPickerMade = (props) => {
             onPress={() => props.changeModalVisibility(false)}
             style={styles.container}
         >
-            <View style={[styles.modal, { width: WIDTH - 80, height: HEIGHT / 2 }]}>
+            <View style={[styles.modal, { width: WIDTH - 80, height: HEIGHT / 2.45 }]}>
                 <ScrollView>
 
                     {company}
@@ -53,19 +45,19 @@ const ModalPickerMade = (props) => {
     )
 }
 
-const ModalPickerDaihatsu = (props) => {
+const ModalPickerYear = (props) => {
 
-    const onPressItem = (daihatsu) => {
-        props.changeModalVisibility(false);
-        props.setModell(daihatsu)
+    const onPressModelItem = (year) => {
+        props.changeYearModalVisibility(false);
+        props.setYearr(year)
     }
 
-    const daihatsu = Daihatsu.map((item, index) => {
+    const year = Years.map((item, index) => {
         return (
             <TouchableOpacity
                 style={styles.company}
                 key={index}
-                onPress={() => onPressItem(item)}
+                onPress={() => onPressModelItem(item)}
             >
                 <Text style={styles.text}>
                     {item}
@@ -77,13 +69,13 @@ const ModalPickerDaihatsu = (props) => {
 
     return (
         <TouchableOpacity
-            onPress={() => props.changeModalVisibility(false)}
+            onPress={() => props.changeYearModalVisibility(false)}
             style={styles.container}
         >
-            <View style={[styles.modal, { width: WIDTH - 80, height: HEIGHT / 2 }]}>
+            <View style={[styles.modal, { width: WIDTH - 80, height: HEIGHT / 2.45 }]}>
                 <ScrollView>
 
-                    {daihatsu}
+                    {year}
 
                 </ScrollView>
             </View>
@@ -91,6 +83,8 @@ const ModalPickerDaihatsu = (props) => {
         </TouchableOpacity>
     )
 }
+
+
 
 
 const styles = StyleSheet.create({
@@ -132,4 +126,4 @@ const styles = StyleSheet.create({
 
 })
 
-export { ModalPickerMade, ModalPickerDaihatsu }
+export { ModalPickerMade, ModalPickerYear }

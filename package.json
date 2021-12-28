@@ -10,13 +10,17 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@eva-design/eva": "^2.1.1",
     "@react-native-community/async-storage": "^1.12.1",
+    "@react-native-community/datetimepicker": "^5.1.0",
     "@react-native-picker/picker": "^2.2.1",
     "@react-navigation/drawer": "^6.1.8",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/stack": "^6.0.11",
+    "@ui-kitten/components": "^5.1.1",
     "react": "17.0.2",
     "react-native": "0.66.3",
+    "react-native-datepicker": "^1.7.2",
     "react-native-dropdown-picker": "^5.2.3",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-material-dropdown": "^0.11.1",
@@ -25,6 +29,7 @@
     "react-native-reanimated": "^2.2.4",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.9.0",
+    "react-native-svg": "^12.1.1",
     "react-native-vector-icons": "^9.0.0"
   },
   "devDependencies": {

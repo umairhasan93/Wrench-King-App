@@ -10,30 +10,48 @@ import {
     Keyboard,
     KeyboardAvoidingView,
     Modal,
+    Platform,
+    Button,
 } from 'react-native';
 import { Card } from 'react-native-paper';
 import MenuButton from '../Components/NavigationDrawerHeader'
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { ModalPickerMade, ModalPickerDaihatsu } from '../Components/ModalPicker'
+import { ModalPickerMade, ModalPickerYear } from '../Components/ModalPicker'
+// import DateTimePicker from '@react-native-community/datetimepicker'
+import { Datepicker, Icons, Layout, ApplicationProvider } from '@ui-kitten/components'
+import * as eva from '@eva-design/eva';
+
+
+
 
 const BookingScreen = ({ navigation, route }) => {
     const { name, number, address, rating } = route.params;
     const [defaultRating, setDefaultRating] = useState(rating)
     const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5])
     const [made, setMade] = useState('Made');
-    const [model, setModel] = useState('Model');
+    const [year, setYear] = useState('Year');
     const [isModalVisible, setIsModalVisible] = useState(false)
+    const [isYearModalVisible, setIsYearModalVisible] = useState(false)
+
+    const useDatepickerState = (initialDate = null) => {
+        const [date, setDate] = useState(initialDate);
+        return { date, onSelect: setDate };
+    };
 
     const changeModalVisibility = (bool) => {
         setIsModalVisible(bool)
+    }
+
+    const changeYearModalVisibility = (bool) => {
+        setIsYearModalVisible(bool)
     }
 
     const setMake = (option) => {
         setMade(option)
     }
 
-    const setModell = (option) => {
-        setModel(option)
+    const setYearr = (option) => {
+        setYear(option)
     }
 
     const starImgFilled = 'https://raw.githubusercontent.com/tranhonghan/images/main/star_filled.png'
@@ -132,9 +150,9 @@ const BookingScreen = ({ navigation, route }) => {
                             <View>
                                 <TouchableOpacity
                                     style={styles.dropdownContainer}
-                                    onPress={() => changeModalVisibility(true)}
+                                    onPress={() => changeYearModalVisibility(true)}
                                 >
-                                    <Text style={styles.dropdowntext}>{model}</Text>
+                                    <Text style={styles.dropdowntext}>{year}</Text>
                                     <Icon
                                         style={{ marginRight: 18, marginLeft: 10, marginTop: 15 }}
                                         name="chevron-down"
@@ -143,8 +161,38 @@ const BookingScreen = ({ navigation, route }) => {
                                     />
                                 </TouchableOpacity>
 
+                                <Modal
+                                    transparent={true}
+                                    animation='slide'
+                                    visible={isYearModalVisible}
+                                    nRequestClose={() => changeYearModalVisibility(false)}
+                                >
+
+                                    <ModalPickerYear
+                                        changeYearModalVisibility={changeYearModalVisibility}
+                                        setYearr={setYearr}
+                                    />
+
+                                </Modal>
+
                             </View>
 
+                            <ApplicationProvider {...eva} theme={eva.light}>
+                                <TouchableOpacity style={styles.calenderContainer}>
+                                    <Layout style={styles.container} level='1'>
+
+                                        {/* <Text category='h6'>
+                                        Selected date: {date.toLocaleDateString()}
+                                    </Text> */}
+
+                                        <Datepicker
+                                            date={date}
+                                            onSelect={nextDate => setDate(nextDate)}
+                                        />
+
+                                    </Layout>
+                                </TouchableOpacity>
+                            </ApplicationProvider>
                         </Card>
                     </KeyboardAvoidingView>
                 </View>
@@ -315,6 +363,17 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 10,
         backgroundColor: 'lavender',
+    },
+
+    container: {
+        minHeight: 290,
+    },
+
+    calenderContainer: {
+        height: 45,
+        width: 290,
+        borderRadius: 50,
+        marginTop: 20
     },
 })
 
