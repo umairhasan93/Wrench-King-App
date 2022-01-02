@@ -1,49 +1,64 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
-    ImageBackground,
-    Pressable,
-    Image,
     TouchableOpacity,
-    ScrollView,
     StyleSheet,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native';
 import { DrawerContentScrollView, DrawerItems } from '@react-navigation/drawer';
+import Loader from "../Components/loader"
+import AsyncStorage from '@react-native-community/async-storage'
 
 export function DrawerContent(props) {
+    const [loading, setLoading] = useState(false);
     const navigation = useNavigation();
+    const [user, setUser] = useState([])
+    AsyncStorage.getItem('user').then(data => {
+        if (data) {
+            setUser(JSON.parse(data))
+        }
+
+    })
+
+
+    const handleSubmit = () => {
+        AsyncStorage.removeItem('user')
+        setLoading(!loading)
+        navigation.replace('Auth')
+    }
+
     return (
         <View>
 
             <View style={styles.userDetails}>
-                <View style={styles.imageView}>
 
-                </View>
+                <Text style={styles.name}>{user.name}</Text>
 
-                <Text style={styles.name}>Muhammad Umair Hasan</Text>
-
-                <Pressable>
-                    <Text style={styles.email}>umairhasan463@gmail.com</Text>
-                </Pressable>
             </View>
+            <View
+                style={{
+                    borderBottomColor: 'gray',
+                    borderBottomWidth: 1,
+                    width: 250,
+                    alignSelf: 'center'
+                }}
+            />
 
+            <Loader loading={loading} />
 
+            <View style={{ alignItems: 'center', backgroundColor: 'white', marginTop: 450 }}>
 
-            <View style={{ alignItems: 'center', backgroundColor: 'white' }}>
-                <TouchableOpacity onPress={() => navigation.goBack('StackNav')}>
-                    <View style={styles.tabStyle}>
-                        <Icon style={styles.Logouticons} name="sign-out-alt" size={22} />
-                        <Text style={styles.tabText}> Logout </Text>
+                <TouchableOpacity onPress={() => { handleSubmit() }} activeOpacity={0.3}>
+                    <View style={styles.logoutContainer}>
+                        <Icon style={styles.Logouticons} name="sign-out-alt" size={19} />
+                        <Text style={styles.logoutText}> Logout </Text>
                     </View>
                 </TouchableOpacity>
-                <Text>Umair</Text>
+
                 <Text style={styles.headerHeading}>Wrench King</Text>
-                {/* <Text style={{ color: 'grey', fontWeight: 'bold', marginBottom: 10 }}>
-                        V 1.0
-                    </Text> */}
+
             </View>
 
         </View>
@@ -51,42 +66,10 @@ export function DrawerContent(props) {
 }
 
 const styles = StyleSheet.create({
-    backgroundImage: {
-        width: 350,
-        height: 740,
-        position: 'absolute',
-        top: 0,
-        left: 0,
-    },
 
     userDetails: {
         alignItems: 'center',
         margin: 15,
-    },
-
-    imageView: {
-        alignItems: 'center',
-        marginTop: 10,
-        height: 120,
-        width: 120,
-        borderRadius: 50,
-        shadowColor: 'black',
-        shadowOffset: {
-            width: 0,
-            height: 5,
-        },
-        shadowOpacity: 10,
-        shadowRadius: 10,
-        elevation: 9,
-    },
-
-    image: {
-        width: 110,
-        height: 110,
-        borderWidth: 2,
-        borderRadius: 100,
-        resizeMode: 'stretch',
-        borderColor: 'white',
     },
 
     name: {
@@ -102,40 +85,23 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
 
-    tabsView: {
-        flex: 1,
-        backgroundColor: '#ffffff',
-    },
-    tabStyle: {
+
+    logoutContainer: {
         marginTop: 15,
         marginBottom: 10,
+        marginLeft: -120,
         flexDirection: 'row',
     },
+
     Logouticons: {
         marginLeft: 30,
         color: 'gray',
     },
 
-    tabText: {
+    logoutText: {
         marginLeft: 20,
-        fontSize: 20,
+        fontSize: 18,
         color: 'gray',
-    },
-
-    proButtonContainer: {
-        elevation: 5,
-        marginLeft: 29,
-        backgroundColor: 'gray',
-        borderRadius: 30,
-        width: 22,
-        height: 22,
-    },
-
-    proButtonText: {
-        textAlign: 'center',
-        marginTop: 3,
-        fontSize: 10,
-        color: 'white',
     },
 
     headerLogo: {

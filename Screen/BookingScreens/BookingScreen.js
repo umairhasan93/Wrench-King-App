@@ -10,18 +10,32 @@ import {
     Keyboard,
     KeyboardAvoidingView,
     Modal,
-    Platform,
     Button,
+    Dimensions,
+
 } from 'react-native';
 import { Card } from 'react-native-paper';
 import MenuButton from '../Components/NavigationDrawerHeader'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { ModalPickerMade, ModalPickerYear } from '../Components/ModalPicker'
-// import DateTimePicker from '@react-native-community/datetimepicker'
 import { Datepicker, Icons, Layout, ApplicationProvider } from '@ui-kitten/components'
 import * as eva from '@eva-design/eva';
+// import { CheckBox } from 'react-native-elements';
+import CheckBox from '@react-native-community/checkbox'
 
+const TunningService1Data = require('./TunningService1.json')
 
+const WIDTH = Dimensions.get('window').width
+const HEIGHT = Dimensions.get('window').height
+
+const useDatepickerState = (initialDate = null) => {
+    const [date, setDate] = useState(initialDate);
+    return { date, onSelect: setDate };
+};
+
+const now = new Date();
+const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
 
 
 const BookingScreen = ({ navigation, route }) => {
@@ -32,11 +46,46 @@ const BookingScreen = ({ navigation, route }) => {
     const [year, setYear] = useState('Year');
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [isYearModalVisible, setIsYearModalVisible] = useState(false)
+    const [check, setCheck] = useState(false)
 
-    const useDatepickerState = (initialDate = null) => {
-        const [date, setDate] = useState(initialDate);
-        return { date, onSelect: setDate };
-    };
+    const [data1, setData1] = useState(TunningService1Data)
+
+    const [selectedServices, setSelectedServices] = useState([])
+
+    const onChecked = (id) => {
+        console.log('Pressed', id)
+        const data = data1
+        const index = data.findIndex(x => x.id === id)
+        data[index].checked = !data[index].checked
+        setData1(data)
+    }
+
+    const services = () => {
+        const service1 = data1.map((item, index) => {
+            return (
+                <TouchableOpacity key={index} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: -10, marginLeft: -19 }} onPress={() => { onChecked(item.id) }}>
+                    <CheckBox style={{ marginLeft: 30 }} value={item.checked} onValueChange={() => { onChecked(item.id) }} />
+                    <Text style={{ marginLeft: 5 }}>{item.key}</Text>
+                </TouchableOpacity>
+            )
+        })
+        return service1
+
+    }
+
+    const getSelectedServices = () => {
+        var keys = data1.map((t) => { t.key })
+        var checks = data1.map((t) => { t.checked })
+        let Selected = []
+        for (let i = 0; i < checks.length; i++) {
+            if (checks[i] === true) {
+                setSelectedServices(keys[i])
+            }
+        }
+        alert(selectedServices)
+    }
+
+    const minMaxPickerState = useDatepickerState();
 
     const changeModalVisibility = (bool) => {
         setIsModalVisible(bool)
@@ -59,16 +108,16 @@ const BookingScreen = ({ navigation, route }) => {
 
     return (
         <SafeAreaView style={{ backgroundColor: 'lavender' }}>
-            <ScrollView>
-                <View style={{ flexDirection: 'row', backgroundColor: '#000000', height: 50, paddingTop: 6 }}>
-                    <MenuButton onPress={() => navigation.openDrawer()} />
-                    {/* <Image source= {require('')}/> */}
-                    <Text style={styles.headerText}>Wrench King</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate('CarMechanicScreen')}>
-                        <Icon style={styles.backIcon} name="chevron-left" size={24} color="red" />
-                    </TouchableOpacity>
-                </View>
+            <View style={{ flexDirection: 'row', backgroundColor: '#000000', height: 50, paddingTop: 6 }}>
+                <MenuButton onPress={() => navigation.openDrawer()} />
+                {/* <Image source= {require('')}/> */}
+                <Text style={styles.headerText}>Wrench King</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('CarMechanicScreen')}>
+                    <Icon style={styles.backIcon} name="chevron-left" size={24} color="red" />
+                </TouchableOpacity>
+            </View>
 
+            <ScrollView>
                 <View>
                     <Card style={styles.detailCard}>
                         <View>
@@ -77,37 +126,59 @@ const BookingScreen = ({ navigation, route }) => {
 
                         <View style={{ marginTop: 5 }}>
                             <View style={{ flexDirection: 'row' }}>
-                                <Text style={styles.nameHeading}>Name: </Text>
-                                <Text style={styles.name}>{JSON.stringify(name)}</Text>
+                                <View style={{ marginLeft: 30, width: 60 }}>
+                                    <Text style={styles.nameHeading}>Name: </Text>
+                                </View>
+
+                                <View>
+                                    <Text style={styles.name}>{JSON.stringify(name)}</Text>
+                                </View>
                             </View>
 
                             <View style={{ flexDirection: 'row' }}>
-                                <Text style={styles.numberHeading}>Contact NO: </Text>
-                                <Text style={styles.number}>{JSON.stringify(number)}</Text>
+                                <View style={{ marginLeft: 30, width: 60 }}>
+                                    <Text style={styles.nameHeading}>Contact: </Text>
+                                </View>
+
+                                <View>
+                                    <Text style={styles.number}>{JSON.stringify(number)}</Text>
+                                </View>
                             </View>
 
                             <View style={{ flexDirection: 'row' }}>
-                                <Text style={styles.addressHeading}>Address: </Text>
-                                <Text style={styles.address}>{JSON.stringify(address)}</Text>
+                                <View style={{ marginLeft: 30, width: 60 }}>
+                                    <Text style={styles.nameHeading}>Address: </Text>
+                                </View>
+
+                                <View>
+                                    <Text style={styles.address}>{JSON.stringify(address)}</Text>
+                                </View>
                             </View>
 
                             <View style={{ flexDirection: 'row' }}>
-                                <Text style={styles.ratingHeading}>Rating: </Text>
-                                <Text style={styles.rating}>{defaultRating + '/' + maxRating.length}</Text>
-                            </View>
-                        </View>
+                                <View style={{ marginLeft: 30, width: 60 }}>
+                                    <Text style={styles.nameHeading}>Rating: </Text>
+                                </View>
 
-                    </Card>
-                </View>
+                                <View>
+                                    <Text style={styles.rating}>{defaultRating + '/' + maxRating.length}</Text>
+                                </View>
+
+                            </View>
+                        </View >
+
+                    </Card >
+                </View >
 
                 <View>
                     <KeyboardAvoidingView enabled>
                         <Card style={styles.userCard}>
-                            <View style={{ alignItems: 'center', marginTop: 10 }}>
-                                <Text style={styles.carDetailsText}>Car Details</Text>
+                            <ScrollView>
+                                <View style={{ alignItems: 'center', marginTop: 10 }}>
+                                    <Text style={styles.carDetailsText}>Car Details</Text>
 
-                            </View>
-                            {/* <View style={styles.SectionStyle}>
+                                </View>
+                                {/* <View style={styles.SectionStyle}>
                                 <TextInput
                                     style={styles.inputStyle}
                                     placeholder="Made" //12345
@@ -121,84 +192,101 @@ const BookingScreen = ({ navigation, route }) => {
 
                             </View> */}
 
-                            <View>
-                                <TouchableOpacity
-                                    style={styles.dropdownContainer}
-                                    onPress={() => changeModalVisibility(true)}
-                                >
-                                    <Text style={styles.dropdowntext}>{made}</Text>
-                                    <Icon
-                                        style={{ marginRight: 18, marginLeft: 10, marginTop: 15 }}
-                                        name="chevron-down"
-                                        size={16}
-                                        color="gray"
-                                    />
-                                </TouchableOpacity>
-                                <Modal
-                                    transparent={true}
-                                    animation='slide'
-                                    visible={isModalVisible}
-                                    nRequestClose={() => changeModalVisibility(false)}
-                                >
-                                    <ModalPickerMade
-                                        changeModalVisibility={changeModalVisibility}
-                                        setMake={setMake}
-                                    />
-                                </Modal>
-                            </View>
+                                <View>
+                                    <TouchableOpacity
+                                        style={styles.dropdownContainer}
+                                        onPress={() => changeModalVisibility(true)}
+                                    >
+                                        <Text style={styles.dropdowntext}>{made}</Text>
+                                        <Icon
+                                            style={{ marginRight: 18, marginLeft: 10, marginTop: 15 }}
+                                            name="chevron-down"
+                                            size={16}
+                                            color="gray"
+                                        />
+                                    </TouchableOpacity>
+                                    <Modal
+                                        transparent={true}
+                                        animation='slide'
+                                        visible={isModalVisible}
+                                        nRequestClose={() => changeModalVisibility(false)}
+                                    >
+                                        <ModalPickerMade
+                                            changeModalVisibility={changeModalVisibility}
+                                            setMake={setMake}
+                                        />
+                                    </Modal>
+                                </View>
 
-                            <View>
-                                <TouchableOpacity
-                                    style={styles.dropdownContainer}
-                                    onPress={() => changeYearModalVisibility(true)}
-                                >
-                                    <Text style={styles.dropdowntext}>{year}</Text>
-                                    <Icon
-                                        style={{ marginRight: 18, marginLeft: 10, marginTop: 15 }}
-                                        name="chevron-down"
-                                        size={16}
-                                        color="gray"
-                                    />
-                                </TouchableOpacity>
+                                <View>
+                                    <TouchableOpacity
+                                        style={styles.dropdownContainer}
+                                        onPress={() => changeYearModalVisibility(true)}
+                                    >
+                                        <Text style={styles.dropdowntext}>{year}</Text>
+                                        <Icon
+                                            style={{ marginRight: 18, marginLeft: 10, marginTop: 15 }}
+                                            name="chevron-down"
+                                            size={16}
+                                            color="gray"
+                                        />
+                                    </TouchableOpacity>
 
-                                <Modal
-                                    transparent={true}
-                                    animation='slide'
-                                    visible={isYearModalVisible}
-                                    nRequestClose={() => changeYearModalVisibility(false)}
-                                >
+                                    <Modal
+                                        transparent={true}
+                                        animation='slide'
+                                        visible={isYearModalVisible}
+                                        nRequestClose={() => changeYearModalVisibility(false)}
+                                    >
 
-                                    <ModalPickerYear
-                                        changeYearModalVisibility={changeYearModalVisibility}
-                                        setYearr={setYearr}
-                                    />
-
-                                </Modal>
-
-                            </View>
-
-                            <ApplicationProvider {...eva} theme={eva.light}>
-                                <TouchableOpacity style={styles.calenderContainer}>
-                                    <Layout style={styles.container} level='1'>
-
-                                        {/* <Text category='h6'>
-                                        Selected date: {date.toLocaleDateString()}
-                                    </Text> */}
-
-                                        <Datepicker
-                                            date={date}
-                                            onSelect={nextDate => setDate(nextDate)}
+                                        <ModalPickerYear
+                                            changeYearModalVisibility={changeYearModalVisibility}
+                                            setYearr={setYearr}
                                         />
 
-                                    </Layout>
+                                    </Modal>
+
+                                </View>
+
+
+                                <Text style={styles.selectServicesHeading}>Select Services</Text>
+
+                                <View style={{ justifyContent: 'center', marginBottom: 20 }} >{services()}</View>
+
+
+                                <ApplicationProvider {...eva} theme={eva.light}>
+                                    <TouchableOpacity style={styles.calenderContainer}>
+                                        <Layout style={styles.container} level='1'>
+
+                                            <Datepicker
+                                                placeholder='Min / Max'
+                                                min={yesterday}
+                                                max={tomorrow}
+                                                {...minMaxPickerState}
+                                            />
+
+
+                                        </Layout>
+                                    </TouchableOpacity>
+                                </ApplicationProvider>
+
+                                <TouchableOpacity>
+
+                                    <CheckBox title="CLICK" value={check} onValueChange={() => { setCheck(!check) }} />
                                 </TouchableOpacity>
-                            </ApplicationProvider>
+
+                                <View>
+                                    <TouchableOpacity style={styles.buttonContainer} activeOpacity={0.4} onPress={() => { getSelectedServices() }}>
+                                        <Text style={styles.buttonText}>Book</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </ScrollView>
                         </Card>
                     </KeyboardAvoidingView>
                 </View>
 
-            </ScrollView>
-        </SafeAreaView>
+            </ScrollView >
+        </SafeAreaView >
     )
 }
 
@@ -226,10 +314,10 @@ const styles = StyleSheet.create({
 
     detailCard: {
         height: 200,
-        width: 350,
+        width: WIDTH - 30,
         borderRadius: 20,
         marginTop: 10,
-        marginLeft: 17,
+        marginLeft: WIDTH / 25,
         backgroundColor: '#F9E79F'
     },
 
@@ -244,7 +332,6 @@ const styles = StyleSheet.create({
 
     nameHeading: {
         marginTop: 10,
-        marginLeft: 30,
         fontWeight: 'bold',
         color: 'green',
         fontSize: 15,
@@ -305,10 +392,10 @@ const styles = StyleSheet.create({
     },
 
     userCard: {
-        height: 500,
-        width: 350,
+        height: 1000,
+        width: WIDTH - 30,
         marginTop: 10,
-        marginLeft: 15,
+        marginLeft: WIDTH / 25,
         borderRadius: 20,
         alignItems: 'center',
         backgroundColor: 'white'
@@ -375,6 +462,41 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         marginTop: 20
     },
+
+    buttonContainer: {
+        height: 50,
+        width: 290,
+        borderRadius: 50,
+        backgroundColor: '#2AD60B',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 20,
+    },
+
+    buttonText: {
+        fontSize: 23,
+        fontWeight: 'bold',
+        color: 'white',
+
+    },
+
+    selectServicesHeading: {
+        fontSize: 20,
+        marginTop: 10,
+        marginBottom: 5,
+        textDecorationLine: 'underline',
+    },
+
+    servicesCard: {
+        width: 290,
+        height: 140,
+        borderRadius: 10,
+        marginBottom: 20,
+        backgroundColor: 'lavender',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
 })
 
 export default BookingScreen

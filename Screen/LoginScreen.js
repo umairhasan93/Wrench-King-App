@@ -27,10 +27,9 @@ const LoginScreen = ({ navigation }) => {
     const passwordInputRef = createRef();
 
     const loginAdmin = (details) => {
-        console.log(details.firstname);
-        AsyncStorage.setItem("@user_id", JSON.stringify(details));
+        AsyncStorage.setItem("user", JSON.stringify(details));
         console.log(details);
-        navigation.replace('DrawerNavigationRoutes');
+        navigation.navigate('DrawerNavigationRoutes');
 
     };
 
