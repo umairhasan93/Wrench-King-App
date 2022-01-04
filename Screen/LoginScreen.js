@@ -11,6 +11,7 @@ import {
     KeyboardAvoidingView,
     Alert,
 } from 'react-native';
+import { Card } from 'react-native-paper';
 // import Icon from 'react-native-vector-icons/FontAwesome5'
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -29,7 +30,9 @@ const LoginScreen = ({ navigation }) => {
     const loginAdmin = (details) => {
         AsyncStorage.setItem("user", JSON.stringify(details));
         console.log(details);
-        navigation.navigate('DrawerNavigationRoutes');
+        navigation.navigate('DrawerNavigationRoutes', {
+            pass: password
+        });
 
     };
 

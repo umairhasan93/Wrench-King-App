@@ -4,17 +4,37 @@ import {
     Text,
     TouchableOpacity,
     StyleSheet,
+    Modal,
+    TextInput,
+    ScrollView,
+    KeyboardAvoidingView,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontIcon from 'react-native-vector-icons/FontAwesome5'
 import { useNavigation } from '@react-navigation/native';
-import { DrawerContentScrollView, DrawerItems } from '@react-navigation/drawer';
+import Footer from "./DrawerFooter"
+import { DrawerContentScrollView, DrawerItems, DrawerItemList } from '@react-navigation/drawer';
 import Loader from "../Components/loader"
 import AsyncStorage from '@react-native-community/async-storage'
+import { Card } from 'react-native-paper';
 
 export function DrawerContent(props) {
     const [loading, setLoading] = useState(false);
     const navigation = useNavigation();
     const [user, setUser] = useState([])
+    const [password, setPassword] = useState()
+
+    const [
+        profileModalVisible,
+        setProfileModalVisible,
+    ] = useState(false);
+
+    const [
+        editNameModalVisible,
+        setEditNameModalVisible,
+    ] = useState(false);
+
+
     AsyncStorage.getItem('user').then(data => {
         if (data) {
             setUser(JSON.parse(data))
@@ -22,12 +42,6 @@ export function DrawerContent(props) {
 
     })
 
-
-    const handleSubmit = () => {
-        AsyncStorage.removeItem('user')
-        setLoading(!loading)
-        navigation.replace('Auth')
-    }
 
     return (
         <View>
@@ -45,22 +59,23 @@ export function DrawerContent(props) {
                     alignSelf: 'center'
                 }}
             />
+            <ScrollView style={{ height: 458 }}>
 
-            <Loader loading={loading} />
 
-            <View style={{ alignItems: 'center', backgroundColor: 'white', marginTop: 450 }}>
+                <Loader loading={loading} />
+                <View style={{ height: 458 }}>
+                    <TouchableOpacity
+                        style={{ height: 40, justifyContent: "center", paddingLeft: 20, marginTop: 10 }}
+                        onPress={() => navigation.navigate("UpdateProfileScreen")}
+                    >
+                        <Text>Profile</Text>
+                    </TouchableOpacity>
+                </View>
 
-                <TouchableOpacity onPress={() => { handleSubmit() }} activeOpacity={0.3}>
-                    <View style={styles.logoutContainer}>
-                        <Icon style={styles.Logouticons} name="sign-out-alt" size={19} />
-                        <Text style={styles.logoutText}> Logout </Text>
-                    </View>
-                </TouchableOpacity>
 
-                <Text style={styles.headerHeading}>Wrench King</Text>
+            </ScrollView>
 
-            </View>
-
+            <Footer />
         </View>
     );
 }
@@ -85,37 +100,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
 
-
-    logoutContainer: {
-        marginTop: 15,
-        marginBottom: 10,
-        marginLeft: -120,
-        flexDirection: 'row',
-    },
-
-    Logouticons: {
-        marginLeft: 30,
-        color: 'gray',
-    },
-
-    logoutText: {
-        marginLeft: 20,
-        fontSize: 18,
-        color: 'gray',
-    },
-
-    headerLogo: {
-        height: 40,
-        width: 40,
-        marginTop: 30,
-    },
-
-    headerHeading: {
-        marginTop: 5,
-        fontSize: 22,
-        marginBottom: 10,
-        fontWeight: 'bold',
-    },
 });
 
 // export default DrawerContent

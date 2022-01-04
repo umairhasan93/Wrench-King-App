@@ -9,6 +9,8 @@ import HomeScreen from './drawerScreens/HomeScreen';
 import CarMechanicScreen from './CarMechanicScreens/CarMechanic'
 import BikeMechanicScreen from './BikeMechanicScreen/BikeMechanic'
 import BookingScreen from './BookingScreens/BookingScreen'
+import UpdateNameScreen from "./UpdateProfile/UpdateNameScreen"
+import UpdateProfileScreen from "./UpdateProfile/UpdateProfile"
 import { DrawerContent } from './Components/DrawerContent'
 
 const Stack = createStackNavigator();
@@ -25,6 +27,8 @@ const DrawerNavigatorRoutes = () => {
                 <Drawer.Screen name="CarMechanicScreen" component={CarMechanicScreen} />
                 <Drawer.Screen name="BikeMechanicScreen" component={BikeMechanicScreen} />
                 <Drawer.Screen name="BookingScreen" component={BookingScreen} />
+                <Drawer.Screen name="UpdateProfileScreen" component={UpdateProfileScreen} />
+                <Drawer.Screen name="UpdateNameScreen" component={UpdateNameScreen} />
             </Drawer.Navigator>
 
         </>
