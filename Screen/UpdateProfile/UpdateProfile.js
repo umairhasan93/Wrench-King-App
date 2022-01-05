@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, UseEffect } from 'react';
 import {
     View,
     Text,
@@ -20,12 +20,12 @@ import { Card } from 'react-native-paper';
 
 const UpdateProfile = ({ navigation }) => {
     const [user, setUser] = useState([])
+    const [name, setName] = useState()
+    const [number, setNumber] = useState()
 
     AsyncStorage.getItem('user').then(data => {
-        if (data) {
-            setUser(JSON.parse(data))
-        }
-
+        setUser(JSON.parse(data))
+        // console.log(user);
     })
     return (
         <View style={styles.profilecenteredView}>
@@ -76,29 +76,7 @@ const UpdateProfile = ({ navigation }) => {
 
                     </Card>
 
-                    <Card style={styles.profileCard}>
-                        <View style={{ flexDirection: 'row' }}>
-
-                            <View style={styles.tagView}>
-                                <Text style={styles.cardTag}>Email</Text>
-                            </View>
-
-                            <View style={styles.penIconView}>
-                                <Icon
-                                    style={styles.penIcon}
-                                    name="pencil-outline"
-                                    size={24}
-                                    color="red" />
-                            </View>
-
-                        </View>
-                        <View style={{ height: 45, justifyContent: 'center' }}>
-                            <Text style={styles.userDetail}>{user.email}</Text>
-                        </View>
-
-                    </Card>
-
-                    <Card style={styles.profileCard}>
+                    <Card style={styles.profileCard} onPress={() => navigation.navigate('PasswordResetScreen')}>
                         <View style={{ flexDirection: 'row' }}>
 
                             <View style={styles.tagView}>

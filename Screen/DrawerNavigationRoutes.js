@@ -11,6 +11,7 @@ import BikeMechanicScreen from './BikeMechanicScreen/BikeMechanic'
 import BookingScreen from './BookingScreens/BookingScreen'
 import UpdateNameScreen from "./UpdateProfile/UpdateNameScreen"
 import UpdateProfileScreen from "./UpdateProfile/UpdateProfile"
+import PasswordResetScreen from "./UpdateProfile/PasswordReset"
 import { DrawerContent } from './Components/DrawerContent'
 
 const Stack = createStackNavigator();
@@ -29,6 +30,7 @@ const DrawerNavigatorRoutes = () => {
                 <Drawer.Screen name="BookingScreen" component={BookingScreen} />
                 <Drawer.Screen name="UpdateProfileScreen" component={UpdateProfileScreen} />
                 <Drawer.Screen name="UpdateNameScreen" component={UpdateNameScreen} />
+                <Drawer.Screen name="PasswordResetScreen" component={PasswordResetScreen} />
             </Drawer.Navigator>
 
         </>

@@ -19,7 +19,7 @@ import Loader from './Components/loader';
 
 const LoginScreen = ({ navigation }) => {
     const [userName, setUserName] = useState('umairhasan93');
-    const [password, setPassword] = useState('1234');
+    const [password, setPassword] = useState('63555');
     const [loading, setLoading] = useState(false);
     const [errortext, setErrortext] = useState('');
     const [userNameError, setUserNameError] = useState('');
@@ -84,13 +84,13 @@ const LoginScreen = ({ navigation }) => {
                 if (responseJson.role === 'user') {
                     if (!(responseJson.code < 200 || responseJson.code >= 400)) {
                         loginAdmin(responseJson);
-                        console.log("World")
-                        Alert.alert("World")
+
+                        Alert.alert("World", responseJson.name)
+
                     }
                     else {
                         // AlertMessage(responseJson.msg)
-                        console.log("hello")
-                        Alert.alert("hello")
+                        // Alert.alert("Oops!", responseJson.err)
 
                     }
                 }
@@ -98,6 +98,7 @@ const LoginScreen = ({ navigation }) => {
             .catch((error) => {
                 //Hide Loader
                 setLoading(false);
+
                 console.error(error);
             });
     };

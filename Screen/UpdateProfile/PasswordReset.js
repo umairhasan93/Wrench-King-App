@@ -12,22 +12,27 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontIcon from 'react-native-vector-icons/FontAwesome5'
+import { useTogglePasswordVisibility } from "./useTogglePasswordVisibility"
+import { useToggleNewPasswordVisibility } from "./NewPasswordVisiblity"
 // import { useNavigation } from '@react-navigation/native';
 
 import AsyncStorage from '@react-native-community/async-storage'
 import { Card } from 'react-native-paper';
 
-const UpdateName = ({ navigation }) => {
+const ChangePassword = ({ navigation }) => {
     const [user, setUser] = useState([])
     const [localUser, setLocalUser] = useState([])
-    let fname = localUser.fname
-    let lname = localUser.lname
-    const [firstname, setFirstName] = useState()
-    const [lastname, setLastName] = useState()
-    // const [updateData, setUpdateData] = useState([])
+
+    const { passwordVisibility, rightIcon, handlePasswordVisibility } =
+        useTogglePasswordVisibility();
+
+    const { newpasswordVisibility, rightNewIcon, handleNewPasswordVisibility } =
+        useToggleNewPasswordVisibility();
+
+    const [currentPassword, setCurrentPassword] = useState('')
+    const [newPassword, setNewPassword] = useState('');
 
     const id = localUser.id
-
     AsyncStorage.getItem('user').then(data => {
         if (data) {
             setLocalUser(JSON.parse(data))
@@ -35,48 +40,26 @@ const UpdateName = ({ navigation }) => {
         }
     })
 
-    useEffect(() => {
-        fetch("http://192.168.100.15:5000/api/user/" + id)
-            .then(resp => resp.json())
-            .then(resp => {
-                setUser(resp)
-                // console.log(resp)
-                localUser.fname = user.firstname
-                localUser.lname = user.lastname
-                localUser.name = user.firstname + ' ' + user.lastname
-                AsyncStorage.setItem('user', JSON.stringify(localUser))
-            })
-    }, [])
-    // console.log(id)
+    // useEffect(() => {
+    //     fetch("http://192.168.100.15:5000/api/user/" + id)
+    //         .then(resp => resp.json())
+    //         .then(resp =>
+    //             setUser(resp))
+    // }, [])
 
+    // AsyncStorage.getItem('user').then(data => {
+    //     if (data) {
+    //         setLocalUser(JSON.parse(data))
 
+    //     }
+    // })
 
-    const Save = () => {
-
-        // if (firstname === null && lastname === null) {
-        //     localUser.fname = localUser.fname
-        //     localUser.lname = localUser.lname
-        //     localUser.name = localUser.fname + ' ' + localUser.lname
-        //     AsyncStorage.setItem('user', JSON.stringify(localUser));
-        //     console.log(localUser)
-        // } else if (firstname !== null && lastname === null) {
-        //     localUser.fname = firstname
-        //     localUser.lname = localUser.lname
-        //     localUser.name = firstname + ' ' + localUser.lname
-        //     AsyncStorage.setItem('user', JSON.stringify(localUser))
-
-        // } else if (firstname === null && lastname !== null) {
-        //     localUser.fname = localUser.fname
-        //     localUser.lname = lastname
-        //     localUser.name = localUser.fname + ' ' + lastname
-        //     AsyncStorage.setItem('user', JSON.stringify(localUser))
-        // }
-
-        fetch("http://192.168.100.15:5000/api/user/" + id, {
+    const ChangePassword = () => {
+        fetch("http://192.168.100.15:5000/api/user/changepassword/" + id, {
             method: 'PUT',
             body: JSON.stringify({
-                firstname: firstname,
-                lastname: lastname
+                currentPassword: currentPassword,
+                password: newPassword
             }),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
@@ -139,42 +122,63 @@ const UpdateName = ({ navigation }) => {
                     <View style={styles.SectionStyle}>
                         <TextInput
                             style={styles.inputStyle}
-                            onChangeText={(fname) =>
-                                setFirstName(fname)
+                            onChangeText={(currentPass) =>
+                                setCurrentPassword(currentPass)
                             }
-                            value={localUser.fname}
-                            placeholderTextColor="black"
+                            placeholder="Current password"
+                            placeholderTextColor="gray"
+                            secureTextEntry={passwordVisibility}
                         />
+                        <TouchableOpacity
+                            style={{ justifyContent: 'center' }}
+                            activeOpacity={0.3}
+                            onPress={handlePasswordVisibility}
+                        >
+                            <Icon
+                                name={rightIcon}
+                                size={24}
+                                style={styles.eyeIcon}
+                            />
+                        </TouchableOpacity>
                     </View>
-                    <View style={styles.labelView} >
-                        <Text style={styles.label}>First Name</Text>
-                    </View>
+
                 </View>
 
-                <View style={{ alignItems: "center", marginTop: 40 }}>
+                <View style={{ alignItems: "center", marginTop: -10 }}>
 
                     <View style={styles.SectionStyle}>
                         <TextInput
                             style={styles.inputStyle}
-                            onChangeText={(lname) => {
-                                setLastName(lname)
+                            onChangeText={(newPass) => {
+                                setNewPassword(newPass)
                             }}
-                            value={localUser.lname}
-                            placeholderTextColor="black"
+                            placeholder="New password"
+                            placeholderTextColor="gray"
+                            secureTextEntry={newpasswordVisibility}
                         />
+
+                        <TouchableOpacity
+                            style={{ justifyContent: 'center' }}
+                            activeOpacity={0.3}
+                            onPress={handleNewPasswordVisibility}
+                        >
+                            <Icon
+                                name={rightNewIcon}
+                                size={24}
+                                style={styles.eyeIcon}
+                            />
+                        </TouchableOpacity>
                     </View>
-                    <View style={styles.labelView} >
-                        <Text style={styles.label}>Last Name</Text>
-                    </View>
+
                 </View>
-                <View style={{ marginTop: 375 }}>
+                <View style={{ marginTop: 327 }}>
                     <Card style={styles.buttonCard}>
                         <TouchableOpacity
                             style={styles.buttonContainer}
                             activeOpacity={0.3}
-                            onPress={() => Save()}
+                            onPress={() => ChangePassword()}
                         >
-                            <Text style={styles.buttonText}>Save</Text>
+                            <Text style={styles.buttonText}>Change Password</Text>
                         </TouchableOpacity>
                     </Card>
                 </View>
@@ -195,7 +199,14 @@ const styles = StyleSheet.create({
 
     labelView: {
         backgroundColor: "ffffff90",
-        marginLeft: -270,
+        marginLeft: -250,
+        marginTop: -62,
+
+    },
+
+    labelView1: {
+        backgroundColor: "ffffff90",
+        marginLeft: -240,
         marginTop: -62,
 
     },
@@ -214,19 +225,23 @@ const styles = StyleSheet.create({
         marginRight: 35,
         margin: 10,
         borderRadius: 10,
-
+        borderWidth: 1,
+        borderColor: '#dadae8',
     },
 
     inputStyle: {
-        flex: 1,
+
         color: 'black',
         paddingLeft: 15,
         paddingRight: 15,
-        borderWidth: 1,
-        borderRadius: 10,
-        borderColor: '#dadae8',
         fontSize: 14,
         fontWeight: 'bold',
+        width: 300
+    },
+
+    eyeIcon: {
+        alignSelf: 'center',
+        marginLeft: 12
     },
 
     cancelIcon: {
@@ -262,4 +277,4 @@ const styles = StyleSheet.create({
     buttonText: {},
 })
 
-export default UpdateName
+export default ChangePassword
