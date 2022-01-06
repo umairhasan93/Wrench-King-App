@@ -73,7 +73,8 @@ const CarMechanic = ({ navigation }) => {
                                         name: mechanic.name,
                                         number: mechanic.contactNo,
                                         address: mechanic.address,
-                                        rating: mechanic.rating
+                                        rating: mechanic.rating,
+                                        speciality: mechanic.speciality
                                     })}
                                         key={index} style={{ marginLeft: 5, marginTop: 12 }}>
                                         <Card key={index} style={styles.CardTuning}>
@@ -111,7 +112,14 @@ const CarMechanic = ({ navigation }) => {
                         {
                             axleMechanic.map((mechanic, index) => {
                                 return (
-                                    <TouchableOpacity key={index} style={{ marginLeft: 5, marginTop: 12 }}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('BookingScreen', {
+                                        name: mechanic.name,
+                                        number: mechanic.contactNo,
+                                        address: mechanic.address,
+                                        rating: mechanic.rating,
+                                        speciality: mechanic.speciality
+                                    })}
+                                        key={index} style={{ marginLeft: 5, marginTop: 12 }}>
                                         <Card style={styles.CardAxle}>
                                             <View style={{ flexDirection: 'row' }}>
                                                 <View>
@@ -145,7 +153,14 @@ const CarMechanic = ({ navigation }) => {
                         {
                             acMechanic.map((mechanic, index) => {
                                 return (
-                                    <TouchableOpacity key={index} style={{ marginLeft: 5, marginTop: 12 }} >
+                                    <TouchableOpacity onPress={() => navigation.navigate('BookingScreen', {
+                                        name: mechanic.name,
+                                        number: mechanic.contactNo,
+                                        address: mechanic.address,
+                                        rating: mechanic.rating,
+                                        speciality: mechanic.speciality
+                                    })}
+                                        key={index} style={{ marginLeft: 5, marginTop: 12 }} >
                                         <Card style={styles.CardAC}>
                                             <View style={{ flexDirection: 'row' }}>
                                                 <View>
