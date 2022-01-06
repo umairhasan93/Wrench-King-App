@@ -19,6 +19,7 @@ const ModalPickerMade = (props) => {
                 style={styles.company}
                 key={index}
                 onPress={() => onPressItem(item)}
+                avtiveOpacity={0.1}
             >
                 <Text style={styles.text}>
                     {item}
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
     },
 
     modal: {
-        backgroundColor: 'black',
+        backgroundColor: 'gray',
         borderRadius: 10,
         marginTop: 50,
         shadowColor: '#000',

@@ -22,6 +22,7 @@ import { Datepicker, Icons, Layout, ApplicationProvider } from '@ui-kitten/compo
 import * as eva from '@eva-design/eva';
 // import { CheckBox } from 'react-native-elements';
 import CheckBox from '@react-native-community/checkbox'
+import { Picker } from '@react-native-picker/picker';
 
 const TunningService1Data = require('./TunningService1.json')
 
@@ -30,6 +31,7 @@ const HEIGHT = Dimensions.get('window').height
 
 const useDatepickerState = (initialDate = null) => {
     const [date, setDate] = useState(initialDate);
+
     return { date, onSelect: setDate };
 };
 
@@ -42,69 +44,108 @@ const BookingScreen = ({ navigation, route }) => {
     const { name, number, address, rating } = route.params;
     const [defaultRating, setDefaultRating] = useState(rating)
     const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5])
-    const [made, setMade] = useState('Made');
-    const [year, setYear] = useState('Year');
-    const [isModalVisible, setIsModalVisible] = useState(false)
-    const [isYearModalVisible, setIsYearModalVisible] = useState(false)
-    const [check, setCheck] = useState(false)
 
-    const [data1, setData1] = useState(TunningService1Data)
+    const Companies = ["Select Company", "Daihatsu", "Faw", "Honda", "Hyundai", "Kia", "Nissan", "Suzuki", "Toyota"]
+    const Years = ["Select Year", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021"]
+    const Daihatsu = ["Select Model", "Move", "Mira", "Hijet", "Cuore", "Terios Kid"]
+    const Faw = ["Select Model", "Carrier Plus", "V2"]
+    const Honda = ["Select Model", "Civic", "Accord", "City", "BR-V", "Vezel", "Fit"]
+    const Hyundai = ["Select Model", "Santro", "Sonata", "Elantra"]
+    const Kia = ["Select Model", "Pride", "Picanto", "Sportage", "Carnival", "Spectra"]
+    const Nissan = ["Select Model", "Tidda", "Clipper", "Days", "Sunny"]
+    const Suzuki = ["Select Model", "Mehran", "Khyber", "Wagon-R", "Alto", "Bolan", "Cultus", "Swift", "Ciaz", "Margala", "Baleno", "Liana"]
+    const Toyota = ["Select Model", "Corolla", "Camry", "Passo", "Vitz", "Prius", "Aqua", "Hilux", "Prado", "Yaris", "Land Cruiser", "Surf", "Premio"]
 
-    const [selectedServices, setSelectedServices] = useState([])
-
-    const onChecked = (id) => {
-        console.log('Pressed', id)
-        const data = data1
-        const index = data.findIndex(x => x.id === id)
-        data[index].checked = !data[index].checked
-        setData1(data)
-    }
-
-    const services = () => {
-        const service1 = data1.map((item, index) => {
-            return (
-                <TouchableOpacity key={index} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: -10, marginLeft: -19 }} onPress={() => { onChecked(item.id) }}>
-                    <CheckBox style={{ marginLeft: 30 }} value={item.checked} onValueChange={() => { onChecked(item.id) }} />
-                    <Text style={{ marginLeft: 5 }}>{item.key}</Text>
-                </TouchableOpacity>
-            )
-        })
-        return service1
-
-    }
-
-    const getSelectedServices = () => {
-        var keys = data1.map((t) => { t.key })
-        var checks = data1.map((t) => { t.checked })
-        let Selected = []
-        for (let i = 0; i < checks.length; i++) {
-            if (checks[i] === true) {
-                setSelectedServices(keys[i])
-            }
-        }
-        alert(selectedServices)
-    }
+    const [selectedCompany, setSelectedCompany] = useState();
+    const [selectedYear, setSelectedYear] = useState();
+    const [selectedModel, setSelectedModel] = useState();
 
     const minMaxPickerState = useDatepickerState();
 
-    const changeModalVisibility = (bool) => {
-        setIsModalVisible(bool)
-    }
-
-    const changeYearModalVisibility = (bool) => {
-        setIsYearModalVisible(bool)
-    }
-
-    const setMake = (option) => {
-        setMade(option)
-    }
-
-    const setYearr = (option) => {
-        setYear(option)
-    }
-
     const starImgFilled = 'https://raw.githubusercontent.com/tranhonghan/images/main/star_filled.png'
     const starImgCorner = 'https://raw.githubusercontent.com/tranhonghan/images/main/star_corner.png'
+
+    const Model = () => {
+        console.log(selectedCompany);
+        if (selectedCompany === "Daihatsu") {
+            return (
+                Daihatsu.map((daihatsu, index) => {
+                    return (
+                        <Picker.Item label={daihatsu} value={daihatsu} key={index} />
+                    )
+                })
+            )
+        }
+        else if (selectedCompany === "Faw") {
+            return (
+                Faw.map((faw, index) => {
+                    return (
+                        <Picker.Item label={faw} value={faw} key={index} />
+                    )
+                })
+            )
+        }
+
+        else if (selectedCompany === "Honda") {
+            return (
+                Honda.map((honda, index) => {
+                    return (
+                        <Picker.Item label={honda} value={honda} key={index} />
+                    )
+                })
+            )
+        }
+
+        else if (selectedCompany === "Hyundai") {
+            return (
+                Hyundai.map((hyundai, index) => {
+                    return (
+                        <Picker.Item label={hyundai} value={hyundai} key={index} />
+                    )
+                })
+            )
+        }
+
+        else if (selectedCompany === "Kia") {
+            return (
+                Kia.map((kia, index) => {
+                    return (
+                        <Picker.Item label={kia} value={kia} key={index} />
+                    )
+                })
+            )
+        }
+
+        else if (selectedCompany === "Nissan") {
+            return (
+                Nissan.map((nissan, index) => {
+                    return (
+                        <Picker.Item label={nissan} value={nissan} key={index} />
+                    )
+                })
+            )
+        }
+
+        else if (selectedCompany === "Suzuki") {
+            return (
+                Suzuki.map((suzuki, index) => {
+                    return (
+                        <Picker.Item label={suzuki} value={suzuki} key={index} />
+                    )
+                })
+            )
+        }
+
+        else if (selectedCompany === "Toyota") {
+            return (
+                Toyota.map((toyota, index) => {
+                    return (
+                        <Picker.Item label={toyota} value={toyota} key={index} />
+                    )
+                })
+            )
+        }
+    }
 
     return (
         <SafeAreaView style={{ backgroundColor: 'lavender' }}>
@@ -178,83 +219,78 @@ const BookingScreen = ({ navigation, route }) => {
                                     <Text style={styles.carDetailsText}>Car Details</Text>
 
                                 </View>
-                                {/* <View style={styles.SectionStyle}>
-                                <TextInput
-                                    style={styles.inputStyle}
-                                    placeholder="Made" //12345
-                                    placeholderTextColor="#8b9cb5"
-                                    keyboardType="default"
-                                    onSubmitEditing={Keyboard.dismiss}
-                                    blurOnSubmit={false}
-                                    underlineColorAndroid="#f000"
-                                    returnKeyType="next"
-                                />
+                                <View style={styles.dropdownContainer}>
+                                    <Picker
+                                        selectedValue={selectedCompany}
+                                        onValueChange={(itemValue) =>
+                                            setSelectedCompany(itemValue)
+                                        }
+                                        style={{
+                                            width: 300,
 
-                            </View> */}
+                                            borderWidth: 3,
+                                            borderColor: "#666",
+                                            marginLeft: 5
+                                        }}
+                                        numberOfLines={6}
+                                    >
+                                        {
+                                            Companies.map((company, index) => {
+                                                return (
+                                                    <Picker.Item label={company} value={company} key={index} />
+                                                )
 
-                                <View>
-                                    <TouchableOpacity
-                                        style={styles.dropdownContainer}
-                                        onPress={() => changeModalVisibility(true)}
-                                    >
-                                        <Text style={styles.dropdowntext}>{made}</Text>
-                                        <Icon
-                                            style={{ marginRight: 18, marginLeft: 10, marginTop: 15 }}
-                                            name="chevron-down"
-                                            size={16}
-                                            color="gray"
-                                        />
-                                    </TouchableOpacity>
-                                    <Modal
-                                        transparent={true}
-                                        animation='slide'
-                                        visible={isModalVisible}
-                                        nRequestClose={() => changeModalVisibility(false)}
-                                    >
-                                        <ModalPickerMade
-                                            changeModalVisibility={changeModalVisibility}
-                                            setMake={setMake}
-                                        />
-                                    </Modal>
+
+                                            })
+                                        }
+                                    </Picker>
                                 </View>
 
-                                <View>
-                                    <TouchableOpacity
-                                        style={styles.dropdownContainer}
-                                        onPress={() => changeYearModalVisibility(true)}
-                                    >
-                                        <Text style={styles.dropdowntext}>{year}</Text>
-                                        <Icon
-                                            style={{ marginRight: 18, marginLeft: 10, marginTop: 15 }}
-                                            name="chevron-down"
-                                            size={16}
-                                            color="gray"
-                                        />
-                                    </TouchableOpacity>
+                                <View style={styles.dropdownContainer}>
+                                    <Picker
+                                        selectedValue={selectedYear}
+                                        onValueChange={(itemValue) =>
+                                            setSelectedYear(itemValue)
+                                        }
+                                        style={{
+                                            width: 290,
+                                            borderWidth: 3,
+                                            borderColor: "#666",
+                                            marginLeft: 5
+                                        }}>
+                                        {
+                                            Years.map((year, index) => {
+                                                return (
+                                                    <Picker.Item label={year} value={year} key={index} />
+                                                )
 
-                                    <Modal
-                                        transparent={true}
-                                        animation='slide'
-                                        visible={isYearModalVisible}
-                                        nRequestClose={() => changeYearModalVisibility(false)}
-                                    >
 
-                                        <ModalPickerYear
-                                            changeYearModalVisibility={changeYearModalVisibility}
-                                            setYearr={setYearr}
-                                        />
-
-                                    </Modal>
+                                            })
+                                        }
+                                    </Picker>
 
                                 </View>
 
+                                <View style={styles.dropdownContainer}>
+                                    <Picker
+                                        selectedValue={selectedModel}
+                                        onValueChange={(itemValue) =>
+                                            setSelectedModel(itemValue)
+                                        }
+                                        style={{
+                                            width: 290,
+                                            borderWidth: 3,
+                                            borderColor: "#666",
+                                            marginLeft: 5
+                                        }}>
+                                        {
+                                            Model(selectedCompany)
+                                        }
+                                    </Picker>
 
-                                <Text style={styles.selectServicesHeading}>Select Services</Text>
+                                </View>
 
-                                <View style={{ justifyContent: 'center', marginBottom: 20 }} >{services()}</View>
-
-
-                                <ApplicationProvider {...eva} theme={eva.light}>
+                                {/* <ApplicationProvider {...eva} theme={eva.light}>
                                     <TouchableOpacity style={styles.calenderContainer}>
                                         <Layout style={styles.container} level='1'>
 
@@ -268,12 +304,9 @@ const BookingScreen = ({ navigation, route }) => {
 
                                         </Layout>
                                     </TouchableOpacity>
-                                </ApplicationProvider>
+                                </ApplicationProvider> */}
 
-                                <TouchableOpacity>
 
-                                    <CheckBox title="CLICK" value={check} onValueChange={() => { setCheck(!check) }} />
-                                </TouchableOpacity>
 
                                 <View>
                                     <TouchableOpacity style={styles.buttonContainer} activeOpacity={0.4} onPress={() => { getSelectedServices() }}>
@@ -392,7 +425,7 @@ const styles = StyleSheet.create({
     },
 
     userCard: {
-        height: 1000,
+        height: 500,
         width: WIDTH - 30,
         marginTop: 10,
         marginLeft: WIDTH / 25,
@@ -430,13 +463,13 @@ const styles = StyleSheet.create({
     },
 
     dropdownContainer: {
-        flexDirection: 'row',
+
         backgroundColor: 'lavender',
         borderRadius: 50,
-        width: 290,
+        width: 300,
         height: 45,
-        // marginLeft: 30,
         marginTop: 20,
+        justifyContent: 'center',
     },
 
     dropdowntext: {
@@ -471,6 +504,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 20,
+        marginTop: 20,
     },
 
     buttonText: {
