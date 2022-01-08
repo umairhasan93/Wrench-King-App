@@ -42,7 +42,15 @@ const BikeMechanic = ({ navigation }) => {
 
                             mechanic.map((bikemechanic, index) => {
                                 return (
-                                    <TouchableOpacity key={index} style={{ marginLeft: 5, marginTop: 12 }}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('BikeBookingScreen', {
+                                        name: bikemechanic.name,
+                                        number: bikemechanic.contactNo,
+                                        address: bikemechanic.address,
+                                        rating: bikemechanic.rating,
+                                        speciality: bikemechanic.speciality,
+                                        type: bikemechanic.mechanicType,
+                                    })}
+                                        key={index} style={{ marginLeft: 5, marginTop: 12 }}>
                                         <Card style={styles.Card}>
                                             <View style={{ flexDirection: 'row' }}>
                                                 <View>

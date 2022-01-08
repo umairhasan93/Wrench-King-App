@@ -37,13 +37,13 @@ const HomeScreen = ({ navigation }) => {
             <View style={{ flexDirection: 'row', marginBottom: 25, marginTop: 80 }}>
                 <TouchableOpacity onPress={() => navigation.navigate('CarMechanicScreen')}>
                     <Card style={styles.OptionCardContainer1}>
-                        <Text style={styles.text}>Car</Text>
+                        <Text style={styles.text}>Car Mechanics</Text>
                     </Card>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => navigation.navigate('BikeMechanicScreen')}>
                     <Card style={styles.OptionCardContainer2}>
-                        <Text style={styles.text}>Bike</Text>
+                        <Text style={styles.text}>Bike Mechanics</Text>
                     </Card>
                 </TouchableOpacity>
             </View>
@@ -51,11 +51,11 @@ const HomeScreen = ({ navigation }) => {
             <View style={{ flexDirection: 'row' }}>
                 <TouchableOpacity>
                     <Card style={styles.OptionCardContainer3}>
-                        <Text style={styles.Towingtext}>Towing</Text>
+                        <Text style={styles.Towingtext}>Towing Truck</Text>
                     </Card>
                 </TouchableOpacity>
 
-                <Card style={styles.OptionCardContainer4}></Card>
+
             </View>
         </SafeAreaView >
     );
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
 
     OptionCardContainer3: {
         height: 120,
-        width: 165,
+        width: 350,
         marginLeft: 17,
         marginRight: 2,
         borderRadius: 10,
@@ -108,29 +108,19 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
 
-    OptionCardContainer4: {
-        height: 120,
-        width: 165,
-        marginLeft: 17,
-        marginRight: 2,
-        borderRadius: 10,
-        backgroundColor: '#F4D03F',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
+
 
     text: {
         fontWeight: 'bold',
-        fontSize: 16,
-        marginLeft: 100,
-        marginTop: 50,
+        fontSize: 20,
+        marginLeft: 2,
+        marginTop: 45,
     },
 
     Towingtext: {
         fontWeight: 'bold',
-        fontSize: 16,
-        marginLeft: 80,
-        marginTop: 50,
+        fontSize: 26,
+        marginTop: 40,
     }
 
 })

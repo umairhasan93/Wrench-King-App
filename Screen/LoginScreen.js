@@ -10,6 +10,7 @@ import {
     TouchableOpacity,
     KeyboardAvoidingView,
     Alert,
+    ToastAndroid,
 } from 'react-native';
 import { Card } from 'react-native-paper';
 // import Icon from 'react-native-vector-icons/FontAwesome5'
@@ -19,13 +20,21 @@ import Loader from './Components/loader';
 
 const LoginScreen = ({ navigation }) => {
     const [userName, setUserName] = useState('umairhasan93');
-    const [password, setPassword] = useState('63555');
+    const [password, setPassword] = useState('1111');
     const [loading, setLoading] = useState(false);
-    const [errortext, setErrortext] = useState('');
+    const [errortext, setErrortext] = useState();
     const [userNameError, setUserNameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
 
     const passwordInputRef = createRef();
+
+    const showErrorToastWithGravity = () => {
+        ToastAndroid.showWithGravity(
+            errortext,
+            ToastAndroid.LONG,
+            ToastAndroid.CENTER
+        );
+    };
 
     const loginAdmin = (details) => {
         AsyncStorage.setItem("user", JSON.stringify(details));
@@ -97,8 +106,9 @@ const LoginScreen = ({ navigation }) => {
             })
             .catch((error) => {
                 //Hide Loader
+                setErrortext("Invalid")
                 setLoading(false);
-
+                showErrorToastWithGravity()
                 console.error(error);
             });
     };

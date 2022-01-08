@@ -40,19 +40,7 @@ const ChangePassword = ({ navigation }) => {
         }
     })
 
-    // useEffect(() => {
-    //     fetch("http://192.168.100.15:5000/api/user/" + id)
-    //         .then(resp => resp.json())
-    //         .then(resp =>
-    //             setUser(resp))
-    // }, [])
 
-    // AsyncStorage.getItem('user').then(data => {
-    //     if (data) {
-    //         setLocalUser(JSON.parse(data))
-
-    //     }
-    // })
 
     const ChangePassword = () => {
         fetch("http://192.168.100.15:5000/api/user/changepassword/" + id, {

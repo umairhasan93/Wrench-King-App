@@ -30,7 +30,7 @@ const now = new Date();
 // const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
 const week = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 6);
 
-const BookingScreen = ({ navigation, route }) => {
+const BikeBookingScreen = ({ navigation, route }) => {
 
     const [user, setUser] = useState([])
     AsyncStorage.getItem('user').then(data => {
@@ -46,22 +46,13 @@ const BookingScreen = ({ navigation, route }) => {
         );
     };
 
-    const { name, number, address, rating, speciality } = route.params;
+    const { name, number, address, rating, speciality, type } = route.params;
     const [calenderModalVisible, setCalenderModalVisible] = useState(false);
 
-    const Companies = ["Daihatsu", "Faw", "Honda", "Hyundai", "Kia", "Nissan", "Suzuki", "Toyota"]
-    const Years = ["1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021"]
-    const Daihatsu = ["Move", "Mira", "Hijet", "Cuore", "Terios Kid"]
-    const Faw = ["Carrier Plus", "V2"]
-    const Honda = ["Civic", "Accord", "City", "BR-V", "Vezel", "Fit"]
-    const Hyundai = ["Santro", "Sonata", "Elantra"]
-    const Kia = ["Pride", "Picanto", "Sportage", "Carnival", "Spectra"]
-    const Nissan = ["Tidda", "Clipper", "Days", "Sunny"]
-    const Suzuki = ["Mehran", "Khyber", "Wagon-R", "Alto", "Bolan", "Cultus", "Swift", "Ciaz", "Margala", "Baleno", "Liana"]
-    const Toyota = ["Corolla", "Camry", "Passo", "Vitz", "Prius", "Aqua", "Hilux", "Prado", "Yaris", "Land Cruiser", "Surf", "Premio"]
+    const Model = ["50cc", "70cc", "100cc", "125cc", "YBR", "150cc", "200cc"]
 
-    const [selectedCompany, setSelectedCompany] = useState();
-    const [selectedYear, setSelectedYear] = useState();
+
+
     const [selectedModel, setSelectedModel] = useState();
     const [date, setDate] = useState();
     const [selectedDate, setSelectedDate] = useState();
@@ -72,90 +63,10 @@ const BookingScreen = ({ navigation, route }) => {
         setCalenderModalVisible(!calenderModalVisible)
     }
 
-    const Model = () => {
 
-        if (selectedCompany === "Daihatsu") {
-            return (
-                Daihatsu.map((daihatsu, index) => {
-                    return (
-                        <Picker.Item label={daihatsu} value={daihatsu} key={index} />
-                    )
-                })
-            )
-        }
-        else if (selectedCompany === "Faw") {
-            return (
-                Faw.map((faw, index) => {
-                    return (
-                        <Picker.Item label={faw} value={faw} key={index} />
-                    )
-                })
-            )
-        }
-
-        else if (selectedCompany === "Honda") {
-            return (
-                Honda.map((honda, index) => {
-                    return (
-                        <Picker.Item label={honda} value={honda} key={index} />
-                    )
-                })
-            )
-        }
-
-        else if (selectedCompany === "Hyundai") {
-            return (
-                Hyundai.map((hyundai, index) => {
-                    return (
-                        <Picker.Item label={hyundai} value={hyundai} key={index} />
-                    )
-                })
-            )
-        }
-
-        else if (selectedCompany === "Kia") {
-            return (
-                Kia.map((kia, index) => {
-                    return (
-                        <Picker.Item label={kia} value={kia} key={index} />
-                    )
-                })
-            )
-        }
-
-        else if (selectedCompany === "Nissan") {
-            return (
-                Nissan.map((nissan, index) => {
-                    return (
-                        <Picker.Item label={nissan} value={nissan} key={index} />
-                    )
-                })
-            )
-        }
-
-        else if (selectedCompany === "Suzuki") {
-            return (
-                Suzuki.map((suzuki, index) => {
-                    return (
-                        <Picker.Item label={suzuki} value={suzuki} key={index} />
-                    )
-                })
-            )
-        }
-
-        else if (selectedCompany === "Toyota") {
-            return (
-                Toyota.map((toyota, index) => {
-                    return (
-                        <Picker.Item label={toyota} value={toyota} key={index} />
-                    )
-                })
-            )
-        }
-    }
 
     const onSubmit = () => {
-        if (selectedCompany === undefined || selectedModel === undefined || selectedYear === undefined || selectedDate === undefined) {
+        if (selectedModel === undefined || selectedDate === undefined) {
             showToastWithGravity()
 
         }
@@ -164,12 +75,10 @@ const BookingScreen = ({ navigation, route }) => {
                 mechanicname: name,
                 mechanicnumber: number,
                 mechanicaddress: address,
-                mechanicspeciality: speciality,
+                mechanictype: type,
                 username: user.name,
                 usernumber: user.contact,
                 useremail: user.email,
-                carcompany: selectedCompany,
-                year: selectedYear,
                 model: selectedModel,
                 bookingdate: date,
 
@@ -186,11 +95,9 @@ const BookingScreen = ({ navigation, route }) => {
                 <MenuButton onPress={() => navigation.openDrawer()} />
                 <Text style={styles.headerText}>Wrench King</Text>
                 <TouchableOpacity onPress={() => {
-                    setSelectedCompany('Select Company')
                     setSelectedModel("Select Model")
-                    setSelectedYear("Select Year")
                     setSelectedDate("")
-                    navigation.navigate('CarMechanicScreen')
+                    navigation.navigate('BikeMechanicScreen')
                 }}>
                     <Icon style={styles.backIcon} name="chevron-left" size={24} color="red" />
                 </TouchableOpacity>
@@ -207,45 +114,17 @@ const BookingScreen = ({ navigation, route }) => {
 
 
 
-                <View style={{ height: 470 }}>
+                <View style={{ height: 340 }}>
 
                     <KeyboardAvoidingView enabled>
 
                         <Card style={styles.userCard}>
 
                             <View style={{ alignItems: 'center', marginTop: 10 }}>
-                                <Text style={styles.carDetailsText}>Car Details</Text>
+                                <Text style={styles.carDetailsText}>Bike Details</Text>
 
                             </View>
-                            <View style={styles.dropdownContainer}>
-                                <Picker
-                                    selectedValue={selectedCompany}
-                                    onValueChange={(itemValue) =>
-                                        setSelectedCompany(itemValue)
-                                    }
 
-                                    style={{
-                                        width: 290,
-
-                                        borderWidth: 3,
-                                        borderColor: "#666",
-                                        marginLeft: 5
-                                    }}
-                                    numberOfLines={6}
-                                >
-
-                                    <Picker.Item value={"Select Company"} label="Selecy Company" />
-                                    {
-                                        Companies.map((company, index) => {
-                                            return (
-                                                <Picker.Item label={company} value={company} key={index} />
-                                            )
-
-
-                                        })
-                                    }
-                                </Picker>
-                            </View>
 
                             <View style={styles.dropdownContainer}>
                                 <Picker
@@ -259,31 +138,11 @@ const BookingScreen = ({ navigation, route }) => {
                                         borderColor: "#666",
                                         marginLeft: 5
                                     }}>
-                                    <Picker.Item value={"Select Model"} label="Select Model" />
+                                    <Picker.Item value={"Select Bike"} label="Select Bike" />
                                     {
-                                        Model(selectedCompany)
-                                    }
-                                </Picker>
-
-                            </View>
-
-                            <View style={styles.dropdownContainer}>
-                                <Picker
-                                    selectedValue={selectedYear}
-                                    onValueChange={(itemValue) =>
-                                        setSelectedYear(itemValue)
-                                    }
-                                    style={{
-                                        width: 290,
-                                        borderWidth: 3,
-                                        borderColor: "#666",
-                                        marginLeft: 5
-                                    }}>
-                                    <Picker.Item value={"Select Year"} label="Select Year" />
-                                    {
-                                        Years.map((year, index) => {
+                                        Model.map((model, index) => {
                                             return (
-                                                <Picker.Item label={year} value={year} key={index} />
+                                                <Picker.Item label={model} value={model} key={index} />
                                             )
 
 
@@ -292,6 +151,7 @@ const BookingScreen = ({ navigation, route }) => {
                                 </Picker>
 
                             </View>
+
 
                             <TouchableOpacity style={styles.calenderContainer} activeOpacity={0.3} onPress={() => setCalenderModalVisible(!calenderModalVisible)}>
                                 <View style={{ width: 250, justifyContent: 'center' }}>
@@ -353,7 +213,7 @@ const BookingScreen = ({ navigation, route }) => {
                                 </View>
                             </Modal>
                         </View>
-                        <View style={{ alignItems: 'center', marginTop: -20 }}>
+                        <View style={{ alignItems: 'center', marginTop: 30 }}>
                             <TouchableOpacity
                                 style={styles.buttonContainer}
                                 activeOpacity={0.4}
@@ -525,4 +385,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default BookingScreen
+export default BikeBookingScreen
