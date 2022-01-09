@@ -6,7 +6,6 @@ import {
     Text,
     Image,
     KeyboardAvoidingView,
-    Keyboard,
     TouchableOpacity,
     ScrollView,
 } from 'react-native';
@@ -145,7 +144,7 @@ const RegisterScreen = ({ navigation }) => {
         );
     }
     return (
-        <View style={{ flex: 1, backgroundColor: '#000000' }}>
+        <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
             <Loader loading={loading} />
             <ScrollView
                 keyboardShouldPersistTaps="handled"
@@ -157,10 +156,12 @@ const RegisterScreen = ({ navigation }) => {
                     <Image
                         source={require('../Image/bg.jpeg')}
                         style={{
-                            width: '50%',
-                            height: 100,
-                            resizeMode: 'contain',
-                            margin: 30,
+                            width: 385,
+                            height: 220,
+                            resizeMode: 'stretch',
+                            borderBottomLeftRadius: 10,
+                            borderBottomRightRadius: 10,
+                            overflow: 'hidden'
                         }}
                     />
                 </View>
@@ -171,7 +172,7 @@ const RegisterScreen = ({ navigation }) => {
                             onChangeText={(FirstName) => setFirstName(FirstName)}
                             underlineColorAndroid="#f000"
                             placeholder="First Name"
-                            placeholderTextColor="#8b9cb5"
+                            placeholderTextColor="black"
                             autoCapitalize="sentences"
                             returnKeyType="next"
                             onSubmitEditing={() =>
@@ -186,7 +187,7 @@ const RegisterScreen = ({ navigation }) => {
                             onChangeText={(LastName) => setLastName(LastName)}
                             underlineColorAndroid="#f000"
                             placeholder="Last Name"
-                            placeholderTextColor="#8b9cb5"
+                            placeholderTextColor="black"
                             autoCapitalize="sentences"
                             ref={lastnameInputRef}
                             returnKeyType="next"
@@ -202,7 +203,7 @@ const RegisterScreen = ({ navigation }) => {
                             onChangeText={(Email) => setEmail(Email)}
                             underlineColorAndroid="#f000"
                             placeholder="Email"
-                            placeholderTextColor="#8b9cb5"
+                            placeholderTextColor="black"
                             keyboardType="email-address"
                             ref={emailInputRef}
                             returnKeyType="next"
@@ -219,7 +220,7 @@ const RegisterScreen = ({ navigation }) => {
                             onChangeText={(Contact) => setContactNo(Contact)}
                             underlineColorAndroid="#f000"
                             placeholder="Contact No"
-                            placeholderTextColor="#8b9cb5"
+                            placeholderTextColor="black"
                             keyboardType="email-address"
                             ref={contactInputRef}
                             returnKeyType="next"
@@ -236,7 +237,7 @@ const RegisterScreen = ({ navigation }) => {
                             onChangeText={(UserName) => setUserName(UserName)}
                             underlineColorAndroid="#f000"
                             placeholder="Username"
-                            placeholderTextColor="#8b9cb5"
+                            placeholderTextColor="black"
                             keyboardType="text"
                             ref={usernameInputRef}
                             returnKeyType="next"
@@ -255,7 +256,7 @@ const RegisterScreen = ({ navigation }) => {
                             }
                             underlineColorAndroid="#f000"
                             placeholder="Password"
-                            placeholderTextColor="#8b9cb5"
+                            placeholderTextColor="black"
                             ref={passwordInputRef}
                             returnKeyType="next"
                             secureTextEntry={true}
@@ -272,7 +273,7 @@ const RegisterScreen = ({ navigation }) => {
                             onChangeText={(ConfirmPassword) => setConfirmPassword(ConfirmPassword)}
                             underlineColorAndroid="#f000"
                             placeholder="Confirm Password"
-                            placeholderTextColor="#8b9cb5"
+                            placeholderTextColor="black"
                             keyboardType="text"
                             ref={confirmpasswordInputRef}
                             blurOnSubmit={false}
@@ -316,34 +317,35 @@ const styles = StyleSheet.create({
         marginLeft: 35,
         marginRight: 35,
         margin: 10,
+        backgroundColor: '#E41B1730',
+        borderRadius: 10
     },
     buttonStyle: {
-        backgroundColor: '#FEE715FF',
+        backgroundColor: '#E41B17',
         borderWidth: 0,
-        color: '#FFFFFF',
-        borderColor: '#7DE24E',
+
+        borderColor: '#E41B17',
         height: 45,
         alignItems: 'center',
-        borderRadius: 30,
+        borderRadius: 10,
         marginLeft: 35,
         marginRight: 35,
         marginTop: 20,
         marginBottom: 20,
     },
     buttonTextStyle: {
-        color: '#EC4D37',
+        color: '#ffffff',
         paddingVertical: 10,
         fontSize: 18,
         fontWeight: 'bold',
     },
     inputStyle: {
         flex: 1,
-        color: 'white',
+        color: 'black',
         paddingLeft: 25,
         paddingRight: 25,
-        borderWidth: 1,
-        borderRadius: 30,
-        borderColor: '#dadae8',
+        borderRadius: 10,
+        borderColor: '#E41B17',
     },
     errorTextStyle: {
         color: 'red',
@@ -358,7 +360,7 @@ const styles = StyleSheet.create({
     },
 
     textStyle: {
-        color: '#FFFFFF',
+        color: '#000000',
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 14,
@@ -368,12 +370,13 @@ const styles = StyleSheet.create({
 
     loginTextStyle: {
         textDecorationLine: 'underline',
-        color: '#FCF951FF',
+        color: '#E41B17',
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 14,
+        fontSize: 16,
         alignSelf: 'center',
         padding: 10,
-        marginLeft: -5
+        marginLeft: -5,
+        marginTop: -3
     },
 });

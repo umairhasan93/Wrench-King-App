@@ -55,17 +55,30 @@ const BookingDetails = ({ navigation, route }) => {
 
     return (
         <SafeAreaView>
-            <View style={{ flexDirection: 'row', backgroundColor: '#000000', height: 50, paddingTop: 6 }}>
+            <View style={{
+                flexDirection: 'row',
+                backgroundColor: '#E41B17',
+                borderBottomRightRadius: 20,
+                borderTopLeftRadius: 20,
+                height: 50,
+                paddingTop: 6,
+                shadowColor: '#E41B17',
+                shadowOffset: {
+                    width: 0,
+                    height: 5,
+                },
+                shadowOpacity: 10,
+                shadowRadius: 10,
+                elevation: 10,
+            }}>
                 <MenuButton onPress={() => navigation.openDrawer()} />
+                {/* <Image source= {require('')}/> */}
                 <Text style={styles.headerText}>Wrench King</Text>
-                <TouchableOpacity onPress={() => {
-
-                    navigation.navigate('HomeScreen')
-                }}>
-                    <Icon style={styles.backIcon} name="chevron-left" size={24} color="red" />
+                <TouchableOpacity activeOpacity={0.3} onPress={() => navigation.navigate('HomeScreen')}>
+                    <Icon style={styles.backIcon} name="chevron-left" size={24} color="white" />
                 </TouchableOpacity>
             </View>
-            <ScrollView style={{ backgroundColor: "gray" }}>
+            <ScrollView >
                 <View style={{ height: 650 }}>
                     <Card style={styles.card}>
                         <View style={{ width: 200, alignItems: 'center', alignSelf: 'center' }}>
@@ -209,11 +222,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginLeft: 60,
         marginTop: 2,
-        color: 'red'
+        color: 'white'
     },
 
     backIcon: {
-        marginLeft: 100,
+        marginLeft: 90,
         marginTop: 7
     },
 
@@ -221,7 +234,15 @@ const styles = StyleSheet.create({
         width: WIDTH - 30,
         marginLeft: WIDTH / 25,
         paddingBottom: 25,
-        borderRadius: 20
+        borderRadius: 20,
+        shadowColor: '#E41B17',
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 10,
+        shadowRadius: 10,
+        elevation: 10,
     },
 
     heading: {

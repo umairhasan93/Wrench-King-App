@@ -12,6 +12,7 @@ import {
     ToastAndroid,
 } from 'react-native';
 import LoginScreen from './LoginScreen';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const ForgetPasswordScreen = ({ navigation }) => {
     const [userEmail, setUserEmail] = useState('');
@@ -44,6 +45,10 @@ const ForgetPasswordScreen = ({ navigation }) => {
             setErrortext("Password Do Not Match")
             setPassword('')
             setConfirmPassword('')
+            showErrorToastWithGravity()
+        }
+        else if (userEmail === "" || password === "" || confirmPassword === "") {
+            setErrortext("Please Fill All Fields")
             showErrorToastWithGravity()
         }
         else {
@@ -95,15 +100,20 @@ const ForgetPasswordScreen = ({ navigation }) => {
                             <Image
                                 source={require('../Image/bg.jpeg')}
                                 style={{
-                                    width: 150,
-                                    height: 150,
+                                    width: 385,
+                                    height: 250,
                                     resizeMode: 'stretch',
-                                    marginTop: -20
+                                    marginTop: -65,
+                                    borderBottomLeftRadius: 10,
+                                    borderBottomRightRadius: 10,
+                                    overflow: 'hidden'
                                 }}
+
                             />
                         </View>
-                        <View style={{ marginTop: 50 }}>
-                            <Text style={{ color: 'white', fontSize: 16, marginLeft: 40 }}>Email:</Text>
+                        <View style={{ marginTop: 30 }}>
+
+                            <Text style={{ color: 'red', fontSize: 16, marginLeft: 40 }}>Email:</Text>
                             <View style={styles.SectionStyle}>
 
                                 <TextInput
@@ -124,7 +134,8 @@ const ForgetPasswordScreen = ({ navigation }) => {
                             {emailError !== '' ? (
                                 <Text style={styles.errorTextStyle}>{emailError}</Text>
                             ) : null}
-                            <Text style={{ color: 'white', fontSize: 16, marginLeft: 40 }}>Password:</Text>
+
+                            <Text style={{ color: 'red', fontSize: 16, marginLeft: 40 }}>Password:</Text>
                             <View style={styles.SectionStyle}>
 
                                 <TextInput
@@ -147,7 +158,8 @@ const ForgetPasswordScreen = ({ navigation }) => {
                             {emailError !== '' ? (
                                 <Text style={styles.errorTextStyle}>{emailError}</Text>
                             ) : null}
-                            <Text style={{ color: 'white', fontSize: 16, marginLeft: 40 }}>Confirm Password:</Text>
+
+                            <Text style={{ color: 'red', fontSize: 16, marginLeft: 40 }}>Confirm Password:</Text>
                             <View style={styles.SectionStyle}>
                                 <TextInput
                                     style={styles.inputStyle}
@@ -177,12 +189,20 @@ const ForgetPasswordScreen = ({ navigation }) => {
                                 onPress={handleSubmitPress}>
                                 <Text style={styles.buttonTextStyle}>Confirm</Text>
                             </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={{ marginLeft: 250, marginTop: -10 }}
+                                activeOpacity={0.3}
+                                onPress={() => { navigation.navigate('LoginScreen') }}
+                            >
+                                <Text style={{ color: 'red', textDecorationLine: 'underline' }}>Back to Login</Text>
+                            </TouchableOpacity>
                         </View>
 
                     </KeyboardAvoidingView>
                 </View>
-            </ScrollView>
-        </View>
+            </ScrollView >
+        </View >
     );
 };
 export default ForgetPasswordScreen
@@ -190,77 +210,57 @@ export default ForgetPasswordScreen
 const styles = StyleSheet.create({
     mainBody: {
         flex: 1,
-        // justifyContent: 'center',
-        backgroundColor: '#000000',
+        backgroundColor: '#ffffff',
         alignContent: 'center',
     },
 
     SectionStyle: {
         flexDirection: 'row',
-        height: 55,
-        marginTop: 10,
+        height: 50,
+        marginBottom: 15,
         marginLeft: 35,
         marginRight: 35,
-        margin: 10,
         borderRadius: 10,
-        // borderRadius: 30,
+        backgroundColor: '#E41B1730'
+
     },
 
     inputStyle: {
         flex: 1,
-        color: 'white',
+        color: 'black',
         paddingLeft: 30,
         paddingRight: 30,
         borderWidth: 1,
         borderRadius: 10,
-        borderColor: '#dadae8',
+        borderColor: '#E41B17',
         fontSize: 16,
     },
     buttonStyle: {
-        backgroundColor: '#FEE715FF',
+        backgroundColor: '#E41B17',
         borderWidth: 0,
-        color: '#FFFFFF',
         height: 50,
         alignItems: 'center',
-        borderRadius: 30,
+        borderRadius: 10,
         marginLeft: 35,
         marginRight: 35,
-        marginTop: 20,
+        marginTop: 10,
         marginBottom: 25,
+        shadowColor: '#E41B17',
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 10,
+        shadowRadius: 10,
+        elevation: 5,
     },
     buttonTextStyle: {
-        color: '#101820FF',
+        color: '#ffffff',
         paddingVertical: 12,
         fontSize: 20,
+        fontWeight: 'bold',
     },
 
-    textStyle: {
-        color: '#FFFFFF',
-        textAlign: 'center',
-        fontWeight: 'bold',
-        fontSize: 14,
-        alignSelf: 'center',
-        padding: 10,
-    },
-
-    forgotPasswordStyle: {
-        textDecorationLine: 'underline',
-        color: '#FCF951FF',
-        textAlign: 'center',
-        fontWeight: 'bold',
-        fontSize: 14,
-        alignSelf: 'center',
-        padding: 10,
-    },
-    signupTextStyle: {
-        textDecorationLine: 'underline',
-        color: '#FCF951FF',
-        textAlign: 'center',
-        fontWeight: 'bold',
-        fontSize: 14,
-        alignSelf: 'center',
-        padding: 10,
-    },
     errorTextStyle: {
         color: 'red',
         textAlign: 'center',

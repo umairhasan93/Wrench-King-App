@@ -15,7 +15,7 @@ const NavigationDrawerHeader = (props) => {
                     style={{ marginRight: 20, marginLeft: 20, marginTop: 7 }}
                     name="align-center"
                     size={25}
-                    color="red"
+                    color="white"
                 />
             </TouchableOpacity>
         </View>

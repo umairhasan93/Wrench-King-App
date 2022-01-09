@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
     HeadingText: {
         fontSize: 20,
         marginLeft: 20,
-        color: '#000000',
         marginBottom: -7
     },
 
@@ -80,16 +79,26 @@ const styles = StyleSheet.create({
     detailCard: {
         paddingBottom: 20,
         width: WIDTH - 30,
-        borderRadius: 20,
-        marginTop: 10,
+        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 20,
+        marginTop: -4,
         marginLeft: WIDTH / 25,
-        backgroundColor: '#F9E79F'
+        backgroundColor: 'white',
+        shadowColor: '#E41B17',
+        shadowOffset: {
+            width: 0,
+            height: 10,
+        },
+        shadowOpacity: 10,
+        shadowRadius: 10,
+        elevation: 10,
+        marginBottom: 10
     },
 
     heading: {
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 22,
+        fontSize: 24,
         marginTop: 10,
         textDecorationLine: 'underline',
         color: 'red'
@@ -98,8 +107,8 @@ const styles = StyleSheet.create({
     nameHeading: {
         marginTop: 10,
         fontWeight: 'bold',
-        color: 'green',
         fontSize: 15,
+        color: 'red'
     },
 
     name: {
@@ -107,30 +116,20 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         fontWeight: 'bold',
         fontSize: 15,
+        color: 'black',
     },
 
-    numberHeading: {
-        marginTop: 10,
-        marginLeft: 30,
-        fontWeight: 'bold',
-        color: 'green',
-        fontSize: 15,
-    },
+
 
     number: {
         marginTop: 10,
         marginLeft: 10,
         fontWeight: 'bold',
         fontSize: 15,
+        color: 'black',
     },
 
-    addressHeading: {
-        marginTop: 10,
-        marginLeft: 30,
-        fontWeight: 'bold',
-        color: 'green',
-        fontSize: 15,
-    },
+
 
     address: {
         marginTop: 10,
@@ -139,21 +138,17 @@ const styles = StyleSheet.create({
         width: 220,
         fontWeight: 'bold',
         fontSize: 15,
+        color: 'black',
     },
 
-    ratingHeading: {
-        marginTop: 10,
-        marginLeft: 30,
-        fontWeight: 'bold',
-        color: 'green',
-        fontSize: 15,
-    },
+
 
     rating: {
         marginTop: 10,
         marginLeft: 10,
         fontWeight: 'bold',
         fontSize: 15,
+        color: 'black',
     },
 })
 

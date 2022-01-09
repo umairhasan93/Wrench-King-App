@@ -83,23 +83,42 @@ const BikeBookingScreen = ({ navigation, route }) => {
                 bookingdate: date,
 
             })
+            setSelectedModel('Select Model')
+            setSelectedDate('')
+
         }
 
     }
 
 
     return (
-        <SafeAreaView style={{ backgroundColor: '#D5F5E3' }}>
+        <SafeAreaView>
 
-            <View style={{ flexDirection: 'row', backgroundColor: '#000000', height: 50, paddingTop: 6 }}>
+            <View style={{
+                flexDirection: 'row',
+                backgroundColor: '#E41B17',
+                borderBottomRightRadius: 20,
+                borderTopLeftRadius: 20,
+                height: 50,
+                paddingTop: 6,
+                shadowColor: '#E41B17',
+                shadowOffset: {
+                    width: 0,
+                    height: 5,
+                },
+                shadowOpacity: 10,
+                shadowRadius: 10,
+                elevation: 10,
+            }}>
                 <MenuButton onPress={() => navigation.openDrawer()} />
+                {/* <Image source= {require('')}/> */}
                 <Text style={styles.headerText}>Wrench King</Text>
-                <TouchableOpacity onPress={() => {
-                    setSelectedModel("Select Model")
-                    setSelectedDate("")
+                <TouchableOpacity activeOpacity={0.3} onPress={() => {
                     navigation.navigate('BikeMechanicScreen')
+                    setSelectedModel('Select Model')
+                    setSelectedDate('')
                 }}>
-                    <Icon style={styles.backIcon} name="chevron-left" size={24} color="red" />
+                    <Icon style={styles.backIcon} name="chevron-left" size={24} color="white" />
                 </TouchableOpacity>
             </View>
 
@@ -238,11 +257,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginLeft: 60,
         marginTop: 2,
-        color: 'red'
+        color: 'white'
     },
 
     backIcon: {
-        marginLeft: 100,
+        marginLeft: 90,
         marginTop: 7
     },
 
@@ -253,40 +272,28 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         paddingBottom: 25,
         alignItems: 'center',
-        backgroundColor: '#ffffff'
-    },
-
-    SectionStyle: {
-        flexDirection: 'row',
-        height: 45,
-        marginTop: 20,
-        marginLeft: 35,
-        marginRight: 35,
-        borderRadius: 30,
-    },
-
-    inputStyle: {
-        flex: 1,
-        color: 'white',
-        paddingLeft: 30,
-        paddingRight: 30,
-        borderWidth: 1,
-        borderRadius: 30,
-        borderColor: '#dadae8',
-        fontSize: 16,
+        backgroundColor: '#ffffff',
+        shadowColor: '#E41B17',
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 10,
+        shadowRadius: 10,
+        elevation: 10,
     },
 
     carDetailsText: {
-        fontSize: 22,
+        fontSize: 24,
         textDecorationLine: 'underline',
         fontWeight: 'bold',
-        color: 'dodgerblue'
+        color: '#E41B17'
 
     },
 
     dropdownContainer: {
-        backgroundColor: 'lavender',
-        borderRadius: 50,
+        backgroundColor: '#E41B1730',
+        borderRadius: 10,
         width: 300,
         height: 45,
         marginTop: 20,
@@ -295,8 +302,8 @@ const styles = StyleSheet.create({
 
     calenderContainer: {
         flexDirection: 'row',
-        backgroundColor: 'lavender',
-        borderRadius: 50,
+        backgroundColor: '#E41B1730',
+        borderRadius: 10,
         width: 300,
         height: 45,
         marginTop: 20,
@@ -359,7 +366,7 @@ const styles = StyleSheet.create({
         height: 50,
         width: WIDTH - 30,
         borderRadius: 50,
-        backgroundColor: '#2AD60B',
+        backgroundColor: '#E41B17',
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 25,
@@ -373,15 +380,6 @@ const styles = StyleSheet.create({
 
     },
 
-    servicesCard: {
-        width: 290,
-        height: 140,
-        borderRadius: 10,
-        marginBottom: 20,
-        backgroundColor: 'lavender',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
 })
 
 

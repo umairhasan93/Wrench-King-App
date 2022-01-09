@@ -1,5 +1,14 @@
 import React from 'react';
-import { View, Text, Image, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+    View,
+    Text,
+    Image,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    TouchableOpacity,
+    ImageBackground
+} from 'react-native';
 import { Card } from 'react-native-paper';
 import MenuButton from '../Components/NavigationDrawerHeader'
 
@@ -12,14 +21,48 @@ const HomeScreen = ({ navigation }) => {
         'https://cdn1.vectorstock.com/i/1000x1000/54/70/online-car-service-and-maintenance-concept-vector-18945470.jpg',
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBHDCnhJAJLbADyvz43nfRlVgJ_XtbYcPFABbtblDpRVB3xrFbTvGfOU-65_Sr_vnTGto&usqp=CAU'
     ])
+
+
+    const car = { uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMzDAnzv7EGF8fK14kBzlUtqJtXaUsQ43h7Q&usqp=CAU' }
+    const bike = { uri: 'https://www.motosport.com/motoblog/2020/How-To-Find-a-Good-mechanic.jpg' }
+    const towing = { uri: 'https://dealmarkaz.pk/oc-content/uploads/1400/450674.jpg' }
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: 'lavender' }}>
-            <View style={{ flexDirection: 'row', backgroundColor: '#000000', height: 50, paddingTop: 6 }}>
+        <SafeAreaView style={{ flex: 1 }}>
+            <View style={{
+                flexDirection: 'row',
+                backgroundColor: '#E41B17',
+                borderBottomRightRadius: 20,
+                borderTopLeftRadius: 20,
+                height: 50,
+                paddingTop: 6,
+                shadowColor: '#E41B17',
+                shadowOffset: {
+                    width: 0,
+                    height: 5,
+                },
+                shadowOpacity: 10,
+                shadowRadius: 10,
+                elevation: 10,
+            }}>
                 <MenuButton onPress={() => navigation.openDrawer()} />
-                {/* <Image source= {require('')}/> */}
                 <Text style={styles.headerText}>Wrench King</Text>
             </View>
-            <View style={{ flex: 0.72, padding: 16 }}>
+            <Card style={{
+                height: 240,
+                width: 385,
+                borderBottomRightRadius: 30,
+                borderBottomLeftRadius: 30,
+                padding: 16,
+                shadowColor: '#E41B17',
+                shadowOffset: {
+                    width: 0,
+                    height: 5,
+                },
+                shadowOpacity: 10,
+                shadowRadius: 10,
+                elevation: 10,
+                borderWidth: 1, borderColor: 'pink'
+            }}>
                 <Card style={styles.ImageSliderContainer}>
                     <ScrollView pagingEnabled horizontal showsHorizontalScrollIndicator={false}>
                         {images.map((image, index) => (
@@ -31,28 +74,62 @@ const HomeScreen = ({ navigation }) => {
                         }
                     </ScrollView>
                 </Card>
+            </Card>
+            {/* <View style={{ flex: 0.72, padding: 16 }}>
+                
 
-            </View>
+            </View> */}
 
-            <View style={{ flexDirection: 'row', marginBottom: 25, marginTop: 80 }}>
+            <View style={{ flexDirection: 'row', marginBottom: 25, marginTop: 20 }}>
+
                 <TouchableOpacity onPress={() => navigation.navigate('CarMechanicScreen')}>
-                    <Card style={styles.OptionCardContainer1}>
-                        <Text style={styles.text}>Car Mechanics</Text>
-                    </Card>
+                    <ImageBackground
+                        source={car}
+                        resizeMode="stretch"
+                        style={styles.cardImage}
+                    >
+                        <Card style={styles.card}>
+                            <Text style={styles.text}>
+                                Car Mechanic
+                            </Text>
+                        </Card>
+
+
+                    </ImageBackground>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => navigation.navigate('BikeMechanicScreen')}>
-                    <Card style={styles.OptionCardContainer2}>
-                        <Text style={styles.text}>Bike Mechanics</Text>
-                    </Card>
+                    <ImageBackground
+                        source={bike}
+                        resizeMode="stretch"
+                        style={styles.cardImage}
+                    >
+                        <Card style={styles.card}>
+                            <Text style={styles.text}>
+                                Bike Mechanic
+                            </Text>
+                        </Card>
+
+
+                    </ImageBackground>
                 </TouchableOpacity>
             </View>
 
             <View style={{ flexDirection: 'row' }}>
                 <TouchableOpacity>
-                    <Card style={styles.OptionCardContainer3}>
-                        <Text style={styles.Towingtext}>Towing Truck</Text>
-                    </Card>
+                    <ImageBackground
+                        source={towing}
+                        resizeMode="cover"
+                        style={styles.cardImage1}
+                    >
+                        <Card style={styles.card1}>
+                            <Text style={styles.Towingtext}>
+                                Towing Van
+                            </Text>
+                        </Card>
+
+
+                    </ImageBackground>
                 </TouchableOpacity>
 
 
@@ -67,60 +144,94 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginLeft: 60,
         marginTop: 2,
-        color: 'red'
+        color: 'white',
+        fontWeight: 'bold',
     },
     ImageSliderContainer: {
         height: 200,
         width: 350,
-        borderRadius: 10
+        borderRadius: 10,
+        shadowColor: '#E41B17',
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 10,
+        shadowRadius: 10,
+        elevation: 10,
     },
 
-    OptionCardContainer1: {
+    cardImage: {
+        resizeMode: 'stretch',
         height: 120,
         width: 165,
         marginLeft: 17,
         marginRight: 2,
-        borderRadius: 10,
-        backgroundColor: '#58D68D',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderRadius: 10,
+        overflow: 'hidden',
+        shadowColor: '#E41B17',
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 10,
+        shadowRadius: 10,
+        elevation: 10,
     },
 
-    OptionCardContainer2: {
-        height: 120,
+    card: {
+        height: 35,
         width: 165,
-        marginLeft: 17,
-        marginRight: 2,
+        marginTop: 85,
         borderRadius: 10,
-        backgroundColor: '#5DADE2',
-        justifyContent: 'center',
-        alignItems: 'center'
+        backgroundColor: '#E41B17',
+        alignItems: 'center',
     },
-
-    OptionCardContainer3: {
-        height: 120,
-        width: 350,
-        marginLeft: 17,
-        marginRight: 2,
-        borderRadius: 10,
-        backgroundColor: '#E59866',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-
 
     text: {
         fontWeight: 'bold',
         fontSize: 20,
-        marginLeft: 2,
-        marginTop: 45,
+        color: '#FEFCFF',
+        marginTop: 2
     },
+
+    cardImage1: {
+
+        height: 140,
+        width: 350,
+        marginLeft: 17,
+        marginRight: 2,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        overflow: 'hidden',
+        shadowColor: '#E41B17',
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 10,
+        shadowRadius: 10,
+        elevation: 10,
+    },
+
+    card1: {
+        height: 40,
+        width: 350,
+        marginTop: 100,
+        borderRadius: 10,
+        backgroundColor: '#E41B17',
+        alignItems: 'center',
+    },
+
 
     Towingtext: {
         fontWeight: 'bold',
         fontSize: 26,
-        marginTop: 40,
+        color: '#FEFCFF',
+        marginTop: 1
     }
 
 })

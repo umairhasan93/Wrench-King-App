@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import {
+    View,
+    Text,
+    Image,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    TouchableOpacity,
+    ImageBackground
+} from 'react-native';
 import { Card } from 'react-native-paper';
 import MenuButton from '../Components/NavigationDrawerHeader'
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -24,12 +33,27 @@ const BikeMechanic = ({ navigation }) => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <View style={{ flexDirection: 'row', backgroundColor: '#000000', height: 50, paddingTop: 6 }}>
+            <View style={{
+                flexDirection: 'row',
+                backgroundColor: '#E41B17',
+                borderBottomRightRadius: 20,
+                borderTopLeftRadius: 20,
+                height: 50,
+                paddingTop: 6,
+                shadowColor: '#E41B17',
+                shadowOffset: {
+                    width: 0,
+                    height: 5,
+                },
+                shadowOpacity: 10,
+                shadowRadius: 10,
+                elevation: 10,
+            }}>
                 <MenuButton onPress={() => navigation.openDrawer()} />
                 {/* <Image source= {require('')}/> */}
                 <Text style={styles.headerText}>Wrench King</Text>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Icon style={styles.backIcon} name="chevron-left" size={24} color="red" />
+                    <Icon style={styles.backIcon} name="chevron-left" size={24} color="white" />
                 </TouchableOpacity>
             </View>
             <ScrollView>
@@ -51,26 +75,34 @@ const BikeMechanic = ({ navigation }) => {
                                         type: bikemechanic.mechanicType,
                                     })}
                                         key={index} style={{ marginLeft: 5, marginTop: 12 }}>
-                                        <Card style={styles.Card}>
+                                        <ImageBackground source={image} key={index} style={styles.CardImage}>
                                             <View style={{ flexDirection: 'row' }}>
                                                 <View>
                                                     <View style={styles.container}>
                                                         <Text style={styles.name}>{bikemechanic.name}</Text>
                                                     </View>
-                                                    <View style={styles.container2}>
+                                                    <View style={styles.container}>
                                                         <Text style={styles.speciality}>{bikemechanic.speciality}</Text>
                                                     </View>
                                                 </View>
-                                                <Image source={image} style={styles.image} />
+                                                <View style={{
+                                                    marginLeft: 135,
+                                                    marginTop: 5
+                                                }}>
+                                                    <TouchableOpacity activeOpacity={0.3} style={styles.ratingContainer}>
+                                                        <Icon style={styles.starIcon} name="star" size={18} />
+                                                        <Text style={styles.rating}>{bikemechanic.rating}</Text>
+                                                    </TouchableOpacity >
+                                                </View>
+                                            </View>
+                                            <View style={styles.container1}>
+                                                <Text style={styles.contactNo}>{bikemechanic.contactNo}</Text>
+                                            </View>
+                                            <View style={styles.container2}>
+                                                <Text style={styles.address}>{bikemechanic.address}</Text>
                                             </View>
 
-                                            <Text style={styles.contactNo}>{bikemechanic.contactNo}</Text>
-                                            <Text style={styles.address}>{bikemechanic.address}</Text>
-                                            <TouchableOpacity style={styles.ratingContainer}>
-                                                <Icon style={styles.heartIcon} name="heart" color="yellow" size={20} />
-                                                <Text style={styles.rating}>{bikemechanic.rating}</Text>
-                                            </TouchableOpacity >
-                                        </Card>
+                                        </ImageBackground>
                                     </TouchableOpacity>
                                 )
                             })
@@ -92,11 +124,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginLeft: 60,
         marginTop: 2,
-        color: 'red'
+        color: 'white',
+        fontWeight: 'bold',
     },
 
     backIcon: {
-        marginLeft: 100,
+        marginLeft: 90,
         marginTop: 7
     },
 
@@ -104,100 +137,120 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginLeft: 20,
         color: '#000000',
-        marginBottom: -7
+        marginBottom: -7,
+        fontWeight: 'bold',
     },
 
 
-    Card: {
-        height: 203,
+    CardImage: {
+        // height: 203,
         width: 350,
         borderRadius: 10,
         marginTop: 5,
         marginRight: 20,
         marginLeft: 10,
-        backgroundColor: '#16A085'
+        backgroundColor: '#7E6CCA',
+        overflow: 'hidden',
+        shadowColor: '#E41B17',
+        shadowOffset: {
+            width: 1,
+            height: 1,
+        },
+        shadowOpacity: 10,
+        shadowRadius: 10,
+        elevation: 5,
+        paddingBottom: 20
     },
 
+
+
     container: {
-        backgroundColor: "#f4df4eff",
+        // #f4df4eff
+        backgroundColor: "#E41B17",
         height: 35,
         width: 120,
         marginTop: 15,
         marginBottom: -7,
-        borderBottomRightRadius: 30,
-        borderTopRightRadius: 30
+        borderBottomRightRadius: 10,
+        borderTopRightRadius: 10
+    },
+
+    container1: {
+        // #f4df4eff
+        backgroundColor: "#E41B17",
+        height: 35,
+        width: 200,
+        marginTop: 20,
+        marginBottom: -7,
+        borderBottomRightRadius: 10,
+        borderTopRightRadius: 10,
+        justifyContent: 'center',
     },
 
     container2: {
-        backgroundColor: "#f4df4eff",
-        height: 35,
-        width: 70,
-        marginTop: 15,
+        // #f4df4eff
+        backgroundColor: "#E41B17",
+        paddingBottom: 3,
+        width: 300,
+        marginTop: 20,
         marginBottom: -7,
-        borderBottomRightRadius: 30,
-        borderTopRightRadius: 30
-    },
-
-    image: {
-        height: 100,
-        width: 100,
-        marginTop: 15,
-        marginLeft: 110,
-        borderRadius: 10
+        borderBottomRightRadius: 10,
+        borderTopRightRadius: 10,
+        justifyContent: 'center',
     },
 
     name: {
         fontSize: 20,
         marginTop: 3,
         marginLeft: 15,
-        color: '#949398ff'
+        color: 'white',
+        fontWeight: 'bold',
     },
 
     speciality: {
         fontSize: 20,
         marginTop: 3,
         marginLeft: 15,
-        color: '#949398ff'
+        color: 'white',
+        fontWeight: 'bold',
     },
 
     contactNo: {
         fontSize: 20,
-        marginTop: -10,
         marginLeft: 15,
         color: '#ffffff'
     },
 
     address: {
         fontSize: 16,
-        marginTop: 10,
         marginLeft: 15,
         marginRight: 15,
         color: '#ffffff',
-        height: 40,
 
     },
 
-    heartIcon: {
+    starIcon: {
         marginTop: 5,
         marginLeft: 10,
-        color: 'yellow'
+        color: '#E41B17'
     },
 
     rating: {
         fontSize: 16,
         marginTop: 4,
-        marginLeft: 5
+        marginLeft: 5,
+        color: 'black'
     },
 
     ratingContainer: {
-        marginLeft: 260,
-        marginTop: -15,
-        backgroundColor: '#ffff',
+        marginLeft: 10,
+        marginTop: 5,
+        backgroundColor: '#ffff00',
         height: 30,
         width: 70,
         borderRadius: 50,
         flexDirection: 'row',
-        backgroundColor: '#E74C3C'
+
     }
 })
 

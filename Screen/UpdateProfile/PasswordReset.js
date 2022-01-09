@@ -67,7 +67,7 @@ const ChangePassword = ({ navigation }) => {
 
     return (
         <SafeAreaView>
-            <View style={{ flexDirection: 'row', marginTop: 15, width: 355 }}>
+            <View style={{ flexDirection: 'row', marginTop: 15, width: 355, marginLeft: 14 }}>
                 <View style={{ width: 118.3 }}>
                     <TouchableOpacity
                         onPress={() => {
@@ -83,25 +83,13 @@ const ChangePassword = ({ navigation }) => {
                 </View>
 
                 <View
-                    style={{ alignItems: "center", width: 118.3 }}>
+                    style={{ alignItems: "center", width: 118.3, marginLeft: 6 }}>
                     <Text style={styles.profilemodalHeadingText}>
-                        Name
+                        Reset Password
                     </Text>
                 </View>
 
-                <View style={{ width: 118.3, }}>
-                    <TouchableOpacity
-                        onPress={() => {
-                            setEditNameModalVisible(!editNameModalVisible)
-                        }} style={{ width: 118.3, alignItems: 'flex-end' }}>
-                        <FontIcon
-                            style={styles.cancelIcon}
-                            name="check"
-                            size={18}
-                            color="red"
-                        />
-                    </TouchableOpacity>
-                </View>
+
             </View>
             <KeyboardAvoidingView enabled>
 
@@ -179,8 +167,8 @@ const ChangePassword = ({ navigation }) => {
 const styles = StyleSheet.create({
 
     profilemodalHeadingText: {
-        marginLeft: -20,
-        fontSize: 18,
+        marginLeft: -10,
+        fontSize: 16,
         fontWeight: 'bold',
         color: '#000000',
     },

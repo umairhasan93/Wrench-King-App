@@ -20,7 +20,7 @@ import Loader from './Components/loader';
 
 const LoginScreen = ({ navigation }) => {
     const [userName, setUserName] = useState('umairhasan93');
-    const [password, setPassword] = useState('1111');
+    const [password, setPassword] = useState('1234');
     const [loading, setLoading] = useState(false);
     const [errortext, setErrortext] = useState();
     const [userNameError, setUserNameError] = useState('');
@@ -127,14 +127,18 @@ const LoginScreen = ({ navigation }) => {
                 }}>
                 <View>
                     <KeyboardAvoidingView enabled>
-                        <View style={{ alignItems: 'center' }}>
+                        <View>
                             <Image
                                 source={require('../Image/bg.jpeg')}
                                 style={{
-                                    width: '50%',
-                                    height: 100,
-                                    resizeMode: 'contain',
-                                    margin: 30,
+                                    width: 385,
+                                    height: 250,
+                                    resizeMode: 'stretch',
+                                    marginBottom: 30,
+                                    marginTop: -50,
+                                    borderBottomLeftRadius: 10,
+                                    borderBottomRightRadius: 10,
+                                    overflow: 'hidden'
                                 }}
                             />
                         </View>
@@ -146,7 +150,7 @@ const LoginScreen = ({ navigation }) => {
                                     setUserName(UserName)
                                 }}
                                 placeholder="Username" //dummy@abc.com
-                                placeholderTextColor="#8b9cb5"
+                                placeholderTextColor="black"
                                 autoCapitalize="none"
                                 keyboardType="default"
                                 returnKeyType="next"
@@ -170,7 +174,7 @@ const LoginScreen = ({ navigation }) => {
 
                                 }}
                                 placeholder="Password" //12345
-                                placeholderTextColor="#8b9cb5"
+                                placeholderTextColor="black"
                                 keyboardType="default"
                                 ref={passwordInputRef}
                                 onSubmitEditing={Keyboard.dismiss}
@@ -222,52 +226,60 @@ const styles = StyleSheet.create({
     mainBody: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: '#000000',
+        backgroundColor: '#FFFFFF',
         alignContent: 'center',
     },
 
     SectionStyle: {
         flexDirection: 'row',
-        height: 55,
-        marginTop: 20,
+        height: 50,
+        marginBottom: 10,
         marginLeft: 35,
         marginRight: 35,
         margin: 10,
-        borderRadius: 30,
-        borderRadius: 30,
+        borderRadius: 10,
+        backgroundColor: '#E41B1730'
     },
 
     inputStyle: {
         flex: 1,
-        color: 'white',
+        color: 'black',
         paddingLeft: 30,
         paddingRight: 30,
         borderWidth: 1,
-        borderRadius: 30,
-        borderColor: '#dadae8',
+        borderRadius: 10,
+        borderColor: '#E41B17',
         fontSize: 16,
     },
 
     buttonStyle: {
-        backgroundColor: '#FEE715FF',
+        backgroundColor: '#E41B17',
         borderWidth: 0,
-        color: '#FFFFFF',
         height: 50,
         alignItems: 'center',
-        borderRadius: 30,
+        borderRadius: 10,
         marginLeft: 35,
         marginRight: 35,
         marginTop: 20,
         marginBottom: 25,
+        shadowColor: '#E41B17',
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 10,
+        shadowRadius: 10,
+        elevation: 5,
     },
     buttonTextStyle: {
-        color: '#101820FF',
+        color: 'white',
         paddingVertical: 12,
         fontSize: 20,
+        fontWeight: 'bold',
     },
 
     textStyle: {
-        color: '#FFFFFF',
+        color: '#000000',
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 14,
@@ -277,7 +289,7 @@ const styles = StyleSheet.create({
 
     forgotPasswordStyle: {
         textDecorationLine: 'underline',
-        color: '#FCF951FF',
+        color: '#E41B17',
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 14,
@@ -286,7 +298,7 @@ const styles = StyleSheet.create({
     },
     signupTextStyle: {
         textDecorationLine: 'underline',
-        color: '#FCF951FF',
+        color: '#E41B17',
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 14,
