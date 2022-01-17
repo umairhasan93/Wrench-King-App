@@ -4,10 +4,8 @@ import {
     Text,
     TouchableOpacity,
     StyleSheet,
-    Modal,
-    TextInput,
     ScrollView,
-    KeyboardAvoidingView,
+    TouchableHighlight
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontIcon from 'react-native-vector-icons/FontAwesome5'
@@ -65,12 +63,23 @@ export function DrawerContent(props) {
                 <Loader loading={loading} />
                 <View style={{ height: 458 }}>
                     <TouchableOpacity
+                        activeOpacity={0.6}
                         style={{ height: 40, justifyContent: "center", paddingLeft: 20, marginTop: 10 }}
                         onPress={() => navigation.navigate("UpdateProfileScreen")}
                     >
                         <Text>Profile</Text>
                     </TouchableOpacity>
+
+                    <TouchableOpacity
+                        activeOpacity={0.6}
+                        style={{ height: 50, justifyContent: "center", paddingLeft: 20, marginTop: 10 }}
+                        onPress={() => navigation.navigate("BookingStatus")}
+                    >
+                        <Text>Your Bookings</Text>
+                    </TouchableOpacity>
                 </View>
+
+
 
 
             </ScrollView>

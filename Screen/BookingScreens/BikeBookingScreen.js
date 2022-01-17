@@ -56,6 +56,7 @@ const BikeBookingScreen = ({ navigation, route }) => {
     const [selectedModel, setSelectedModel] = useState();
     const [date, setDate] = useState();
     const [selectedDate, setSelectedDate] = useState();
+    const [requestedDate, setRequestedDate] = useState();
 
     const onDateChange = (date) => {
         setSelectedDate(date);
@@ -66,6 +67,9 @@ const BikeBookingScreen = ({ navigation, route }) => {
 
 
     const onSubmit = () => {
+
+        setRequestedDate(moment(now).format("DD - MMM - YYYY"))
+
         if (selectedModel === undefined || selectedDate === undefined) {
             showToastWithGravity()
 

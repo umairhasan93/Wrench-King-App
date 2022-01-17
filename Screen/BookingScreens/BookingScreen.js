@@ -65,6 +65,7 @@ const BookingScreen = ({ navigation, route }) => {
     const [selectedModel, setSelectedModel] = useState();
     const [date, setDate] = useState();
     const [selectedDate, setSelectedDate] = useState();
+    const [requestedDate, setRequestedDate] = useState();
 
     const onDateChange = (date) => {
         setSelectedDate(date);
@@ -155,11 +156,16 @@ const BookingScreen = ({ navigation, route }) => {
     }
 
     const onSubmit = () => {
+
+        setRequestedDate(moment(now).format("DD - MMM - YYYY"))
+
         if (selectedCompany === undefined || selectedModel === undefined || selectedYear === undefined || selectedDate === undefined) {
             showToastWithGravity()
 
         }
         else {
+            console.log(requestedDate);
+
             navigation.navigate('BookingDetails', {
                 mechanicname: name,
                 mechanicnumber: number,
@@ -174,6 +180,43 @@ const BookingScreen = ({ navigation, route }) => {
                 bookingdate: date,
 
             })
+
+            const data = {
+                User_Name: user.name,
+                User_Number: user.contact,
+                User_Email: user.email,
+                Car_Company: selectedCompany,
+                Model: selectedModel,
+                Model_Year: selectedYear,
+                Mechanic_Name: name,
+                Mechanic_Number: number,
+                Mechanic_Address: address,
+                Mechanic_Speciality: speciality,
+                Booking_Date: date,
+                Requested_Date: requestedDate,
+            };
+
+            fetch('http://192.168.100.15:5000/api/booking/booking', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    Accept: 'application/json',
+                    //Header Defination
+                    'Content-Type':
+                        'application/json',
+                },
+            })
+                .then((response) => response.json())
+                .then((responseJson) => {
+
+                    console.log(responseJson);
+
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+
+
         }
 
     }

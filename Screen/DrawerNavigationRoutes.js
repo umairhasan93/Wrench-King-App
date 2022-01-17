@@ -15,6 +15,7 @@ import UpdateProfileScreen from "./UpdateProfile/UpdateProfile"
 import PasswordResetScreen from "./UpdateProfile/PasswordReset"
 import BookingDetails from "./BookingScreens/ConfirmedBookingDetails"
 import { DrawerContent } from './Components/DrawerContent'
+import BookingStatus from "./BookingStatus/index"
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -35,6 +36,7 @@ const DrawerNavigatorRoutes = () => {
                 <Drawer.Screen name="UpdateNameScreen" component={UpdateNameScreen} />
                 <Drawer.Screen name="PasswordResetScreen" component={PasswordResetScreen} />
                 <Drawer.Screen name="BookingDetails" component={BookingDetails} />
+                <Drawer.Screen name="BookingStatus" component={BookingStatus} />
             </Drawer.Navigator>
 
         </>
