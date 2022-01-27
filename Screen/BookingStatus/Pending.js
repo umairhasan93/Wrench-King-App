@@ -6,87 +6,114 @@ import {
     ScrollView,
     StyleSheet,
     TouchableOpacity,
+    Alert,
+    TouchableHighlight
 
 } from 'react-native';
 import { Card } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import AsyncStorage from '@react-native-community/async-storage'
+import { Badge } from 'react-native-elements';
+// import AsyncStorage from '@react-native-community/async-storage'
 
-const Pending = ({ navigation }) => {
+const Pending = (props) => {
 
-    const [localUser, setLocalUser] = useState(
-        AsyncStorage.getItem('user').then(data => {
-            if (data) {
-                setLocalUser(JSON.parse(data))
-                // console.log(localUserContact);
-
-            }
-        })
-    )
     const [bookings, setBooking] = useState([])
-    const id = localUser.contact
-    // const [showText, setShowText] = useState(true);
+    const [pending, SetPending] = useState(0)
+
+    const id = props.userid
+    console.log(id);
 
     useEffect(() => {
 
         fetch("http://192.168.100.15:5000/api/booking/" + id)
             .then(resp => resp.json())
             .then(resp => {
+
                 setBooking(resp)
-                console.log(bookings);
             })
+        console.log(bookings);
     }, [])
+
 
     const Delete = (booking) => {
         console.log(booking._id);
-
-        fetch("http://192.168.100.15:5000/api/booking/" + booking._id, {
-            method: 'DELETE',
-        })
-            .then(resp => resp.json())
-            .then(res => {
-                console.log({ res });
-                console.log(update)
-                setBooking(update)
-
-            }).catch(err => {
-                console.log({ err });
-
+        new Promise((resolve, reject) => {
+            const index = bookings.findIndex(x => x._id === booking._id);
+            const updatedData = [...bookings];
+            updatedData.splice(index, 1);
+            fetch("http://192.168.100.15:5000/api/booking/" + booking._id, {
+                method: 'DELETE',
             })
+                .then(resp => resp.json())
+                .then(res => {
+                    console.log({ res });
+                    console.log(updatedData)
+                    setBooking(updatedData)
+
+                    resolve();
+                }).catch(err => {
+                    console.log({ err });
+                    reject(err);
+                })
+        })
+        // const id = booking._id
+        // fetch("http://192.168.100.15:5000/api/booking/" + id, {
+        //     method: 'DELETE',
+        // })
+        //     .then(resp => resp.json())
+        //     .then(res => {
+        //         console.log({ res });
+
+        //         setBooking(res)
+
+        //     }).catch(err => {
+        //         console.log({ err });
+
+        //     })
     }
 
+    const [showBox, setShowBox] = useState(true);
+
+    const showConfirmDialog = (booking) => {
+        console.log('Ddialog');
+        return Alert.alert(
+            "Are your sure?",
+            "Are you sure you want to Cancel Your Booking?",
+            [
+                // The "Yes" button
+                {
+                    text: "Yes",
+                    onPress: () => {
+                        setShowBox(false);
+                        Delete(booking)
+                    },
+                },
+                // The "No" button
+                // Does nothing but dismiss the dialog when tapped
+                {
+                    text: "No",
+                },
+            ]
+        );
+    };
 
     return (
-        <View style={{ alignItems: 'center', paddingTop: 20 }}>
-
-            <Text style={styles.blink}>If You want to Cancel Booking Press X</Text>
-
-            {
-                bookings.map((booking, index) => {
-                    if (booking === null) {
-                        return (
-                            <Text>No Bookings</Text>
-                        )
-                    } else {
+        <ScrollView>
+            <View style={{ alignItems: 'center', paddingTop: 20, paddingBottom: 20 }}>
+                {
+                    bookings.map((booking, index) => {
                         return (
                             <Card key={index} style={styles.card}>
                                 <View style={{ alignItems: 'center' }}>
                                     <View style={{ flexDirection: 'row' }}>
-                                        <View style={{ width: 180, alignItems: 'flex-end' }}>
+                                        <View style={{ width: 163, alignItems: 'center' }}>
                                             <Text style={styles.nameText}>{booking.Mechanic_Name}</Text>
                                         </View>
-                                        <View style={{ width: 135 }}>
-                                            <TouchableOpacity style={{ marginLeft: 100 }} onPress={() => {
 
-                                                Delete(booking)
-                                            }}>
-                                                <Icon
-
-                                                    name="times"
-                                                    size={19}
-                                                    color="red" />
-                                            </TouchableOpacity>
+                                        <View style={{ width: 85, backgroundColor: '#F9DB24', marginRight: -100, alignItems: 'center', justifyContent: 'center', borderTopLeftRadius: 5, borderBottomLeftRadius: 5 }}>
+                                            <Text style={{ fontSize: 14, marginBottom: 2, fontWeight: 'bold', color: 'black' }}>{booking.Status}</Text>
                                         </View>
+
                                     </View>
 
                                     <View style={{ flexDirection: 'row' }}>
@@ -116,25 +143,30 @@ const Pending = ({ navigation }) => {
                                         <View style={{ marginTop: 2 }}>
                                             <Text style={{ fontSize: 14 }}>Date of Appointment</Text>
                                         </View>
+
                                     </View>
+                                </View>
+                                <View style={{ alignItems: 'center', marginTop: 20 }}>
+                                    <TouchableOpacity onPress={() =>
+
+                                        showConfirmDialog(booking)
+                                    }>
+                                        <Text style={{ fontSize: 16, color: 'red', textDecorationLine: 'underline' }}>Cancel</Text>
+                                    </TouchableOpacity>
                                 </View>
                             </Card>
                         )
-                    }
-                })
-            }
 
-        </View>
+                    })
+                }
+
+            </View >
+        </ScrollView>
     )
 
 }
 
 const styles = StyleSheet.create({
-
-    blink: {
-        marginBottom: 20,
-        color: 'red'
-    },
 
     card: {
         marginBottom: 30,
@@ -157,7 +189,8 @@ const styles = StyleSheet.create({
     nameText: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: "black"
+        color: "black",
+        marginLeft: -10,
     }
 
 })

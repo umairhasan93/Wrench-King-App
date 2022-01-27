@@ -7,12 +7,17 @@ import {
     ScrollView,
     StyleSheet,
     TouchableOpacity,
-    ImageBackground
+    ImageBackground,
+    Dimensions,
 } from 'react-native';
 import { Card } from 'react-native-paper';
 import MenuButton from '../Components/NavigationDrawerHeader'
 
+const WIDTH = Dimensions.get('window').width
+const HEIGHT = Dimensions.get('window').height
+
 const HomeScreen = ({ navigation }) => {
+
 
 
     const images = ([
@@ -35,7 +40,7 @@ const HomeScreen = ({ navigation }) => {
                 borderTopLeftRadius: 20,
                 height: 50,
                 paddingTop: 6,
-                shadowColor: '#E41B17',
+                shadowColor: '#000000',
                 shadowOffset: {
                     width: 0,
                     height: 5,
@@ -48,12 +53,13 @@ const HomeScreen = ({ navigation }) => {
                 <Text style={styles.headerText}>Wrench King</Text>
             </View>
             <Card style={{
-                height: 240,
-                width: 385,
+                height: HEIGHT / 2.57,
+                width: WIDTH,
                 borderBottomRightRadius: 30,
                 borderBottomLeftRadius: 30,
                 padding: 16,
-                shadowColor: '#E41B17',
+                paddingLeft: 17,
+                shadowColor: '#000',
                 shadowOffset: {
                     width: 0,
                     height: 5,
@@ -61,7 +67,7 @@ const HomeScreen = ({ navigation }) => {
                 shadowOpacity: 10,
                 shadowRadius: 10,
                 elevation: 10,
-                borderWidth: 1, borderColor: 'pink'
+                borderWidth: 1,
             }}>
                 <Card style={styles.ImageSliderContainer}>
                     <ScrollView pagingEnabled horizontal showsHorizontalScrollIndicator={false}>
@@ -69,71 +75,68 @@ const HomeScreen = ({ navigation }) => {
                             <Image
                                 key={index}
                                 source={{ uri: image }}
-                                style={{ height: 200, width: 350, resizeMode: 'cover', borderRadius: 10 }} />
+                                style={{ height: HEIGHT / 3, width: WIDTH - 33, resizeMode: 'cover', borderRadius: 10 }} />
                         ))
                         }
                     </ScrollView>
                 </Card>
             </Card>
-            {/* <View style={{ flex: 0.72, padding: 16 }}>
-                
+            <ScrollView>
+                <View style={{ flexDirection: 'row', marginBottom: 25, marginTop: 20 }}>
 
-            </View> */}
-
-            <View style={{ flexDirection: 'row', marginBottom: 25, marginTop: 20 }}>
-
-                <TouchableOpacity onPress={() => navigation.navigate('CarMechanicScreen')}>
-                    <ImageBackground
-                        source={car}
-                        resizeMode="stretch"
-                        style={styles.cardImage}
-                    >
-                        <Card style={styles.card}>
-                            <Text style={styles.text}>
-                                Car Mechanic
-                            </Text>
-                        </Card>
+                    <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('CarMechanicScreen')}>
+                        <ImageBackground
+                            source={car}
+                            resizeMode="cover"
+                            style={styles.cardImage}
+                        >
+                            <Card style={styles.card}>
+                                <Text style={styles.text}>
+                                    Car Mechanic
+                                </Text>
+                            </Card>
 
 
-                    </ImageBackground>
-                </TouchableOpacity>
+                        </ImageBackground>
+                    </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => navigation.navigate('BikeMechanicScreen')}>
-                    <ImageBackground
-                        source={bike}
-                        resizeMode="stretch"
-                        style={styles.cardImage}
-                    >
-                        <Card style={styles.card}>
-                            <Text style={styles.text}>
-                                Bike Mechanic
-                            </Text>
-                        </Card>
-
-
-                    </ImageBackground>
-                </TouchableOpacity>
-            </View>
-
-            <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity>
-                    <ImageBackground
-                        source={towing}
-                        resizeMode="cover"
-                        style={styles.cardImage1}
-                    >
-                        <Card style={styles.card1}>
-                            <Text style={styles.Towingtext}>
-                                Towing Van
-                            </Text>
-                        </Card>
+                    <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('BikeMechanicScreen')}>
+                        <ImageBackground
+                            source={bike}
+                            resizeMode="cover"
+                            style={styles.cardImage}
+                        >
+                            <Card style={styles.card}>
+                                <Text style={styles.text}>
+                                    Bike Mechanic
+                                </Text>
+                            </Card>
 
 
-                    </ImageBackground>
-                </TouchableOpacity>
+                        </ImageBackground>
+                    </TouchableOpacity>
+                </View>
+
+                <View style={{ flexDirection: 'row' }}>
+                    <TouchableOpacity activeOpacity={0.7}>
+                        <ImageBackground
+                            source={towing}
+                            resizeMode="cover"
+                            style={styles.cardImage1}
+                        >
+                            <Card style={styles.card1}>
+                                <Text style={styles.Towingtext}>
+                                    Towing Van
+                                </Text>
+                            </Card>
 
 
-            </View>
+                        </ImageBackground>
+                    </TouchableOpacity>
+
+
+                </View>
+            </ScrollView>
         </SafeAreaView >
     );
 };
@@ -148,8 +151,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     ImageSliderContainer: {
-        height: 200,
-        width: 350,
+        height: HEIGHT / 3,
+        width: WIDTH - 33,
         borderRadius: 10,
         shadowColor: '#E41B17',
         shadowOffset: {
@@ -162,8 +165,8 @@ const styles = StyleSheet.create({
     },
 
     cardImage: {
-        resizeMode: 'stretch',
-        height: 120,
+        resizeMode: 'cover',
+        height: HEIGHT / 5,
         width: 165,
         marginLeft: 17,
         marginRight: 2,
@@ -182,9 +185,9 @@ const styles = StyleSheet.create({
     },
 
     card: {
-        height: 35,
+        height: 38,
         width: 165,
-        marginTop: 85,
+        marginTop: HEIGHT / 6.5,
         borderRadius: 10,
         backgroundColor: '#E41B17',
         alignItems: 'center',
@@ -199,7 +202,7 @@ const styles = StyleSheet.create({
 
     cardImage1: {
 
-        height: 140,
+        height: HEIGHT / 3.8,
         width: 350,
         marginLeft: 17,
         marginRight: 2,
@@ -215,12 +218,13 @@ const styles = StyleSheet.create({
         shadowOpacity: 10,
         shadowRadius: 10,
         elevation: 10,
+        marginBottom: 20
     },
 
     card1: {
         height: 40,
         width: 350,
-        marginTop: 100,
+        marginTop: HEIGHT / 4.7,
         borderRadius: 10,
         backgroundColor: '#E41B17',
         alignItems: 'center',

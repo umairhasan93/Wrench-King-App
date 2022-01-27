@@ -10,6 +10,7 @@ import {
     TouchableOpacity,
     ScrollView,
     ToastAndroid,
+    Dimensions
 } from 'react-native';
 import LoginScreen from './LoginScreen';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -23,6 +24,9 @@ const ForgetPasswordScreen = ({ navigation }) => {
     const [errortext, setErrortext] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+
+    const WIDTH = Dimensions.get('window').width
+    const HEIGHT = Dimensions.get('window').height
 
     const showErrorToastWithGravity = () => {
         ToastAndroid.showWithGravity(
@@ -84,34 +88,25 @@ const ForgetPasswordScreen = ({ navigation }) => {
 
     return (
         <View style={styles.mainBody}>
+            <View>
+                <KeyboardAvoidingView enabled>
+                    <View style={{ alignItems: 'center' }}>
+                        <Image
+                            source={require('../Image/bg.jpeg')}
+                            style={{
+                                width: WIDTH,
+                                height: HEIGHT / 3,
+                                resizeMode: 'stretch',
+                                // marginBottom: 30,
+                                borderBottomLeftRadius: HEIGHT / 40,
+                                borderBottomRightRadius: HEIGHT / 40,
+                                overflow: 'hidden'
+                            }}
 
-            <ScrollView
-
-                keyboardShouldPersistTaps="handled"
-                contentContainerStyle={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignContent: 'center',
-
-                }}>
-                <View>
-                    <KeyboardAvoidingView enabled>
-                        <View style={{ alignItems: 'center' }}>
-                            <Image
-                                source={require('../Image/bg.jpeg')}
-                                style={{
-                                    width: 385,
-                                    height: 250,
-                                    resizeMode: 'stretch',
-                                    marginTop: -65,
-                                    borderBottomLeftRadius: 10,
-                                    borderBottomRightRadius: 10,
-                                    overflow: 'hidden'
-                                }}
-
-                            />
-                        </View>
-                        <View style={{ marginTop: 30 }}>
+                        />
+                    </View>
+                    <ScrollView enabled>
+                        <View style={{ marginTop: 30, height: HEIGHT }}>
 
                             <Text style={{ color: 'red', fontSize: 16, marginLeft: 40 }}>Email:</Text>
                             <View style={styles.SectionStyle}>
@@ -195,13 +190,14 @@ const ForgetPasswordScreen = ({ navigation }) => {
                                 activeOpacity={0.3}
                                 onPress={() => { navigation.navigate('LoginScreen') }}
                             >
-                                <Text style={{ color: 'red', textDecorationLine: 'underline' }}>Back to Login</Text>
+                                <Text style={{ color: 'red', textDecorationLine: 'underline', marginBottom: 50 }}>Back to Login</Text>
                             </TouchableOpacity>
                         </View>
+                    </ScrollView>
 
-                    </KeyboardAvoidingView>
-                </View>
-            </ScrollView >
+                </KeyboardAvoidingView>
+            </View>
+
         </View >
     );
 };

@@ -11,6 +11,7 @@ import {
     KeyboardAvoidingView,
     Alert,
     ToastAndroid,
+    Dimensions
 } from 'react-native';
 import { Card } from 'react-native-paper';
 // import Icon from 'react-native-vector-icons/FontAwesome5'
@@ -25,6 +26,9 @@ const LoginScreen = ({ navigation }) => {
     const [errortext, setErrortext] = useState();
     const [userNameError, setUserNameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+
+    const WIDTH = Dimensions.get('window').width
+    const HEIGHT = Dimensions.get('window').height
 
     const passwordInputRef = createRef();
 
@@ -94,7 +98,7 @@ const LoginScreen = ({ navigation }) => {
                     if (!(responseJson.code < 200 || responseJson.code >= 400)) {
                         loginAdmin(responseJson);
 
-                        Alert.alert("World", responseJson.name)
+                        Alert.alert("Welcomne", responseJson.name)
 
                     }
                     else {
@@ -121,7 +125,6 @@ const LoginScreen = ({ navigation }) => {
                 keyboardShouldPersistTaps="handled"
                 contentContainerStyle={{
                     flex: 1,
-                    justifyContent: 'center',
                     alignContent: 'center',
 
                 }}>
@@ -131,13 +134,12 @@ const LoginScreen = ({ navigation }) => {
                             <Image
                                 source={require('../Image/bg.jpeg')}
                                 style={{
-                                    width: 385,
-                                    height: 250,
+                                    width: WIDTH,
+                                    height: HEIGHT / 2.5,
                                     resizeMode: 'stretch',
                                     marginBottom: 30,
-                                    marginTop: -50,
-                                    borderBottomLeftRadius: 10,
-                                    borderBottomRightRadius: 10,
+                                    borderBottomLeftRadius: HEIGHT / 40,
+                                    borderBottomRightRadius: HEIGHT / 40,
                                     overflow: 'hidden'
                                 }}
                             />
@@ -262,7 +264,7 @@ const styles = StyleSheet.create({
         marginRight: 35,
         marginTop: 20,
         marginBottom: 25,
-        shadowColor: '#E41B17',
+        shadowColor: '#000',
         shadowOffset: {
             width: 0,
             height: 5,

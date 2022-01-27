@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-community/async-storage'
 
 const DrawerFooter = () => {
     const navigation = useNavigation()
+
     const handleSubmit = () => {
         AsyncStorage.removeItem('user')
         navigation.replace('Auth')
@@ -18,7 +19,7 @@ const DrawerFooter = () => {
     return (
 
         <View style={{ alignItems: 'center' }}>
-            <TouchableOpacity onPress={() => { handleSubmit() }} activeOpacity={0.3}>
+            <TouchableOpacity onPress={() => handleSubmit()} activeOpacity={0.3}>
                 <View style={styles.logoutContainer}>
                     <Icon style={styles.Logouticons} name="sign-out-alt" size={19} />
                     <Text style={styles.logoutText}> Logout </Text>
@@ -33,9 +34,9 @@ const DrawerFooter = () => {
 
 const styles = StyleSheet.create({
     logoutContainer: {
-        marginTop: 15,
+        marginTop: 10,
         marginBottom: 10,
-        marginLeft: -120,
+        marginLeft: -140,
         flexDirection: 'row',
     },
 
@@ -51,11 +52,7 @@ const styles = StyleSheet.create({
         color: 'gray',
     },
 
-    headerLogo: {
-        height: 40,
-        width: 40,
-        marginTop: 30,
-    },
+
 
     FooterText: {
         marginTop: 5,

@@ -12,6 +12,7 @@ import {
     Dimensions,
     ToastAndroid,
 } from 'react-native';
+import CheckBox from '@react-native-community/checkbox';
 import { Card } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import CalendarPicker from 'react-native-calendar-picker';
@@ -65,7 +66,10 @@ const BookingScreen = ({ navigation, route }) => {
     const [selectedModel, setSelectedModel] = useState();
     const [date, setDate] = useState();
     const [selectedDate, setSelectedDate] = useState();
-    const [requestedDate, setRequestedDate] = useState();
+    const [requestedDate, setRequestedDate] = useState(moment(now).format("DD - MMM - YYYY"));
+
+    const [dropOff, setDropOff] = useState(false)
+    const [pickUp, setPickUp] = useState(false)
 
     const onDateChange = (date) => {
         setSelectedDate(date);
@@ -157,7 +161,7 @@ const BookingScreen = ({ navigation, route }) => {
 
     const onSubmit = () => {
 
-        setRequestedDate(moment(now).format("DD - MMM - YYYY"))
+        // setRequestedDate()
 
         if (selectedCompany === undefined || selectedModel === undefined || selectedYear === undefined || selectedDate === undefined) {
             showToastWithGravity()
@@ -194,6 +198,7 @@ const BookingScreen = ({ navigation, route }) => {
                 Mechanic_Speciality: speciality,
                 Booking_Date: date,
                 Requested_Date: requestedDate,
+                Status: 'Pending'
             };
 
             fetch('http://192.168.100.15:5000/api/booking/booking', {
@@ -215,6 +220,11 @@ const BookingScreen = ({ navigation, route }) => {
                 .catch((error) => {
                     console.error(error);
                 });
+
+            setSelectedCompany("Select Company")
+            setSelectedModel('Select Model')
+            setSelectedYear('Select Year')
+            setSelectedDate('')
 
 
         }
@@ -260,7 +270,7 @@ const BookingScreen = ({ navigation, route }) => {
 
 
 
-                <View style={{ height: 470 }}>
+                <View style={{ paddingBottom: 20 }}>
 
                     <KeyboardAvoidingView enabled>
 
@@ -361,8 +371,30 @@ const BookingScreen = ({ navigation, route }) => {
                                         }}
                                     />
                                 </View>
-
                             </TouchableOpacity>
+
+                            <View style={{ flexDirection: 'row', marginTop: 20 }}>
+                                <TouchableOpacity style={{ flexDirection: 'row', width: 150 }}>
+                                    <CheckBox
+                                        value={dropOff}
+                                        onValueChange={() => {
+                                            setDropOff(!dropOff)
+                                            setPickUp(false)
+                                        }}
+                                    />
+                                    <Text style={{ marginTop: 6 }}>Drop Off</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={{ flexDirection: 'row', width: 150 }}>
+                                    <CheckBox
+                                        value={pickUp}
+                                        onValueChange={() => {
+                                            setPickUp(!pickUp)
+                                            setDropOff(false)
+                                        }}
+                                    />
+                                    <Text style={{ marginTop: 6 }}>Pick Up</Text>
+                                </TouchableOpacity>
+                            </View>
 
                         </Card>
                         <View style={styles.centeredView}>
@@ -407,20 +439,28 @@ const BookingScreen = ({ navigation, route }) => {
                                 </View>
                             </Modal>
                         </View>
-                        <View style={{ alignItems: 'center', marginTop: -20 }}>
-                            <TouchableOpacity
-                                style={styles.buttonContainer}
-                                activeOpacity={0.4}
-                                onPress={onSubmit}
 
-                            >
-                                <Text style={styles.buttonText}>Confirm</Text>
-                            </TouchableOpacity>
-                        </View>
                     </KeyboardAvoidingView>
-                </View>
 
+                </View>
+                <View style={{ alignItems: 'center', height: 140, paddingTop: 10 }}>
+                    <TouchableOpacity
+                        style={styles.buttonContainer}
+                        activeOpacity={0.4}
+                        onPress={onSubmit}
+
+                    >
+                        <Text style={styles.buttonText}>Confirm</Text>
+                    </TouchableOpacity>
+                </View>
             </ScrollView >
+
+            {/* <View style={{ marginTop: HEIGHT - 750 }}>
+                <Card style={{ alignItems: 'center', borderTopLeftRadius: 20, borderTopRightRadius: 20, height: HEIGHT / 5, width: WIDTH }}>
+                   
+                </Card>
+            </View> */}
+
         </SafeAreaView >
     )
 }
@@ -546,7 +586,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 25,
-        marginTop: 40,
+        marginTop: 10,
         shadowColor: '#000',
         shadowOffset: {
             width: 0,

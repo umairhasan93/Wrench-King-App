@@ -8,6 +8,8 @@ import {
     KeyboardAvoidingView,
     TouchableOpacity,
     ScrollView,
+    Keyboard,
+    Dimensions
 } from 'react-native';
 
 import Loader from './Components/loader';
@@ -27,6 +29,9 @@ const RegisterScreen = ({ navigation }) => {
         isRegistraionSuccess,
         setIsRegistraionSuccess
     ] = useState(false);
+
+    const WIDTH = Dimensions.get('window').width
+    const HEIGHT = Dimensions.get('window').height
 
     const lastnameInputRef = createRef();
     const emailInputRef = createRef();
@@ -149,18 +154,18 @@ const RegisterScreen = ({ navigation }) => {
             <ScrollView
                 keyboardShouldPersistTaps="handled"
                 contentContainerStyle={{
-                    justifyContent: 'center',
                     alignContent: 'center',
                 }}>
                 <View style={{ alignItems: 'center' }}>
                     <Image
                         source={require('../Image/bg.jpeg')}
                         style={{
-                            width: 385,
-                            height: 220,
+                            width: WIDTH,
+                            height: HEIGHT / 2.5,
                             resizeMode: 'stretch',
-                            borderBottomLeftRadius: 10,
-                            borderBottomRightRadius: 10,
+                            marginBottom: 30,
+                            borderBottomLeftRadius: HEIGHT / 40,
+                            borderBottomRightRadius: HEIGHT / 40,
                             overflow: 'hidden'
                         }}
                     />
@@ -323,15 +328,23 @@ const styles = StyleSheet.create({
     buttonStyle: {
         backgroundColor: '#E41B17',
         borderWidth: 0,
-
         borderColor: '#E41B17',
-        height: 45,
+        height: 50,
         alignItems: 'center',
+        justifyContent: 'center',
         borderRadius: 10,
         marginLeft: 35,
         marginRight: 35,
         marginTop: 20,
         marginBottom: 20,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 10,
+        shadowRadius: 10,
+        elevation: 5,
     },
     buttonTextStyle: {
         color: '#ffffff',
