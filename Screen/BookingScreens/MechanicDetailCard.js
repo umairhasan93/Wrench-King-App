@@ -108,7 +108,8 @@ const styles = StyleSheet.create({
         marginTop: 10,
         fontWeight: 'bold',
         fontSize: 15,
-        color: 'red'
+        color: 'red',
+        width: WIDTH / 5.5
     },
 
     name: {
@@ -139,6 +140,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 15,
         color: 'black',
+        width: WIDTH / 1.6
     },
 
 

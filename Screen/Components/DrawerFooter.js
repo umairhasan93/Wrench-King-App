@@ -4,10 +4,14 @@ import {
     Text,
     TouchableOpacity,
     StyleSheet,
+    Dimensions
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage'
+
+const WIDTH = Dimensions.get('window').width
+const HEIGHT = Dimensions.get('window').height
 
 const DrawerFooter = () => {
     const navigation = useNavigation()
@@ -18,7 +22,7 @@ const DrawerFooter = () => {
     }
     return (
 
-        <View style={{ alignItems: 'center' }}>
+        <View style={{ alignItems: 'center', marginTop: 115 }}>
             <TouchableOpacity onPress={() => handleSubmit()} activeOpacity={0.3}>
                 <View style={styles.logoutContainer}>
                     <Icon style={styles.Logouticons} name="sign-out-alt" size={19} />

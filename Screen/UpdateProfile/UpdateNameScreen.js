@@ -4,20 +4,23 @@ import {
     Text,
     TouchableOpacity,
     StyleSheet,
-    Modal,
+    Dimensions,
     TextInput,
-    ScrollView,
     KeyboardAvoidingView,
     SafeAreaView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontIcon from 'react-native-vector-icons/FontAwesome5'
 
+const WIDTH = Dimensions.get('window').width
+const HEIGHT = Dimensions.get('window').height
+
 
 import AsyncStorage from '@react-native-community/async-storage'
 import { Card } from 'react-native-paper';
 
-const UpdateName = ({ navigation }) => {
+const UpdateName = ({ navigation, route }) => {
+    const { userId, userfname, userlname } = route.params
     const [user, setUser] = useState([])
     const [localUser, setLocalUser] = useState([])
     let fname = localUser.fname
@@ -26,7 +29,6 @@ const UpdateName = ({ navigation }) => {
     const [lastname, setLastName] = useState()
     // const [updateData, setUpdateData] = useState([])
 
-    const id = localUser.id
 
     AsyncStorage.getItem('user').then(data => {
         if (data) {
@@ -36,7 +38,7 @@ const UpdateName = ({ navigation }) => {
     })
 
     useEffect(() => {
-        fetch("http://192.168.100.15:5000/api/user/" + id)
+        fetch("http://192.168.100.15:5000/api/user/" + userId)
             .then(resp => resp.json())
             .then(resp => {
                 setUser(resp)
@@ -72,7 +74,7 @@ const UpdateName = ({ navigation }) => {
         //     AsyncStorage.setItem('user', JSON.stringify(localUser))
         // }
 
-        fetch("http://192.168.100.15:5000/api/user/" + id, {
+        fetch("http://192.168.100.15:5000/api/user/" + userId, {
             method: 'PUT',
             body: JSON.stringify({
                 firstname: firstname,
@@ -130,7 +132,7 @@ const UpdateName = ({ navigation }) => {
                             onChangeText={(fname) =>
                                 setFirstName(fname)
                             }
-                            value={localUser.fname}
+                            value={userfname}
                             placeholderTextColor="black"
                         />
                     </View>
@@ -147,7 +149,7 @@ const UpdateName = ({ navigation }) => {
                             onChangeText={(lname) => {
                                 setLastName(lname)
                             }}
-                            value={localUser.lname}
+                            value={userlname}
                             placeholderTextColor="black"
                         />
                     </View>
@@ -155,19 +157,22 @@ const UpdateName = ({ navigation }) => {
                         <Text style={styles.label}>Last Name</Text>
                     </View>
                 </View>
-                <View style={{ marginTop: 375 }}>
-                    <Card style={styles.buttonCard}>
-                        <TouchableOpacity
-                            style={styles.buttonContainer}
-                            activeOpacity={0.3}
-                            onPress={() => Save()}
-                        >
-                            <Text style={styles.buttonText}>Save</Text>
-                        </TouchableOpacity>
-                    </Card>
-                </View>
+
+                {/* <Text>{HEIGHT}</Text>
+                <Text>{WIDTH}</Text> */}
 
             </KeyboardAvoidingView>
+            <View style={{ marginTop: HEIGHT - 267 }}>
+                <Card style={styles.buttonCard}>
+                    <TouchableOpacity
+                        style={styles.buttonContainer}
+                        activeOpacity={0.3}
+                        onPress={() => Save()}
+                    >
+                        <Text style={styles.buttonText}>Save</Text>
+                    </TouchableOpacity>
+                </Card>
+            </View>
         </SafeAreaView>
     )
 }
@@ -196,7 +201,7 @@ const styles = StyleSheet.create({
     SectionStyle: {
         flexDirection: 'row',
         height: 45,
-        width: 350,
+        width: WIDTH - 33,
         marginTop: 20,
         marginLeft: 35,
         marginRight: 35,
@@ -238,16 +243,28 @@ const styles = StyleSheet.create({
     },
 
     buttonContainer: {
-        backgroundColor: "#EE6087",
+        backgroundColor: "red",
         height: 55,
         width: 350,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 13,
-        borderRadius: 10
+        borderRadius: 10,
+        shadowColor: 'black',
+        shadowOffset: {
+            width: 15,
+            height: 15,
+        },
+        shadowOpacity: 20,
+        shadowRadius: 10,
+        elevation: 5,
     },
 
-    buttonText: {},
+    buttonText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: 'white'
+    },
 })
 
 export default UpdateName

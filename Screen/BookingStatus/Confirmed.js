@@ -7,13 +7,17 @@ import {
     StyleSheet,
     TouchableOpacity,
     Alert,
-    TouchableHighlight
+    Dimensions
 
 } from 'react-native';
 import { Card } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Badge } from 'react-native-elements';
 // import AsyncStorage from '@react-native-community/async-storage'
+
+const WIDTH = Dimensions.get('window').width
+const HEIGHT = Dimensions.get('window').height
+
 
 const Confirmed = (props) => {
 
@@ -90,7 +94,7 @@ const Confirmed = (props) => {
                                         <Text style={styles.nameText}>{booking.Mechanic_Name}</Text>
                                     </View>
 
-                                    <View style={{ width: 100, backgroundColor: '#98F516', marginRight: -86, alignItems: 'center', justifyContent: 'center', borderTopLeftRadius: 5, borderBottomLeftRadius: 5 }}>
+                                    <View style={{ width: WIDTH / 4.1, backgroundColor: '#98F516', marginRight: -86, alignItems: 'center', justifyContent: 'center', borderTopLeftRadius: 5, borderBottomLeftRadius: 5 }}>
                                         <Text style={{ fontSize: 14, marginBottom: 2, fontWeight: 'bold', color: 'black' }}>{booking.Status}</Text>
                                     </View>
 
@@ -150,7 +154,7 @@ const styles = StyleSheet.create({
     card: {
         marginBottom: 30,
         padding: 15,
-        width: 350,
+        width: WIDTH - 30,
         shadowColor: '#000000',
         shadowOffset: {
             width: 0,

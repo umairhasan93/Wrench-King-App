@@ -5,7 +5,8 @@ import {
     TouchableOpacity,
     StyleSheet,
     ScrollView,
-    Linking
+    Linking,
+    Dimensions
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontIcon from 'react-native-vector-icons/FontAwesome5'
@@ -14,6 +15,9 @@ import Footer from "./DrawerFooter"
 // import { DrawerContentScrollView, DrawerItems, DrawerItemList } from '@react-navigation/drawer';
 import Loader from "../Components/loader"
 import AsyncStorage from '@react-native-community/async-storage'
+
+const WIDTH = Dimensions.get('window').width
+const HEIGHT = Dimensions.get('window').height
 
 export function DrawerContent(props) {
     const [loading, setLoading] = useState(false);
@@ -44,7 +48,7 @@ export function DrawerContent(props) {
                     alignSelf: 'center'
                 }}
             />
-            <ScrollView style={{ height: 458 }}>
+            <ScrollView style={{ height: HEIGHT - 300 }}>
 
 
                 <Loader loading={loading} />

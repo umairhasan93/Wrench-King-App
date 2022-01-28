@@ -6,7 +6,7 @@ import {
     ScrollView,
     StyleSheet,
     TouchableOpacity,
-
+    Dimensions
 } from 'react-native';
 import { Card } from 'react-native-paper';
 import { Tab, TabView } from 'react-native-elements';
@@ -15,6 +15,10 @@ import Icon from 'react-native-vector-icons/FontAwesome5'
 import Pending from "./Pending"
 import Confirmed from "./Confirmed"
 import AsyncStorage from '@react-native-community/async-storage'
+
+const WIDTH = Dimensions.get('window').width
+const HEIGHT = Dimensions.get('window').height
+
 
 const BookingStatus = ({ navigation, route }) => {
 
@@ -103,8 +107,9 @@ const BookingStatus = ({ navigation, route }) => {
                 <Text style={styles.headerText}>Wrench King</Text>
             </View>
 
-            <View style={{ height: 600, backgroundColor: 'white' }}>
+            <View style={{ height: HEIGHT, backgroundColor: 'green' }}>
                 <View style={{ backgroundColor: 'red' }}>
+
                     <Tab
                         value={index}
                         onChange={(e) => setIndex(e)}
@@ -132,9 +137,9 @@ const BookingStatus = ({ navigation, route }) => {
                         />
                     </Tab>
 
-
                 </View>
                 {booking()}
+
 
                 <TabView value={index} onChange={setIndex} animationType="spring">
 
@@ -177,10 +182,9 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: 'yellow',
         alignItems: 'center',
-        alignContent: 'center',
         justifyContent: 'center',
-        marginTop: -40,
-        marginLeft: 95,
+        marginTop: -41,
+        marginLeft: WIDTH / 4,
         marginBottom: 20
     },
 
@@ -190,10 +194,9 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: 'yellow',
         alignItems: 'center',
-        alignContent: 'center',
         justifyContent: 'center',
         marginTop: -40,
-        marginLeft: 229,
+        marginLeft: WIDTH / 1.68,
         marginBottom: 20
     },
 

@@ -254,7 +254,7 @@ const BookingScreen = ({ navigation, route }) => {
                 <MenuButton onPress={() => navigation.openDrawer()} />
                 {/* <Image source= {require('')}/> */}
                 <Text style={styles.headerText}>Wrench King</Text>
-                <TouchableOpacity activeOpacity={0.3} onPress={() => navigation.navigate('CarMechanicScreen')}>
+                <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('CarMechanicScreen')}>
                     <Icon style={styles.backIcon} name="chevron-left" size={24} color="white" />
                 </TouchableOpacity>
             </View>
@@ -357,7 +357,7 @@ const BookingScreen = ({ navigation, route }) => {
 
                             </View>
 
-                            <TouchableOpacity style={styles.calenderContainer} activeOpacity={0.3} onPress={() => setCalenderModalVisible(!calenderModalVisible)}>
+                            <TouchableOpacity style={styles.calenderContainer} activeOpacity={0.7} onPress={() => setCalenderModalVisible(!calenderModalVisible)}>
                                 <View style={{ width: 250, justifyContent: 'center' }}>
                                     <Text style={styles.calenderText}>{selectedDate ? date : 'Select Date'}</Text>
                                 </View>
@@ -446,20 +446,16 @@ const BookingScreen = ({ navigation, route }) => {
                 <View style={{ alignItems: 'center', height: 140, paddingTop: 10 }}>
                     <TouchableOpacity
                         style={styles.buttonContainer}
-                        activeOpacity={0.4}
+                        activeOpacity={0.7}
                         onPress={onSubmit}
 
                     >
-                        <Text style={styles.buttonText}>Confirm</Text>
+                        <Text style={styles.buttonText}>Confirm{WIDTH}</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView >
 
-            {/* <View style={{ marginTop: HEIGHT - 750 }}>
-                <Card style={{ alignItems: 'center', borderTopLeftRadius: 20, borderTopRightRadius: 20, height: HEIGHT / 5, width: WIDTH }}>
-                   
-                </Card>
-            </View> */}
+
 
         </SafeAreaView >
     )
@@ -510,7 +506,7 @@ const styles = StyleSheet.create({
     dropdownContainer: {
         backgroundColor: '#E41B1730',
         borderRadius: 10,
-        width: 300,
+        width: WIDTH - 83,
         height: 45,
         marginTop: 20,
         justifyContent: 'center',
@@ -520,7 +516,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: '#E41B1730',
         borderRadius: 10,
-        width: 300,
+        width: WIDTH - 83,
         height: 45,
         marginTop: 20,
 

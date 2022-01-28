@@ -4,19 +4,15 @@ import {
     Text,
     TouchableOpacity,
     StyleSheet,
-    Modal,
-    TextInput,
-    ScrollView,
-    KeyboardAvoidingView,
+    Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontIcon from 'react-native-vector-icons/FontAwesome5'
-
-
-
-
 import AsyncStorage from '@react-native-community/async-storage'
 import { Card } from 'react-native-paper';
+
+const WIDTH = Dimensions.get('window').width
+const HEIGHT = Dimensions.get('window').height
 
 const UpdateProfile = ({ navigation }) => {
     const [user, setUser] = useState([])
@@ -27,118 +23,119 @@ const UpdateProfile = ({ navigation }) => {
         setUser(JSON.parse(data))
         // console.log(user);
     })
+    const id = user.id
+    const fname = user.fname
+    const lname = user.lname
+    // console.log(id);
     return (
-        <View style={styles.profilecenteredView}>
-            <View style={styles.profilemodalView}>
-                <View style={{ flexDirection: 'row', marginTop: 15, width: 355 }}>
-                    <View>
-                        <TouchableOpacity
-                            onPress={() => {
-                                navigation.navigate('HomeScreen')
-                            }}>
-                            <FontIcon
-                                style={styles.cancelIcon}
-                                name="times"
-                                size={18}
-                                color="red"
-                            />
-                        </TouchableOpacity>
-                    </View>
 
-                    <View
-                        style={{ alignItems: "center", width: 340 }}>
-                        <Text style={styles.profilemodalHeadingText}>
-                            Profile
-                        </Text>
-                    </View>
+        <View style={styles.profilemodalView}>
+            <View style={{ flexDirection: 'row', marginTop: 15, width: 355 }}>
+                <View>
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigation.navigate('HomeScreen')
+                        }}>
+                        <FontIcon
+                            style={styles.cancelIcon}
+                            name="times"
+                            size={18}
+                            color="red"
+                        />
+                    </TouchableOpacity>
                 </View>
 
-                <View style={{ alignItems: "center", marginTop: 30, backgroundColor: '#ffffff90' }}>
-                    <Card style={styles.profileCard} onPress={() => { navigation.navigate('UpdateNameScreen') }}>
-                        <View style={{ flexDirection: 'row' }}>
-
-                            <View style={styles.tagView}>
-                                <Text style={styles.cardTag}>Name</Text>
-                            </View>
-
-                            <View style={styles.penIconView}>
-                                <Icon
-                                    style={styles.penIcon}
-                                    name="pencil-outline"
-                                    size={24}
-                                    color="red" />
-                            </View>
-
-                        </View>
-                        <View style={{ height: 45, justifyContent: 'center' }}>
-                            <Text style={styles.userDetail}>{user.name}</Text>
-                        </View>
-
-                    </Card>
-
-                    <Card style={styles.profileCard} onPress={() => navigation.navigate('PasswordResetScreen')}>
-                        <View style={{ flexDirection: 'row' }}>
-
-                            <View style={styles.tagView}>
-                                <Text style={styles.cardTag}>Password</Text>
-                            </View>
-
-                            <View style={styles.penIconView}>
-                                <Icon
-                                    style={styles.penIcon}
-                                    name="pencil-outline"
-                                    size={24}
-                                    color="red" />
-                            </View>
-
-                        </View>
-                        <View style={{ height: 45, justifyContent: 'center' }}>
-                            <Text style={styles.userDetailPassword}>.......</Text>
-                        </View>
-
-                    </Card>
-
-                    <Card style={styles.profileCard}>
-                        <View style={{ flexDirection: 'row' }}>
-
-                            <View style={styles.tagView}>
-                                <Text style={styles.cardTag}>Mobile Number</Text>
-                            </View>
-
-                            <View style={styles.penIconView}>
-                                <Icon
-                                    style={styles.penIcon}
-                                    name="pencil-outline"
-                                    size={24}
-                                    color="red" />
-                            </View>
-
-                        </View>
-                        <View style={{ height: 45, justifyContent: 'center' }}>
-                            <Text style={styles.userDetail}>{user.contact}</Text>
-                        </View>
-
-                    </Card>
+                <View
+                    style={{ alignItems: "center", width: 340 }}>
+                    <Text style={styles.profilemodalHeadingText}>
+                        Profile
+                    </Text>
                 </View>
-
             </View>
+
+            <View style={{ alignItems: "center", marginTop: 30, backgroundColor: '#ffffff90' }}>
+                <Card style={styles.profileCard} onPress={() => { navigation.navigate('UpdateNameScreen', { userId: id, userfname: fname, userlname: lname }) }}>
+                    <View style={{ flexDirection: 'row' }}>
+
+                        <View style={styles.tagView}>
+                            <Text style={styles.cardTag}>Name</Text>
+                        </View>
+
+                        <View style={styles.penIconView}>
+                            <Icon
+                                style={styles.penIcon}
+                                name="pencil-outline"
+                                size={24}
+                                color="red" />
+                        </View>
+
+                    </View>
+                    <View style={{ height: 45, justifyContent: 'center' }}>
+                        <Text style={styles.userDetail}>{user.name}</Text>
+                    </View>
+
+                </Card>
+
+                <Card style={styles.profileCard} onPress={() => navigation.navigate('PasswordResetScreen')}>
+                    <View style={{ flexDirection: 'row' }}>
+
+                        <View style={styles.tagView}>
+                            <Text style={styles.cardTag}>Password</Text>
+                        </View>
+
+                        <View style={styles.penIconView}>
+                            <Icon
+                                style={styles.penIcon}
+                                name="pencil-outline"
+                                size={24}
+                                color="red" />
+                        </View>
+
+                    </View>
+                    <View style={{ height: 45, justifyContent: 'center' }}>
+                        <Text style={styles.userDetailPassword}>.......</Text>
+                    </View>
+
+                </Card>
+
+                <Card style={styles.profileCard}>
+                    <View style={{ flexDirection: 'row' }}>
+
+                        <View style={styles.tagView}>
+                            <Text style={styles.cardTag}>Mobile Number</Text>
+                        </View>
+
+                        <View style={styles.penIconView}>
+                            <Icon
+                                style={styles.penIcon}
+                                name="pencil-outline"
+                                size={24}
+                                color="red" />
+                        </View>
+
+                    </View>
+                    <View style={{ height: 45, justifyContent: 'center' }}>
+                        <Text style={styles.userDetail}>{user.contact}</Text>
+                    </View>
+
+                </Card>
+            </View>
+
+
+
         </View>
+
     )
 }
 
 const styles = StyleSheet.create({
-    profilecenteredView: {
-        backgroundColor: '#ffffff',
-        flex: 1,
-        justifyContent: 'center',
-        marginTop: 22,
-    },
+
 
     profilemodalView: {
         backgroundColor: '#ffffff',
         paddingBottom: 20,
         height: 950,
-        marginTop: 300,
+        // marginTop: 300,
         shadowOpacity: 1,
         shadowRadius: 4,
         elevation: 5,
@@ -168,7 +165,7 @@ const styles = StyleSheet.create({
 
     profileCard: {
         height: 90,
-        width: 350,
+        width: WIDTH - 40,
         borderRadius: 10,
         shadowColor: 'black',
         shadowOffset: {
@@ -185,6 +182,7 @@ const styles = StyleSheet.create({
         width: 175,
         height: 45,
         justifyContent: 'center',
+
     },
 
     cardTag: {
@@ -194,7 +192,7 @@ const styles = StyleSheet.create({
     },
 
     penIconView: {
-        width: 175,
+        width: WIDTH - 215,
         height: 45,
         justifyContent: 'center',
         alignItems: 'flex-end',

@@ -4,7 +4,7 @@ import {
     Text,
     TouchableOpacity,
     StyleSheet,
-    Modal,
+    Dimensions,
     TextInput,
     ScrollView,
     KeyboardAvoidingView,
@@ -14,10 +14,11 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontIcon from 'react-native-vector-icons/FontAwesome5'
 import { useTogglePasswordVisibility } from "./useTogglePasswordVisibility"
 import { useToggleNewPasswordVisibility } from "./NewPasswordVisiblity"
-// import { useNavigation } from '@react-navigation/native';
-
 import AsyncStorage from '@react-native-community/async-storage'
 import { Card } from 'react-native-paper';
+
+const WIDTH = Dimensions.get('window').width
+const HEIGHT = Dimensions.get('window').height
 
 const ChangePassword = ({ navigation }) => {
     const [user, setUser] = useState([])
@@ -83,7 +84,7 @@ const ChangePassword = ({ navigation }) => {
                 </View>
 
                 <View
-                    style={{ alignItems: "center", width: 118.3, marginLeft: 6 }}>
+                    style={{ alignItems: "center", width: WIDTH / 3 }}>
                     <Text style={styles.profilemodalHeadingText}>
                         Reset Password
                     </Text>
@@ -106,7 +107,7 @@ const ChangePassword = ({ navigation }) => {
                             secureTextEntry={passwordVisibility}
                         />
                         <TouchableOpacity
-                            style={{ justifyContent: 'center' }}
+                            style={{ justifyContent: 'center', marginLeft: WIDTH / 30 }}
                             activeOpacity={0.3}
                             onPress={handlePasswordVisibility}
                         >
@@ -134,7 +135,7 @@ const ChangePassword = ({ navigation }) => {
                         />
 
                         <TouchableOpacity
-                            style={{ justifyContent: 'center' }}
+                            style={{ justifyContent: 'center', marginLeft: WIDTH / 30 }}
                             activeOpacity={0.3}
                             onPress={handleNewPasswordVisibility}
                         >
@@ -147,7 +148,7 @@ const ChangePassword = ({ navigation }) => {
                     </View>
 
                 </View>
-                <View style={{ marginTop: 327 }}>
+                <View style={{ marginTop: HEIGHT - 310 }}>
                     <Card style={styles.buttonCard}>
                         <TouchableOpacity
                             style={styles.buttonContainer}
@@ -195,7 +196,7 @@ const styles = StyleSheet.create({
     SectionStyle: {
         flexDirection: 'row',
         height: 45,
-        width: 350,
+        width: WIDTH - 35,
         marginTop: 20,
         marginLeft: 35,
         marginRight: 35,
@@ -206,22 +207,23 @@ const styles = StyleSheet.create({
     },
 
     inputStyle: {
-
         color: 'black',
-        paddingLeft: 15,
-        paddingRight: 15,
+        paddingLeft: WIDTH / 25,
+        paddingRight: WIDTH / 25,
         fontSize: 14,
         fontWeight: 'bold',
-        width: 300
+        width: WIDTH - 90,
+
     },
 
     eyeIcon: {
         alignSelf: 'center',
-        marginLeft: 12
+        // marginLeft: 12
     },
 
     cancelIcon: {
         marginTop: 5,
+        marginLeft: WIDTH / 55
     },
 
     buttonCard: {
@@ -241,16 +243,28 @@ const styles = StyleSheet.create({
     },
 
     buttonContainer: {
-        backgroundColor: "#EE6087",
+        backgroundColor: "red",
         height: 55,
         width: 350,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 13,
-        borderRadius: 10
+        borderRadius: 10,
+        shadowColor: 'black',
+        shadowOffset: {
+            width: 15,
+            height: 15,
+        },
+        shadowOpacity: 20,
+        shadowRadius: 10,
+        elevation: 5,
     },
 
-    buttonText: {},
+    buttonText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: 'white'
+    },
 })
 
 export default ChangePassword

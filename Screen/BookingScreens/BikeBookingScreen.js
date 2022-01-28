@@ -117,7 +117,7 @@ const BikeBookingScreen = ({ navigation, route }) => {
                 <MenuButton onPress={() => navigation.openDrawer()} />
                 {/* <Image source= {require('')}/> */}
                 <Text style={styles.headerText}>Wrench King</Text>
-                <TouchableOpacity activeOpacity={0.3} onPress={() => {
+                <TouchableOpacity activeOpacity={0.7} onPress={() => {
                     navigation.navigate('BikeMechanicScreen')
                     setSelectedModel('Select Model')
                     setSelectedDate('')
@@ -126,130 +126,135 @@ const BikeBookingScreen = ({ navigation, route }) => {
                 </TouchableOpacity>
             </View>
 
-            <ScrollView>
-                <MechanicDeatils
-                    mechanicName={name}
-                    mechanicNumber={number}
-                    mechanicAddress={address}
-                    mechanicRating={rating}
-                    mechanicSpeciality={speciality}
-                />
+            <ScrollView >
+                <View style={{ height: HEIGHT }}>
+                    <MechanicDeatils
+                        mechanicName={name}
+                        mechanicNumber={number}
+                        mechanicAddress={address}
+                        mechanicRating={rating}
+                        mechanicSpeciality={speciality}
+                    />
 
 
 
-                <View style={{ height: 340 }}>
+                    <View style={{ paddingBottom: 20 }}>
 
-                    <KeyboardAvoidingView enabled>
+                        <KeyboardAvoidingView enabled>
 
-                        <Card style={styles.userCard}>
+                            <Card style={styles.userCard}>
 
-                            <View style={{ alignItems: 'center', marginTop: 10 }}>
-                                <Text style={styles.carDetailsText}>Bike Details</Text>
+                                <View style={{ alignItems: 'center', marginTop: 10 }}>
+                                    <Text style={styles.carDetailsText}>Bike Details</Text>
 
-                            </View>
-
-
-                            <View style={styles.dropdownContainer}>
-                                <Picker
-                                    selectedValue={selectedModel}
-                                    onValueChange={(itemValue) =>
-                                        setSelectedModel(itemValue)
-                                    }
-                                    style={{
-                                        width: 290,
-                                        borderWidth: 3,
-                                        borderColor: "#666",
-                                        marginLeft: 5
-                                    }}>
-                                    <Picker.Item value={"Select Bike"} label="Select Bike" />
-                                    {
-                                        Model.map((model, index) => {
-                                            return (
-                                                <Picker.Item label={model} value={model} key={index} />
-                                            )
-
-
-                                        })
-                                    }
-                                </Picker>
-
-                            </View>
-
-
-                            <TouchableOpacity style={styles.calenderContainer} activeOpacity={0.3} onPress={() => setCalenderModalVisible(!calenderModalVisible)}>
-                                <View style={{ width: 250, justifyContent: 'center' }}>
-                                    <Text style={styles.calenderText}>{selectedDate ? date : 'Select Date'}</Text>
                                 </View>
-                                <View style={{ width: 50, justifyContent: 'center' }}>
-                                    <Icon
-                                        name="sort-down"
-                                        size={16}
+
+
+                                <View style={styles.dropdownContainer}>
+                                    <Picker
+                                        selectedValue={selectedModel}
+                                        onValueChange={(itemValue) =>
+                                            setSelectedModel(itemValue)
+                                        }
                                         style={{
-                                            marginTop: -5,
-                                            marginLeft: 16.5
-                                        }}
-                                    />
+                                            width: 290,
+                                            borderWidth: 3,
+                                            borderColor: "#666",
+                                            marginLeft: 5,
+                                        }}>
+                                        <Picker.Item value={"Select Bike"} label="Select Bike" />
+                                        {
+                                            Model.map((model, index) => {
+                                                return (
+                                                    <Picker.Item label={model} value={model} key={index} />
+                                                )
+
+
+                                            })
+                                        }
+                                    </Picker>
+
                                 </View>
 
-                            </TouchableOpacity>
 
-                        </Card>
-                        <View style={styles.centeredView}>
-                            <Modal
-                                animationType="fade"
-                                transparent={true}
-                                visible={calenderModalVisible}
-                                onRequestClose={() => {
-                                    Alert.alert('Modal has Been Closed.');
-                                    setCalenderModalVisible(!calenderModalVisible);
-                                }}>
-                                <View style={styles.centeredView}>
-                                    <View style={styles.modalView}>
-                                        <View
+                                <TouchableOpacity style={styles.calenderContainer} activeOpacity={0.7} onPress={() => setCalenderModalVisible(!calenderModalVisible)}>
+                                    <View style={{ width: 250, justifyContent: 'center' }}>
+                                        <Text style={styles.calenderText}>{selectedDate ? date : 'Select Date'}</Text>
+                                    </View>
+                                    <View style={{ justifyContent: 'center', width: 50 }}>
+                                        <Icon
+                                            name="sort-down"
+                                            size={16}
                                             style={{
-                                                marginLeft: 13,
-                                                marginTop: -50,
-                                                marginBottom: 30,
-                                                alignItems: 'center',
-                                            }}>
+                                                marginTop: -5,
+                                                marginLeft: 16.5
+                                            }}
+                                        />
+                                    </View>
 
-                                            <Text style={{ fontSize: 24, color: 'green', marginTop: 25, marginBottom: -10 }}>Calender</Text>
-                                            <Text>_________________________________________________</Text>
-                                        </View>
+                                </TouchableOpacity>
 
-                                        <View style={{ marginLeft: 20 }}>
-                                            <CalendarPicker
-                                                width={350}
-                                                startFromMonday={true}
-                                                allowRangeSelection={false}
-                                                onDateChange={onDateChange}
-                                                minDate={now}
-                                                maxDate={week}
-                                            />
-                                        </View>
-                                        <View style={{ marginBottom: -15, marginLeft: 260 }}>
-                                            <TouchableOpacity onPress={() => setCalenderModalVisible(!calenderModalVisible)}>
-                                                <Text style={{ color: '#2AB06F', fontSize: 18 }}>Cancel</Text>
-                                            </TouchableOpacity>
+                            </Card>
+                            <View style={styles.centeredView}>
+                                <Modal
+                                    animationType="fade"
+                                    transparent={true}
+                                    visible={calenderModalVisible}
+                                    onRequestClose={() => {
+                                        Alert.alert('Modal has Been Closed.');
+                                        setCalenderModalVisible(!calenderModalVisible);
+                                    }}>
+                                    <View style={styles.centeredView}>
+                                        <View style={styles.modalView}>
+                                            <View
+                                                style={{
+                                                    marginLeft: 13,
+                                                    marginTop: -50,
+                                                    marginBottom: 30,
+                                                    alignItems: 'center',
+                                                }}>
+
+                                                <Text style={{ fontSize: 24, color: 'green', marginTop: 25, marginBottom: -10 }}>Calender</Text>
+                                                <Text>_________________________________________________</Text>
+                                            </View>
+
+                                            <View style={{ marginLeft: 20 }}>
+                                                <CalendarPicker
+                                                    width={350}
+                                                    startFromMonday={true}
+                                                    allowRangeSelection={false}
+                                                    onDateChange={onDateChange}
+                                                    minDate={now}
+                                                    maxDate={week}
+                                                />
+                                            </View>
+                                            <View style={{ marginBottom: -15, marginLeft: 260 }}>
+                                                <TouchableOpacity onPress={() => setCalenderModalVisible(!calenderModalVisible)}>
+                                                    <Text style={{ color: '#2AB06F', fontSize: 18 }}>Cancel</Text>
+                                                </TouchableOpacity>
+                                            </View>
                                         </View>
                                     </View>
-                                </View>
-                            </Modal>
-                        </View>
-                        <View style={{ alignItems: 'center', marginTop: 30 }}>
-                            <TouchableOpacity
-                                style={styles.buttonContainer}
-                                activeOpacity={0.4}
-                                onPress={onSubmit}
+                                </Modal>
+                            </View>
 
-                            >
-                                <Text style={styles.buttonText}>Confirm</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </KeyboardAvoidingView>
+                        </KeyboardAvoidingView>
+
+                    </View>
+
+                    <View style={{ alignSelf: 'center', alignItems: 'center', bottom: 35, position: 'absolute' }}>
+                        <TouchableOpacity
+                            style={styles.buttonContainer}
+                            activeOpacity={0.7}
+                            onPress={onSubmit}
+
+                        >
+                            <Text style={styles.buttonText}>Confirm</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-
             </ScrollView >
+
         </SafeAreaView >
     )
 }
@@ -298,7 +303,7 @@ const styles = StyleSheet.create({
     dropdownContainer: {
         backgroundColor: '#E41B1730',
         borderRadius: 10,
-        width: 300,
+        width: WIDTH - 83,
         height: 45,
         marginTop: 20,
         justifyContent: 'center',
@@ -308,7 +313,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: '#E41B1730',
         borderRadius: 10,
-        width: 300,
+        width: WIDTH - 83,
         height: 45,
         marginTop: 20,
 
@@ -374,7 +379,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 25,
-        marginTop: 40,
+        marginTop: 10,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
     },
 
     buttonText: {

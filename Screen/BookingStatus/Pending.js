@@ -7,13 +7,17 @@ import {
     StyleSheet,
     TouchableOpacity,
     Alert,
-    TouchableHighlight
+    Dimensions
 
 } from 'react-native';
 import { Card } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Badge } from 'react-native-elements';
 // import AsyncStorage from '@react-native-community/async-storage'
+
+const WIDTH = Dimensions.get('window').width
+const HEIGHT = Dimensions.get('window').height
+
 
 const Pending = (props) => {
 
@@ -110,7 +114,7 @@ const Pending = (props) => {
                                             <Text style={styles.nameText}>{booking.Mechanic_Name}</Text>
                                         </View>
 
-                                        <View style={{ width: 85, backgroundColor: '#F9DB24', marginRight: -100, alignItems: 'center', justifyContent: 'center', borderTopLeftRadius: 5, borderBottomLeftRadius: 5 }}>
+                                        <View style={{ width: WIDTH / 4.5, backgroundColor: '#F9DB24', marginRight: -(WIDTH / 3.6), alignItems: 'center', justifyContent: 'center', borderTopLeftRadius: 5, borderBottomLeftRadius: 5 }}>
                                             <Text style={{ fontSize: 14, marginBottom: 2, fontWeight: 'bold', color: 'black' }}>{booking.Status}</Text>
                                         </View>
 
@@ -171,7 +175,7 @@ const styles = StyleSheet.create({
     card: {
         marginBottom: 30,
         padding: 15,
-        width: 350,
+        width: WIDTH - 30,
         shadowColor: '#000000',
         shadowOffset: {
             width: 0,

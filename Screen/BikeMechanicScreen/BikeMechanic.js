@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
-    Image,
+    Dimensions,
     SafeAreaView,
     ScrollView,
     StyleSheet,
@@ -12,6 +12,9 @@ import {
 import { Card } from 'react-native-paper';
 import MenuButton from '../Components/NavigationDrawerHeader'
 import Icon from 'react-native-vector-icons/FontAwesome5';
+
+const WIDTH = Dimensions.get('window').width
+const HEIGHT = Dimensions.get('window').height
 
 const BikeMechanic = ({ navigation }) => {
     const [mechanic, setMechanic] = useState([])
@@ -66,7 +69,7 @@ const BikeMechanic = ({ navigation }) => {
 
                             mechanic.map((bikemechanic, index) => {
                                 return (
-                                    <TouchableOpacity onPress={() => navigation.navigate('BikeBookingScreen', {
+                                    <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('BikeBookingScreen', {
                                         name: bikemechanic.name,
                                         number: bikemechanic.contactNo,
                                         address: bikemechanic.address,
@@ -74,7 +77,7 @@ const BikeMechanic = ({ navigation }) => {
                                         speciality: bikemechanic.speciality,
                                         type: bikemechanic.mechanicType,
                                     })}
-                                        key={index} style={{ marginLeft: 5, marginTop: 12 }}>
+                                        key={index} style={{ marginLeft: 3, marginTop: 12 }}>
                                         <ImageBackground source={image} key={index} style={styles.CardImage}>
                                             <View style={{ flexDirection: 'row' }}>
                                                 <View>
@@ -89,7 +92,7 @@ const BikeMechanic = ({ navigation }) => {
                                                     marginLeft: 135,
                                                     marginTop: 5
                                                 }}>
-                                                    <TouchableOpacity activeOpacity={0.3} style={styles.ratingContainer}>
+                                                    <TouchableOpacity activeOpacity={0.7} style={styles.ratingContainer}>
                                                         <Icon style={styles.starIcon} name="star" size={18} />
                                                         <Text style={styles.rating}>{bikemechanic.rating}</Text>
                                                     </TouchableOpacity >
@@ -129,7 +132,7 @@ const styles = StyleSheet.create({
     },
 
     backIcon: {
-        marginLeft: 90,
+        marginLeft: WIDTH / 4.2,
         marginTop: 7
     },
 
@@ -144,10 +147,10 @@ const styles = StyleSheet.create({
 
     CardImage: {
         // height: 203,
-        width: 350,
+        width: WIDTH - 25,
         borderRadius: 10,
         marginTop: 5,
-        marginRight: 20,
+        marginRight: WIDTH / 32.3,
         marginLeft: 10,
         backgroundColor: '#7E6CCA',
         overflow: 'hidden',
@@ -243,7 +246,7 @@ const styles = StyleSheet.create({
     },
 
     ratingContainer: {
-        marginLeft: 10,
+        marginLeft: WIDTH - 365,
         marginTop: 5,
         backgroundColor: '#ffff00',
         height: 30,

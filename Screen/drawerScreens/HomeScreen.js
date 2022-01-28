@@ -167,14 +167,14 @@ const styles = StyleSheet.create({
     cardImage: {
         resizeMode: 'cover',
         height: HEIGHT / 5,
-        width: 165,
+        width: WIDTH / 2.3,
         marginLeft: 17,
         marginRight: 2,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
         overflow: 'hidden',
-        shadowColor: '#E41B17',
+        shadowColor: '#000',
         shadowOffset: {
             width: 0,
             height: 5,
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
 
     card: {
         height: 38,
-        width: 165,
+        width: WIDTH / 2.3,
         marginTop: HEIGHT / 6.5,
         borderRadius: 10,
         backgroundColor: '#E41B17',
@@ -203,14 +203,14 @@ const styles = StyleSheet.create({
     cardImage1: {
 
         height: HEIGHT / 3.8,
-        width: 350,
+        width: WIDTH / 1.09,
         marginLeft: 17,
         marginRight: 2,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
         overflow: 'hidden',
-        shadowColor: '#E41B17',
+        shadowColor: '#000',
         shadowOffset: {
             width: 0,
             height: 5,
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
 
     card1: {
         height: 40,
-        width: 350,
+        width: WIDTH / 1.09,
         marginTop: HEIGHT / 4.7,
         borderRadius: 10,
         backgroundColor: '#E41B17',

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
-    Image,
+    Dimensions,
     SafeAreaView,
     ScrollView,
     StyleSheet,
@@ -12,6 +12,9 @@ import {
 import { Card } from 'react-native-paper';
 import MenuButton from '../Components/NavigationDrawerHeader'
 import Icon from 'react-native-vector-icons/FontAwesome5';
+
+const WIDTH = Dimensions.get('window').width
+const HEIGHT = Dimensions.get('window').height
 
 const CarMechanic = ({ navigation }) => {
     const [tuningMechanic, setTuningMechanic] = useState([])
@@ -79,7 +82,7 @@ const CarMechanic = ({ navigation }) => {
                 <MenuButton onPress={() => navigation.openDrawer()} />
                 {/* <Image source= {require('')}/> */}
                 <Text style={styles.headerText}>Wrench King</Text>
-                <TouchableOpacity activeOpacity={0.3} onPress={() => navigation.navigate('HomeScreen')}>
+                <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('HomeScreen')}>
                     <Icon style={styles.backIcon} name="chevron-left" size={24} color="white" />
                 </TouchableOpacity>
             </View>
@@ -93,14 +96,14 @@ const CarMechanic = ({ navigation }) => {
 
                             tuningMechanic.map((mechanic, index) => {
                                 return (
-                                    <TouchableOpacity activeOpacity={0.3} onPress={() => navigation.navigate('BookingScreen', {
+                                    <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('BookingScreen', {
                                         name: mechanic.name,
                                         number: mechanic.contactNo,
                                         address: mechanic.address,
                                         rating: mechanic.rating,
                                         speciality: mechanic.speciality
                                     })}
-                                        key={index} style={{ marginLeft: 4, marginTop: 12 }}>
+                                        key={index} style={{ marginLeft: 3, marginTop: 12 }}>
                                         <ImageBackground source={image} key={index} style={styles.CardImage}>
                                             <View style={{ flexDirection: 'row' }}>
                                                 <View>
@@ -115,7 +118,7 @@ const CarMechanic = ({ navigation }) => {
                                                     marginLeft: 135,
                                                     marginTop: 5
                                                 }}>
-                                                    <TouchableOpacity activeOpacity={0.3} style={styles.ratingContainer}>
+                                                    <TouchableOpacity activeOpacity={0.7} style={styles.ratingContainer}>
                                                         <Icon style={styles.starIcon} name="star" size={18} />
                                                         <Text style={styles.rating}>{mechanic.rating}</Text>
                                                     </TouchableOpacity >
@@ -145,14 +148,14 @@ const CarMechanic = ({ navigation }) => {
                         {
                             axleMechanic.map((mechanic, index) => {
                                 return (
-                                    <TouchableOpacity activeOpacity={0.3} onPress={() => navigation.navigate('BookingScreen', {
+                                    <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('BookingScreen', {
                                         name: mechanic.name,
                                         number: mechanic.contactNo,
                                         address: mechanic.address,
                                         rating: mechanic.rating,
                                         speciality: mechanic.speciality
                                     })}
-                                        key={index} style={{ marginLeft: 5, marginTop: 12 }}>
+                                        key={index} style={{ marginLeft: 3, marginTop: 12 }}>
                                         <ImageBackground source={image1} key={index} style={styles.CardImage}>
 
                                             <View style={{ flexDirection: 'row' }}>
@@ -168,7 +171,7 @@ const CarMechanic = ({ navigation }) => {
                                                     marginLeft: 135,
                                                     marginTop: 5
                                                 }}>
-                                                    <TouchableOpacity activeOpacity={0.3} style={styles.ratingContainer}>
+                                                    <TouchableOpacity activeOpacity={0.7} style={styles.ratingContainer}>
                                                         <Icon style={styles.starIcon} name="star" size={18} />
                                                         <Text style={styles.rating}>{mechanic.rating}</Text>
                                                     </TouchableOpacity >
@@ -197,14 +200,14 @@ const CarMechanic = ({ navigation }) => {
                         {
                             acMechanic.map((mechanic, index) => {
                                 return (
-                                    <TouchableOpacity activeOpacity={0.3} onPress={() => navigation.navigate('BookingScreen', {
+                                    <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('BookingScreen', {
                                         name: mechanic.name,
                                         number: mechanic.contactNo,
                                         address: mechanic.address,
                                         rating: mechanic.rating,
                                         speciality: mechanic.speciality
                                     })}
-                                        key={index} style={{ marginLeft: 5, marginTop: 12 }} >
+                                        key={index} style={{ margin: 3, marginTop: 12 }} >
                                         <ImageBackground key={index} source={image2} style={styles.CardImage}>
                                             <View style={{ flexDirection: 'row' }}>
                                                 <View>
@@ -219,7 +222,7 @@ const CarMechanic = ({ navigation }) => {
                                                     marginLeft: 135,
                                                     marginTop: 5
                                                 }}>
-                                                    <TouchableOpacity activeOpacity={0.3} style={styles.ratingContainer}>
+                                                    <TouchableOpacity activeOpacity={0.7} style={styles.ratingContainer}>
                                                         <Icon style={styles.starIcon} name="star" size={18} />
                                                         <Text style={styles.rating}>{mechanic.rating}</Text>
                                                     </TouchableOpacity >
@@ -241,7 +244,7 @@ const CarMechanic = ({ navigation }) => {
 
                     </ScrollView>
                 </View>
-            </ScrollView>
+            </ScrollView >
         </SafeAreaView >
     )
 }
@@ -257,7 +260,7 @@ const styles = StyleSheet.create({
     },
 
     backIcon: {
-        marginLeft: 90,
+        marginLeft: WIDTH / 4.2,
         marginTop: 7
     },
 
@@ -272,10 +275,10 @@ const styles = StyleSheet.create({
 
     CardImage: {
         // height: 203,
-        width: 350,
+        width: WIDTH - 25,
         borderRadius: 10,
         marginTop: 5,
-        marginRight: 20,
+        marginRight: WIDTH / 32.3,
         marginLeft: 10,
         backgroundColor: '#7E6CCA',
         overflow: 'hidden',
@@ -371,7 +374,7 @@ const styles = StyleSheet.create({
     },
 
     ratingContainer: {
-        marginLeft: 10,
+        marginLeft: WIDTH - 365,
         marginTop: 5,
         backgroundColor: '#ffff00',
         height: 30,
