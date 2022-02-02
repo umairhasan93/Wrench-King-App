@@ -16,6 +16,9 @@ import { useTogglePasswordVisibility } from "./useTogglePasswordVisibility"
 import { useToggleNewPasswordVisibility } from "./NewPasswordVisiblity"
 import AsyncStorage from '@react-native-community/async-storage'
 import { Card } from 'react-native-paper';
+import { REACT_NATIVE_APP_API_KEY } from '@env'
+
+const API = REACT_NATIVE_APP_API_KEY
 
 const WIDTH = Dimensions.get('window').width
 const HEIGHT = Dimensions.get('window').height
@@ -44,7 +47,8 @@ const ChangePassword = ({ navigation }) => {
 
 
     const ChangePassword = () => {
-        fetch("http://192.168.100.15:5000/api/user/changepassword/" + id, {
+        let url = `${API}user/changepassword/`
+        fetch(url + id, {
             method: 'PUT',
             body: JSON.stringify({
                 currentPassword: currentPassword,

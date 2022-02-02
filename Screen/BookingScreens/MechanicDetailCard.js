@@ -33,11 +33,11 @@ const MechanicDetailCard = (props) => {
 
                     <View style={{ flexDirection: 'row' }}>
                         <View style={{ marginLeft: 30, width: 60 }}>
-                            <Text style={styles.nameHeading}>Contact: </Text>
+                            <Text style={styles.nameHeading}>Type: </Text>
                         </View>
 
                         <View>
-                            <Text style={styles.number}>{JSON.stringify(props.mechanicNumber)}</Text>
+                            <Text style={styles.number}>{(props.mechanicType) ? (props.mechanicType) : (props.mechanicSpeciality)}</Text>
                         </View>
                     </View>
 
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         marginTop: -4,
         marginLeft: WIDTH / 25,
         backgroundColor: 'white',
-        shadowColor: '#E41B17',
+        shadowColor: '#000',
         shadowOffset: {
             width: 0,
             height: 10,

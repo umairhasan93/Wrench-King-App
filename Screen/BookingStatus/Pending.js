@@ -14,6 +14,9 @@ import { Card } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Badge } from 'react-native-elements';
 // import AsyncStorage from '@react-native-community/async-storage'
+import { REACT_NATIVE_APP_API_KEY } from '@env'
+
+const API = REACT_NATIVE_APP_API_KEY
 
 const WIDTH = Dimensions.get('window').width
 const HEIGHT = Dimensions.get('window').height
@@ -25,17 +28,17 @@ const Pending = (props) => {
     const [pending, SetPending] = useState(0)
 
     const id = props.userid
-    console.log(id);
+    // console.log(id);
 
     useEffect(() => {
-
-        fetch("http://192.168.100.15:5000/api/booking/" + id)
+        let url = `${API}booking/`
+        fetch(url + id)
             .then(resp => resp.json())
             .then(resp => {
 
                 setBooking(resp)
             })
-        console.log(bookings);
+        // console.log(bookings);
     }, [])
 
 
@@ -45,7 +48,10 @@ const Pending = (props) => {
             const index = bookings.findIndex(x => x._id === booking._id);
             const updatedData = [...bookings];
             updatedData.splice(index, 1);
-            fetch("http://192.168.100.15:5000/api/booking/" + booking._id, {
+
+            let url = `${API}booking/`
+
+            fetch(url + booking._id, {
                 method: 'DELETE',
             })
                 .then(resp => resp.json())
@@ -154,8 +160,17 @@ const Pending = (props) => {
                                     <TouchableOpacity onPress={() =>
 
                                         showConfirmDialog(booking)
-                                    }>
-                                        <Text style={{ fontSize: 16, color: 'red', textDecorationLine: 'underline' }}>Cancel</Text>
+                                    }
+                                        style={{
+                                            backgroundColor: '#ff000095',
+                                            height: HEIGHT / 25,
+                                            width: WIDTH / 5,
+                                            borderRadius: 30,
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
+                                        }}
+                                    >
+                                        <Text style={{ fontSize: 15, color: 'black' }}>Cancel</Text>
                                     </TouchableOpacity>
                                 </View>
                             </Card>

@@ -21,7 +21,9 @@ import MenuButton from '../Components/NavigationDrawerHeader'
 // import Header from './Header'
 import MechanicDeatils from "./MechanicDetailCard"
 import AsyncStorage from '@react-native-community/async-storage'
+import { REACT_NATIVE_APP_API_KEY } from '@env'
 
+const API = REACT_NATIVE_APP_API_KEY
 
 const WIDTH = Dimensions.get('window').width
 const HEIGHT = Dimensions.get('window').height
@@ -87,6 +89,45 @@ const BikeBookingScreen = ({ navigation, route }) => {
                 bookingdate: date,
 
             })
+
+            const data = {
+                User_Name: user.name,
+                User_Number: user.contact,
+                User_Email: user.email,
+                Car_Company: 'none',
+                Model: selectedModel,
+                Model_Year: 'none',
+                Mechanic_Name: name,
+                Mechanic_Number: number,
+                Mechanic_Address: address,
+                Mechanic_Speciality: speciality,
+                Booking_Date: date,
+                Requested_Date: requestedDate,
+                Type: 'none',
+                Status: 'Pending'
+            };
+
+            let url = `${API}booking/booking`
+            console.log(url)
+            fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    Accept: 'application/json',
+                    //Header Defination
+                    'Content-Type':
+                        'application/json',
+                },
+            })
+                .then((response) => response.json())
+                .then((responseJson) => {
+
+                    console.log(responseJson);
+
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
             setSelectedModel('Select Model')
             setSelectedDate('')
 
@@ -105,7 +146,7 @@ const BikeBookingScreen = ({ navigation, route }) => {
                 borderTopLeftRadius: 20,
                 height: 50,
                 paddingTop: 6,
-                shadowColor: '#E41B17',
+                shadowColor: '#000',
                 shadowOffset: {
                     width: 0,
                     height: 5,
@@ -133,7 +174,7 @@ const BikeBookingScreen = ({ navigation, route }) => {
                         mechanicNumber={number}
                         mechanicAddress={address}
                         mechanicRating={rating}
-                        mechanicSpeciality={speciality}
+                        mechanicType={type}
                     />
 
 
@@ -282,7 +323,7 @@ const styles = StyleSheet.create({
         paddingBottom: 25,
         alignItems: 'center',
         backgroundColor: '#ffffff',
-        shadowColor: '#E41B17',
+        shadowColor: '#000',
         shadowOffset: {
             width: 0,
             height: 5,

@@ -9,12 +9,28 @@ import {
     TouchableOpacity,
     ScrollView,
     Keyboard,
-    Dimensions
+    Dimensions,
+    ToastAndroid
 } from 'react-native';
-
+import { validateEmail, validateContactNo } from './shared/utils'
 import Loader from './Components/loader';
+import { REACT_NATIVE_APP_API_KEY } from '@env'
+
+const API = REACT_NATIVE_APP_API_KEY
+
+const WIDTH = Dimensions.get('window').width
+const HEIGHT = Dimensions.get('window').height
 
 const RegisterScreen = ({ navigation }) => {
+
+    const showToastWithGravity = () => {
+        ToastAndroid.showWithGravity(
+            "Succesfully Registered!",
+            ToastAndroid.LONG,
+            ToastAndroid.CENTER
+        );
+    };
+
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -22,16 +38,49 @@ const RegisterScreen = ({ navigation }) => {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [requestedID, setRequestedID] = useState('');
     const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
     const [errortext, setErrortext] = useState('');
+    const [emailError, setEmailError] = useState('')
+    const [contactError, setContactError] = useState('')
     const [
         isRegistraionSuccess,
         setIsRegistraionSuccess
     ] = useState(false);
 
-    const WIDTH = Dimensions.get('window').width
-    const HEIGHT = Dimensions.get('window').height
+
+
+    const handleChangeEmail = (e) => {
+        setEmail(e)
+
+    }
+
+    const handleChangeContact = (e) => {
+        setContactNo(e)
+
+    }
+
+    const onBlurEmail = () => {
+        // console.log(email)
+        if (!validateEmail(email)) {
+            setEmailError("Email is not valid");
+            setEmail('')
+        }
+        else {
+            setEmailError("")
+        }
+    }
+
+    const onBlurContact = () => {
+        if (!validateContactNo(contactNo)) {
+            setContactError("Contact Number is not valid");
+            setContactNo('')
+        }
+        else {
+            setContactError("")
+        }
+    }
+
 
     const lastnameInputRef = createRef();
     const emailInputRef = createRef();
@@ -88,7 +137,8 @@ const RegisterScreen = ({ navigation }) => {
             confirmpassword: confirmPassword,
         };
 
-        fetch('http://localhost:5000/api/user/register', {
+        let url = `${API}user/register`
+        fetch(url, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -102,14 +152,20 @@ const RegisterScreen = ({ navigation }) => {
             .then((responseJson) => {
                 //Hide Loader
                 setLoading(false);
-                setSuccess(true)
                 console.log(responseJson);
                 // If server response message same as Data Matched
-                if (responseJson.status === 'success') {
-                    setIsRegistraionSuccess(true);
-                    alert(
-                        'Registration Successful. Please Login to proceed'
-                    );
+                if (!(responseJson.code < 200 || responseJson.code >= 400)) {
+                    navigation.navigate('LoginScreen')
+                    showToastWithGravity()
+                    setFirstName('')
+                    setLastName('')
+                    setEmail('')
+                    setContactNo('')
+                    setUserName('')
+                    setPassword('')
+                    setConfirmPassword('')
+
+
                 } else {
                     setErrortext(responseJson.msg);
                 }
@@ -120,34 +176,7 @@ const RegisterScreen = ({ navigation }) => {
                 console.error(error);
             });
     };
-    if (isRegistraionSuccess) {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    backgroundColor: '#307ecc',
-                    justifyContent: 'center',
-                }}>
-                <Image
-                    source={require('../Image/success.png')}
-                    style={{
-                        height: 150,
-                        resizeMode: 'contain',
-                        alignSelf: 'center'
-                    }}
-                />
-                <Text style={styles.successTextStyle}>
-                    Registration Successful
-                </Text>
-                <TouchableOpacity
-                    style={styles.buttonStyle}
-                    activeOpacity={0.5}
-                    onPress={() => props.navigation.navigate('LoginScreen')}>
-                    <Text style={styles.buttonTextStyle}>Login Now</Text>
-                </TouchableOpacity>
-            </View>
-        );
-    }
+
     return (
         <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
             <Loader loading={loading} />
@@ -171,14 +200,16 @@ const RegisterScreen = ({ navigation }) => {
                     />
                 </View>
                 <KeyboardAvoidingView enabled>
+                    <Text style={{ color: 'red', fontSize: 16, marginLeft: 40 }}>First Name:</Text>
                     <View style={styles.SectionStyle}>
                         <TextInput
+                            value={firstName}
                             style={styles.inputStyle}
                             onChangeText={(FirstName) => setFirstName(FirstName)}
                             underlineColorAndroid="#f000"
-                            placeholder="First Name"
                             placeholderTextColor="black"
                             autoCapitalize="sentences"
+                            keyboardType="default"
                             returnKeyType="next"
                             onSubmitEditing={() =>
                                 lastnameInputRef.current && lastnameInputRef.current.focus()
@@ -186,12 +217,13 @@ const RegisterScreen = ({ navigation }) => {
                             blurOnSubmit={false}
                         />
                     </View>
+                    <Text style={{ color: 'red', fontSize: 16, marginLeft: 40 }}>Last Name:</Text>
                     <View style={styles.SectionStyle}>
                         <TextInput
+                            value={lastName}
                             style={styles.inputStyle}
                             onChangeText={(LastName) => setLastName(LastName)}
                             underlineColorAndroid="#f000"
-                            placeholder="Last Name"
                             placeholderTextColor="black"
                             autoCapitalize="sentences"
                             ref={lastnameInputRef}
@@ -202,16 +234,19 @@ const RegisterScreen = ({ navigation }) => {
                             blurOnSubmit={false}
                         />
                     </View>
+
+                    <Text style={{ color: 'red', fontSize: 16, marginLeft: 40 }}>Email:</Text>
                     <View style={styles.SectionStyle}>
                         <TextInput
+                            value={email}
                             style={styles.inputStyle}
-                            onChangeText={(Email) => setEmail(Email)}
+                            onChangeText={handleChangeEmail}
                             underlineColorAndroid="#f000"
-                            placeholder="Email"
                             placeholderTextColor="black"
                             keyboardType="email-address"
                             ref={emailInputRef}
                             returnKeyType="next"
+                            onBlur={onBlurEmail}
                             onSubmitEditing={() =>
                                 contactInputRef.current &&
                                 contactInputRef.current.focus()
@@ -219,15 +254,21 @@ const RegisterScreen = ({ navigation }) => {
                             blurOnSubmit={false}
                         />
                     </View>
+                    {
+                        emailError ? <Text style={{ color: 'blue', marginTop: -(HEIGHT / 50), marginLeft: WIDTH / 9, marginBottom: HEIGHT / 50 }}>{emailError}</Text> : null
+                    }
+
+                    <Text style={{ color: 'red', fontSize: 16, marginLeft: 40 }}>Contact No:</Text>
                     <View style={styles.SectionStyle}>
                         <TextInput
+                            value={contactNo}
                             style={styles.inputStyle}
-                            onChangeText={(Contact) => setContactNo(Contact)}
+                            onChangeText={handleChangeContact}
                             underlineColorAndroid="#f000"
-                            placeholder="Contact No"
                             placeholderTextColor="black"
-                            keyboardType="email-address"
+                            keyboardType="number-pad"
                             ref={contactInputRef}
+                            onBlur={onBlurContact}
                             returnKeyType="next"
                             onSubmitEditing={() =>
                                 usernameInputRef.current &&
@@ -236,12 +277,17 @@ const RegisterScreen = ({ navigation }) => {
                             blurOnSubmit={false}
                         />
                     </View>
+                    {
+                        contactError ? <Text style={{ color: 'blue', marginTop: -(HEIGHT / 50), marginLeft: WIDTH / 9, marginBottom: HEIGHT / 50 }}>{contactError}</Text> : null
+                    }
+
+                    <Text style={{ color: 'red', fontSize: 16, marginLeft: 40 }}>Username:</Text>
                     <View style={styles.SectionStyle}>
                         <TextInput
+                            value={userName}
                             style={styles.inputStyle}
                             onChangeText={(UserName) => setUserName(UserName)}
                             underlineColorAndroid="#f000"
-                            placeholder="Username"
                             placeholderTextColor="black"
                             keyboardType="text"
                             ref={usernameInputRef}
@@ -253,14 +299,16 @@ const RegisterScreen = ({ navigation }) => {
                             blurOnSubmit={false}
                         />
                     </View>
+
+                    <Text style={{ color: 'red', fontSize: 16, marginLeft: 40 }}>Password:</Text>
                     <View style={styles.SectionStyle}>
                         <TextInput
+                            value={password}
                             style={styles.inputStyle}
                             onChangeText={(Password) =>
                                 setPassword(Password)
                             }
                             underlineColorAndroid="#f000"
-                            placeholder="Password"
                             placeholderTextColor="black"
                             ref={passwordInputRef}
                             returnKeyType="next"
@@ -272,14 +320,17 @@ const RegisterScreen = ({ navigation }) => {
                             blurOnSubmit={false}
                         />
                     </View>
+
+                    <Text style={{ color: 'red', fontSize: 16, marginLeft: 40 }}>Confirm Password:</Text>
                     <View style={styles.SectionStyle}>
                         <TextInput
+                            value={confirmPassword}
                             style={styles.inputStyle}
                             onChangeText={(ConfirmPassword) => setConfirmPassword(ConfirmPassword)}
                             underlineColorAndroid="#f000"
-                            placeholder="Confirm Password"
                             placeholderTextColor="black"
                             keyboardType="text"
+                            secureTextEntry={true}
                             ref={confirmpasswordInputRef}
                             blurOnSubmit={false}
                         />
@@ -318,10 +369,9 @@ const styles = StyleSheet.create({
     SectionStyle: {
         flexDirection: 'row',
         height: 50,
-        marginTop: 20,
+        marginBottom: 15,
         marginLeft: 35,
         marginRight: 35,
-        margin: 10,
         backgroundColor: '#E41B1730',
         borderRadius: 10
     },
@@ -359,6 +409,8 @@ const styles = StyleSheet.create({
         paddingRight: 25,
         borderRadius: 10,
         borderColor: '#E41B17',
+        borderWidth: 1,
+        fontSize: 16
     },
     errorTextStyle: {
         color: 'red',

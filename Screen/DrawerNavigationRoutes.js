@@ -8,6 +8,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import HomeScreen from './drawerScreens/HomeScreen';
 import CarMechanicScreen from './CarMechanicScreens/CarMechanic'
 import BikeMechanicScreen from './BikeMechanicScreen/BikeMechanic'
+import TowingVanScreen from "./TowingVanScreen/index"
 import BookingScreen from './BookingScreens/BookingScreen'
 import BikeBookingScreen from './BookingScreens/BikeBookingScreen'
 import UpdateNameScreen from "./UpdateProfile/UpdateNameScreen"
@@ -16,6 +17,7 @@ import PasswordResetScreen from "./UpdateProfile/PasswordReset"
 import BookingDetails from "./BookingScreens/ConfirmedBookingDetails"
 import { DrawerContent } from './Components/DrawerContent'
 import BookingStatus from "./BookingStatus/index"
+import ComplainScreen from './ComplainScreen/index'
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -32,11 +34,14 @@ const DrawerNavigatorRoutes = () => {
                 <Drawer.Screen name="BikeBookingScreen" component={BikeBookingScreen} />
                 <Drawer.Screen name="CarMechanicScreen" component={CarMechanicScreen} />
                 <Drawer.Screen name="BikeMechanicScreen" component={BikeMechanicScreen} />
+                <Drawer.Screen name="TowingVanScreen" component={TowingVanScreen} />
                 <Drawer.Screen name="UpdateProfileScreen" component={UpdateProfileScreen} />
                 <Drawer.Screen name="UpdateNameScreen" component={UpdateNameScreen} />
                 <Drawer.Screen name="PasswordResetScreen" component={PasswordResetScreen} />
                 <Drawer.Screen name="BookingDetails" component={BookingDetails} />
                 <Drawer.Screen name="BookingStatus" component={BookingStatus} />
+                <Drawer.Screen name="ComplainScreen" component={ComplainScreen} />
+
             </Drawer.Navigator>
 
         </>

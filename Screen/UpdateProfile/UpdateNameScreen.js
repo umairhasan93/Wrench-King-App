@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
     View,
     Text,
@@ -7,10 +7,14 @@ import {
     Dimensions,
     TextInput,
     KeyboardAvoidingView,
-    SafeAreaView
+    SafeAreaView,
+    ToastAndroid,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontIcon from 'react-native-vector-icons/FontAwesome5'
+import { REACT_NATIVE_APP_API_KEY } from '@env'
+
+const API = REACT_NATIVE_APP_API_KEY
 
 const WIDTH = Dimensions.get('window').width
 const HEIGHT = Dimensions.get('window').height
@@ -20,61 +24,56 @@ import AsyncStorage from '@react-native-community/async-storage'
 import { Card } from 'react-native-paper';
 
 const UpdateName = ({ navigation, route }) => {
-    const { userId, userfname, userlname } = route.params
+    const { id } = route.params
+    const [error, setError] = useState('')
+
+    const showToastWithGravity = () => {
+        ToastAndroid.showWithGravity(
+            error,
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER
+        );
+    };
+
     const [user, setUser] = useState([])
+
     const [localUser, setLocalUser] = useState([])
-    let fname = localUser.fname
-    let lname = localUser.lname
-    const [firstname, setFirstName] = useState()
-    const [lastname, setLastName] = useState()
-    // const [updateData, setUpdateData] = useState([])
-
-
-    AsyncStorage.getItem('user').then(data => {
-        if (data) {
-            setLocalUser(JSON.parse(data))
-            // console.log(localUser);
-        }
-    })
 
     useEffect(() => {
-        fetch("http://192.168.100.15:5000/api/user/" + userId)
+        // const id = localUser.id
+        // AsyncStorage.getItem('user').then(data => {
+        //     setLocalUser(JSON.parse(data))
+        // })
+
+        let url = `${API}user/`
+
+        fetch(url + id)
             .then(resp => resp.json())
             .then(resp => {
                 setUser(resp)
-                // console.log(resp)
-                localUser.fname = user.firstname
-                localUser.lname = user.lastname
-                localUser.name = user.firstname + ' ' + user.lastname
-                AsyncStorage.setItem('user', JSON.stringify(localUser))
+                setFirstName(resp.firstname)
+                setLastName(resp.lastname)
+
+
             })
     }, [])
-    // console.log(id)
 
 
+
+    const [firstname, setFirstName] = useState('')
+    const [lastname, setLastName] = useState('')
+
+    const fname = user.firstname
+    const lname = user.lastname
+
+
+    const isFormValid = useMemo(() => {
+        return firstname.length > 0 && lastname.length > 0;
+    }, [firstname, lastname]);
 
     const Save = () => {
-
-        // if (firstname === null && lastname === null) {
-        //     localUser.fname = localUser.fname
-        //     localUser.lname = localUser.lname
-        //     localUser.name = localUser.fname + ' ' + localUser.lname
-        //     AsyncStorage.setItem('user', JSON.stringify(localUser));
-        //     console.log(localUser)
-        // } else if (firstname !== null && lastname === null) {
-        //     localUser.fname = firstname
-        //     localUser.lname = localUser.lname
-        //     localUser.name = firstname + ' ' + localUser.lname
-        //     AsyncStorage.setItem('user', JSON.stringify(localUser))
-
-        // } else if (firstname === null && lastname !== null) {
-        //     localUser.fname = localUser.fname
-        //     localUser.lname = lastname
-        //     localUser.name = localUser.fname + ' ' + lastname
-        //     AsyncStorage.setItem('user', JSON.stringify(localUser))
-        // }
-
-        fetch("http://192.168.100.15:5000/api/user/" + userId, {
+        let url = `${API}user/`
+        fetch(url + id, {
             method: 'PUT',
             body: JSON.stringify({
                 firstname: firstname,
@@ -87,13 +86,17 @@ const UpdateName = ({ navigation, route }) => {
 
             .then((response) => response.json())
             .then((json) => {
-                console.log(json)
-                setUser(json)
+                navigation.navigate('HomeScreen')
+                setError('Name Changed')
+                showToastWithGravity()
 
-            }).catch(err => {
+
+            })
+            .catch(err => {
                 console.log({ err });
                 reject(err);
             })
+
     }
 
     return (
@@ -102,7 +105,7 @@ const UpdateName = ({ navigation, route }) => {
                 <View style={{ width: 118.3 }}>
                     <TouchableOpacity
                         onPress={() => {
-                            navigation.navigate('UpdateProfileScreen')
+                            navigation.navigate('UpdateProfileScreen', { id: id })
                         }} style={{ width: 118.3 }}>
                         <FontIcon
                             style={styles.cancelIcon}
@@ -124,7 +127,7 @@ const UpdateName = ({ navigation, route }) => {
             </View>
             <KeyboardAvoidingView enabled>
 
-                <View style={{ alignItems: "center", marginTop: 30 }}>
+                <View style={{ alignItems: "center", marginTop: 50 }}>
 
                     <View style={styles.SectionStyle}>
                         <TextInput
@@ -132,13 +135,20 @@ const UpdateName = ({ navigation, route }) => {
                             onChangeText={(fname) =>
                                 setFirstName(fname)
                             }
-                            value={userfname}
+                            value={firstname}
                             placeholderTextColor="black"
                         />
                     </View>
                     <View style={styles.labelView} >
                         <Text style={styles.label}>First Name</Text>
                     </View>
+
+                </View>
+
+                <View style={{ marginTop: HEIGHT / 16, width: WIDTH - 33, marginLeft: WIDTH / 14 }}>
+                    {
+                        firstname.length < 1 ? <Text style={{ fontSize: 12, color: 'red' }}>Don't Forgot to fill First Name</Text> : null
+                    }
                 </View>
 
                 <View style={{ alignItems: "center", marginTop: 40 }}>
@@ -149,7 +159,7 @@ const UpdateName = ({ navigation, route }) => {
                             onChangeText={(lname) => {
                                 setLastName(lname)
                             }}
-                            value={userlname}
+                            value={lastname}
                             placeholderTextColor="black"
                         />
                     </View>
@@ -157,15 +167,41 @@ const UpdateName = ({ navigation, route }) => {
                         <Text style={styles.label}>Last Name</Text>
                     </View>
                 </View>
+                <View style={{ marginTop: HEIGHT / 16, width: WIDTH - 33, marginLeft: WIDTH / 14 }}>
+                    {
+                        lastname.length < 1 ? <Text style={{ fontSize: 12, color: 'red' }}>Don't Forgot to fill First Name</Text> : null
+                    }
+                </View>
 
                 {/* <Text>{HEIGHT}</Text>
                 <Text>{WIDTH}</Text> */}
 
             </KeyboardAvoidingView>
-            <View style={{ marginTop: HEIGHT - 267 }}>
+            <View style={{ marginTop: !isFormValid ? HEIGHT - 287 : HEIGHT - 267 }}>
                 <Card style={styles.buttonCard}>
                     <TouchableOpacity
-                        style={styles.buttonContainer}
+                        disabled={!isFormValid}
+                        style={[
+                            styles.buttonContainer,
+                            !isFormValid &&
+                            {
+                                backgroundColor: "#A52A2A",
+                                height: 55,
+                                width: 350,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                marginTop: 13,
+                                borderRadius: 10,
+                                shadowColor: 'black',
+                                shadowOffset: {
+                                    width: 15,
+                                    height: 15,
+                                },
+                                shadowOpacity: 20,
+                                shadowRadius: 10,
+                                elevation: 5,
+                            }
+                        ]}
                         activeOpacity={0.3}
                         onPress={() => Save()}
                     >
@@ -202,7 +238,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height: 45,
         width: WIDTH - 33,
-        marginTop: 20,
+        marginTop: -10,
         marginLeft: 35,
         marginRight: 35,
         margin: 10,
@@ -240,6 +276,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 20,
         shadowRadius: 10,
         elevation: 9,
+        marginTop: -(HEIGHT / 15)
     },
 
     buttonContainer: {

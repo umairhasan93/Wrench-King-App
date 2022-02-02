@@ -118,7 +118,7 @@ const HomeScreen = ({ navigation }) => {
                 </View>
 
                 <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity activeOpacity={0.7}>
+                    <TouchableOpacity activeOpacity={0.7} onPress={() => { navigation.navigate('TowingVanScreen') }}>
                         <ImageBackground
                             source={towing}
                             resizeMode="cover"

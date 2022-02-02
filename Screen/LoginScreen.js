@@ -16,12 +16,14 @@ import {
 import { Card } from 'react-native-paper';
 // import Icon from 'react-native-vector-icons/FontAwesome5'
 import AsyncStorage from '@react-native-community/async-storage';
-
 import Loader from './Components/loader';
+import { REACT_NATIVE_APP_API_KEY } from '@env'
 
+const API = REACT_NATIVE_APP_API_KEY
+// console.log(API)
 const LoginScreen = ({ navigation }) => {
-    const [userName, setUserName] = useState('umairhasan93');
-    const [password, setPassword] = useState('1234');
+    const [userName, setUserName] = useState('');
+    const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [errortext, setErrortext] = useState();
     const [userNameError, setUserNameError] = useState('');
@@ -32,9 +34,9 @@ const LoginScreen = ({ navigation }) => {
 
     const passwordInputRef = createRef();
 
-    const showErrorToastWithGravity = () => {
+    const showErrorToastWithGravity = (error) => {
         ToastAndroid.showWithGravity(
-            errortext,
+            error,
             ToastAndroid.LONG,
             ToastAndroid.CENTER
         );
@@ -49,21 +51,7 @@ const LoginScreen = ({ navigation }) => {
 
     };
 
-    const AlertMessage = (msg) => {
-        Alert.alert(
-            'Alert Title',
-            msg,
-            [
-                {
-                    text: 'Cancel',
-                    onPress: () => console.log('Cancel Pressed'),
-                    style: 'cancel',
-                },
-                { text: 'OK', onPress: () => console.log('OK Pressed') },
-            ],
-            { cancelable: false },
-        );
-    }
+
     const handleSubmitPress = () => {
         setErrortext('');
         if (!userName) {
@@ -78,7 +66,9 @@ const LoginScreen = ({ navigation }) => {
         }
         setLoading(true);
 
-        fetch('http://192.168.100.15:5000/api/user/login', {
+        let url = `${API}user/login`
+        console.log(url)
+        fetch(url, {
             method: 'POST',
             headers: {
                 //Header Defination
@@ -92,7 +82,9 @@ const LoginScreen = ({ navigation }) => {
             .then((responseJson) => {
                 //Hide Loader
                 setLoading(false);
-                console.log(responseJson);
+
+                // console.log(responseJson.message);
+                showErrorToastWithGravity(responseJson.message)
                 // If server response message same as Data Matched
                 if (responseJson.role === 'user') {
                     if (!(responseJson.code < 200 || responseJson.code >= 400)) {
@@ -102,6 +94,7 @@ const LoginScreen = ({ navigation }) => {
 
                     }
                     else {
+
                         // AlertMessage(responseJson.msg)
                         // Alert.alert("Oops!", responseJson.err)
 
@@ -110,10 +103,10 @@ const LoginScreen = ({ navigation }) => {
             })
             .catch((error) => {
                 //Hide Loader
-                setErrortext("Invalid")
+                setErrortext(error)
                 setLoading(false);
-                showErrorToastWithGravity()
-                console.error(error);
+                // showErrorToastWithGravityerror(error)
+                // console.error(error);
             });
     };
 

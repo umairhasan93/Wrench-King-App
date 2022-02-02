@@ -12,6 +12,9 @@ import {
 import { Card } from 'react-native-paper';
 import MenuButton from '../Components/NavigationDrawerHeader'
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { REACT_NATIVE_APP_API_KEY } from '@env'
+
+const API = REACT_NATIVE_APP_API_KEY
 
 const WIDTH = Dimensions.get('window').width
 const HEIGHT = Dimensions.get('window').height
@@ -24,7 +27,9 @@ const BikeMechanic = ({ navigation }) => {
     }
 
     useEffect(() => {
-        fetch('http://192.168.100.15:5000/api/mechanics/bike')
+        let url = `${API}mechanics/bike`
+        console.log(url)
+        fetch(url)
             .then((response) => response.json())
             .then((json) => setMechanic(json))
             .catch((error) => console.error(error))
@@ -43,7 +48,7 @@ const BikeMechanic = ({ navigation }) => {
                 borderTopLeftRadius: 20,
                 height: 50,
                 paddingTop: 6,
-                shadowColor: '#E41B17',
+                shadowColor: '#000',
                 shadowOffset: {
                     width: 0,
                     height: 5,
@@ -152,9 +157,9 @@ const styles = StyleSheet.create({
         marginTop: 5,
         marginRight: WIDTH / 32.3,
         marginLeft: 10,
-        backgroundColor: '#7E6CCA',
+        backgroundColor: '#52595D60',
         overflow: 'hidden',
-        shadowColor: '#E41B17',
+        shadowColor: '#000',
         shadowOffset: {
             width: 1,
             height: 1,

@@ -17,53 +17,44 @@ const DrawerFooter = () => {
     const navigation = useNavigation()
 
     const handleSubmit = () => {
-        AsyncStorage.removeItem('user')
+        AsyncStorage.clear()
         navigation.replace('Auth')
     }
     return (
 
-        <View style={{ alignItems: 'center', marginTop: 115 }}>
+        <View style={{ marginTop: 115 }}>
             <TouchableOpacity onPress={() => handleSubmit()} activeOpacity={0.3}>
                 <View style={styles.logoutContainer}>
-                    <Icon style={styles.Logouticons} name="sign-out-alt" size={19} />
+                    <Icon style={styles.Logouticons} name="sign-out-alt" size={18} />
                     <Text style={styles.logoutText}> Logout </Text>
                 </View>
             </TouchableOpacity>
-
-            <Text style={styles.FooterText}>Wrench King</Text>
-
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     logoutContainer: {
-        marginTop: 10,
+        height: HEIGHT / 15,
+        marginTop: HEIGHT / 15,
         marginBottom: 10,
-        marginLeft: -140,
+        marginLeft: -10,
         flexDirection: 'row',
+        paddingLeft: WIDTH / 13
     },
 
     Logouticons: {
-        marginLeft: 30,
+        // marginLeft: 30,
         marginTop: 2,
-        color: 'gray',
+        color: '#ff000095',
     },
 
     logoutText: {
         marginLeft: 5,
-        fontSize: 18,
+        fontSize: 15,
         color: 'gray',
     },
 
-
-
-    FooterText: {
-        marginTop: 5,
-        fontSize: 20,
-        marginBottom: 5,
-        color: 'gray',
-    },
 })
 
 export default DrawerFooter

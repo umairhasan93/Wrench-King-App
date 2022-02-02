@@ -14,6 +14,9 @@ import {
 } from 'react-native';
 import LoginScreen from './LoginScreen';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { REACT_NATIVE_APP_API_KEY } from '@env'
+
+const API = REACT_NATIVE_APP_API_KEY
 
 const ForgetPasswordScreen = ({ navigation }) => {
     const [userEmail, setUserEmail] = useState('');
@@ -56,7 +59,8 @@ const ForgetPasswordScreen = ({ navigation }) => {
             showErrorToastWithGravity()
         }
         else {
-            fetch("http://192.168.100.15:5000/api/user/forgotpassword/" + userEmail, {
+            let url = `${API}user.forgotpassword/`
+            fetch(url + userEmail, {
                 method: 'PUT',
                 body: JSON.stringify({
 
@@ -75,7 +79,7 @@ const ForgetPasswordScreen = ({ navigation }) => {
                     setConfirmPassword('')
                     setSuccessMsg("Password Successfully Changed!")
                     showSuccessToastWithGravity()
-                    navigation.navigate(LoginScreen)
+                    navigation.navigate('LoginScreen')
 
                 }).catch(err => {
                     console.log({ err });
@@ -190,7 +194,7 @@ const ForgetPasswordScreen = ({ navigation }) => {
                                 activeOpacity={0.3}
                                 onPress={() => { navigation.navigate('LoginScreen') }}
                             >
-                                <Text style={{ color: 'red', textDecorationLine: 'underline', marginBottom: 50 }}>Back to Login</Text>
+                                <Text style={{ color: 'red', textDecorationLine: 'underline', marginBottom: 50, fontWeight: 'bold' }}>Back to Login</Text>
                             </TouchableOpacity>
                         </View>
                     </ScrollView>
@@ -241,7 +245,7 @@ const styles = StyleSheet.create({
         marginRight: 35,
         marginTop: 10,
         marginBottom: 25,
-        shadowColor: '#E41B17',
+        shadowColor: '#000',
         shadowOffset: {
             width: 0,
             height: 5,

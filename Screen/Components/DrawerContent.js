@@ -8,13 +8,14 @@ import {
     Linking,
     Dimensions
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontIcon from 'react-native-vector-icons/FontAwesome5'
-import { useNavigation } from '@react-navigation/native';
+// import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/FontAwesome'
+import { DrawerActions, useNavigation } from '@react-navigation/native';
 import Footer from "./DrawerFooter"
 // import { DrawerContentScrollView, DrawerItems, DrawerItemList } from '@react-navigation/drawer';
 import Loader from "../Components/loader"
 import AsyncStorage from '@react-native-community/async-storage'
+import DrawerFooter from './DrawerFooter';
 
 const WIDTH = Dimensions.get('window').width
 const HEIGHT = Dimensions.get('window').height
@@ -30,7 +31,12 @@ export function DrawerContent(props) {
         })
     }, [])
 
+    const name = localUser.name
+    const email = localUser.email
+    const id = localUser.id
+    const number = localUser.contact
 
+    // console.log(localUser)
 
     return (
         <View>
@@ -42,7 +48,7 @@ export function DrawerContent(props) {
             </View>
             <View
                 style={{
-                    borderBottomColor: 'gray',
+                    borderBottomColor: '#00000040',
                     borderBottomWidth: 1,
                     width: 250,
                     alignSelf: 'center'
@@ -52,39 +58,78 @@ export function DrawerContent(props) {
 
 
                 <Loader loading={loading} />
-                <View style={{ height: 458 }}>
+                <View style={{ height: 458, marginTop: HEIGHT / 15 }}>
                     <TouchableOpacity
                         activeOpacity={0.6}
-                        style={{ height: 40, justifyContent: "center", paddingLeft: 20, marginTop: 10 }}
+                        style={styles.drawerItemContainer}
                         onPress={() => navigation.navigate("HomeScreen")}
                     >
-                        <Text>Home</Text>
+                        <View style={{ marginLeft: -(WIDTH / 200) }}>
+                            <Icon
+                                name='home'
+                                size={17}
+                                style={styles.icon}
+                            />
+                        </View>
+                        <View style={{ marginLeft: WIDTH / 32, }}>
+                            <Text style={styles.text}>Home</Text>
+                        </View>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         activeOpacity={0.6}
-                        style={{ height: 40, justifyContent: "center", paddingLeft: 20, marginTop: 10 }}
-                        onPress={() => navigation.navigate("UpdateProfileScreen")}
+                        style={styles.drawerItemContainer}
+                        onPress={() => navigation.navigate("UpdateProfileScreen", { id: id })}
                     >
-                        <Text>Profile</Text>
+                        <View>
+                            <Icon
+                                name='user'
+                                size={18}
+                                style={styles.icon}
+                            />
+                        </View>
+                        <View style={{ marginLeft: WIDTH / 30, }}>
+                            <Text style={styles.text}>Profile</Text>
+                        </View>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         activeOpacity={0.6}
-                        style={{ height: 50, justifyContent: "center", paddingLeft: 20, marginTop: 10 }}
+                        style={styles.drawerItemContainer}
                         onPress={() => navigation.navigate("BookingStatus",
                             { id: localUser.contact }
                         )}
                     >
-                        <Text>Your Bookings</Text>
+                        <View style={{ marginLeft: -(WIDTH - 383) }}>
+                            <Icon
+                                name='calendar'
+                                size={15}
+                                style={styles.icon}
+                            />
+                        </View>
+
+                        <View style={{ marginLeft: WIDTH / 31 }}>
+                            <Text style={styles.text}>Your Bookings</Text>
+                        </View>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         activeOpacity={0.6}
-                        style={{ height: 40, justifyContent: "center", paddingLeft: 20, marginTop: 10 }}
-                        onPress={() => Linking.openURL('mailto:AutoRepair.WrenchKing@gmail.com')}
+                        style={styles.drawerItemContainer}
+                        onPress={() => navigation.navigate('ComplainScreen',
+                            { username: name, useremail: email }
+                        )}
                     >
-                        <Text>Contact Us</Text>
+                        <View style={{ marginLeft: -(WIDTH - 382.8) }}>
+                            <Icon
+                                name='at'
+                                size={18}
+                                style={styles.icon}
+                            />
+                        </View>
+                        <View style={{ marginLeft: WIDTH / 31 }}>
+                            <Text style={styles.text}>Contact Us</Text>
+                        </View>
                     </TouchableOpacity>
                 </View>
 
@@ -92,8 +137,18 @@ export function DrawerContent(props) {
 
 
             </ScrollView>
+            <DrawerFooter />
+            {/* <View style={{ alignItems: 'center', marginTop: 115 }}>
+                <TouchableOpacity onPress={() => handleSubmit()} activeOpacity={0.3}>
+                    <View style={styles.logoutContainer}>
+                        <Icon style={styles.Logouticons} name="sign-out-alt" size={19} />
+                        <Text style={styles.logoutText}> Logout </Text>
+                    </View>
+                </TouchableOpacity>
 
-            <Footer />
+                <Text style={styles.FooterText}>Wrench King</Text>
+
+            </View> */}
         </View>
     );
 }
@@ -111,13 +166,25 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 
-    email: {
-        fontSize: 12,
-        textDecorationLine: 'underline',
-        color: 'indigo',
+    drawerItemContainer: {
+        flexDirection: 'row',
+        height: HEIGHT / 15,
+        alignItems: "center",
         marginTop: 10,
+        paddingLeft: WIDTH / 18,
     },
 
+    icon: {
+        marginTop: 2,
+        color: '#ff000095',
+    },
+
+    text: {
+        fontSize: 14,
+        color: '#00000090',
+
+        // fontWeight: 'bold'
+    },
 });
 
 // export default DrawerContent

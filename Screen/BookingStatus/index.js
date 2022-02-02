@@ -9,12 +9,15 @@ import {
     Dimensions
 } from 'react-native';
 import { Card } from 'react-native-paper';
-import { Tab, TabView } from 'react-native-elements';
+import { ButtonGroup } from 'react-native-elements';
 import MenuButton from '../Components/NavigationDrawerHeader'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import Pending from "./Pending"
 import Confirmed from "./Confirmed"
-import AsyncStorage from '@react-native-community/async-storage'
+// import AsyncStorage from '@react-native-community/async-storage'
+import { REACT_NATIVE_APP_API_KEY } from '@env'
+
+const API = REACT_NATIVE_APP_API_KEY
 
 const WIDTH = Dimensions.get('window').width
 const HEIGHT = Dimensions.get('window').height
@@ -24,19 +27,20 @@ const BookingStatus = ({ navigation, route }) => {
 
     const { id } = route.params
     // console.log(id)
-    const [index, setIndex] = React.useState(0);
+    const [index, setIndex] = useState(0);
     // const [bookings, setBooking] = useState([])
     const [pending, setPending] = useState([])
     const [confirmed, setConfirmed] = useState([])
 
     useEffect(() => {
-        fetch("http://192.168.100.15:5000/api/booking/" + id)
+        let pendingURL = `${API}booking/`
+        fetch(pendingURL + id)
             .then(resp => resp.json())
             .then(resp => {
                 setPending(resp)
             })
-
-        fetch("http://192.168.100.15:5000/api/booking/confirmed/" + id)
+        let confirmedURL = `${API}booking/confirmed/`
+        fetch(confirmedURL + id)
             .then(resp => resp.json())
             .then(resp => {
                 setConfirmed(resp)
@@ -47,26 +51,28 @@ const BookingStatus = ({ navigation, route }) => {
     const pendingCount = pending.length
     const confirmedCount = confirmed.length
 
-    console.log('Pending = ' + pendingCount)
-    console.log('Confirmed = ' + confirmedCount)
 
-    const booking = () => {
 
-        if (pendingCount > 0 || confirmedCount > 0) {
-            return (
-                <>
-                    <View style={styles.num}>
-                        <Text style={{ color: 'black', fontSize: 13 }}>{pendingCount}</Text>
-                    </View>
+    // const booking = () => {
 
-                    <View style={styles.num1}>
-                        <Text style={{ color: 'black', fontSize: 13 }}>{confirmedCount}</Text>
-                    </View>
-                </>
+    //     if (pendingCount > 0 || confirmedCount > 0) {
+    //         return (
+    //             <>
+    //                 <View style={styles.num}>
+    //                     <Text style={{ color: 'black', fontSize: 13 }}>{pendingCount}</Text>
+    //                 </View>
 
-            )
-        }
-    }
+    //                 <View style={styles.num1}>
+    //                     <Text style={{ color: 'black', fontSize: 13 }}>{confirmedCount}</Text>
+    //                 </View>
+    //             </>
+
+    //         )
+    //     }
+    //     else {
+    //         return false
+    //     }
+    // }
 
     const Empty = () => {
         return (
@@ -76,16 +82,41 @@ const BookingStatus = ({ navigation, route }) => {
         )
     }
 
+    const Show = () => {
+        console.log(index);
+        if (index === 0) {
+            if (pendingCount > 0) {
+                return <Pending userid={id} />
+            } else {
+                return Empty()
+            }
+        }
+
+        else if (index === 1) {
+            if (confirmedCount > 0) {
+                return <Confirmed userid={id} />
+            } else {
+                return Empty()
+            }
+        }
+
+        else if (index === 2) {
+            return Empty()
+        }
+
+
+    }
+
     return (
         <SafeAreaView>
             <View style={{
                 flexDirection: 'row',
-                backgroundColor: '#ffffff',
+                backgroundColor: '#E41B17',
                 borderBottomRightRadius: 20,
                 borderTopLeftRadius: 20,
                 height: 50,
                 paddingTop: 6,
-                shadowColor: '#E41B17',
+                shadowColor: '#000',
                 shadowOffset: {
                     width: 0,
                     height: 5,
@@ -100,66 +131,52 @@ const BookingStatus = ({ navigation, route }) => {
                             style={{ marginRight: 20, marginLeft: 20, marginTop: 7 }}
                             name="align-center"
                             size={25}
-                            color="red"
+                            color="white"
                         />
                     </TouchableOpacity>
                 </View>
                 <Text style={styles.headerText}>Wrench King</Text>
             </View>
 
-            <View style={{ height: HEIGHT, backgroundColor: 'green' }}>
-                <View style={{ backgroundColor: 'red' }}>
+            <View style={{ marginLeft: -10 }}>
+                <ButtonGroup
+                    buttons={['PENDING', 'CONFIRMED', 'COMPLETED']}
+                    selectedIndex={index}
+                    onPress={(value) => {
+                        setIndex(value);
+                    }}
+                    containerStyle={{ backgroundColor: '#ff000090', width: WIDTH / 1, height: HEIGHT / 15 }}
+                    textStyle={{ color: 'black' }}
+                    selectedButtonStyle={{ backgroundColor: '#ff0000' }}
+                    selectedTextStyle={{ color: 'white', fontSize: 16 }}
 
-                    <Tab
-                        value={index}
-                        onChange={(e) => setIndex(e)}
-                        indicatorStyle={{
-                            backgroundColor: 'black',
-                            height: 3,
-                        }}
+                />
+                {/* {booking()} */}
+                {
+                    (pendingCount > 0) ? (
+                        <View style={styles.num}>
+                            <Text style={{ color: 'black', fontSize: 13 }}>{pendingCount}</Text>
+                        </View>
+                    ) : null
+                }
 
-                    >
+                {
+                    (confirmedCount > 0) ? (
+                        <View style={styles.num1}>
+                            <Text style={{ color: 'black', fontSize: 13 }}>{confirmedCount}</Text>
+                        </View>
+                    ) : null
+                }
+                <View style={{ width: WIDTH, marginLeft: 10 }}>
+                    {
 
-                        <Tab.Item
-                            title="pending"
-                            titleStyle={{ fontSize: 12, color: 'white' }}
-                        />
-
-                        <Tab.Item
-                            title="confirmed"
-                            titleStyle={{ fontSize: 12, color: 'white' }}
-
-                        />
-                        <Tab.Item
-                            title="completed"
-                            titleStyle={{ fontSize: 12, color: 'white' }}
-
-                        />
-                    </Tab>
-
+                        Show()
+                    }
                 </View>
-                {booking()}
 
-
-                <TabView value={index} onChange={setIndex} animationType="spring">
-
-                    <TabView.Item style={{ backgroundColor: '#ffffff60', width: '100%' }}>
-
-                        {(pendingCount === 0) ? (<Empty />) : (<Pending userid={id} />)}
-
-                    </TabView.Item>
-
-                    <TabView.Item disabled style={{ backgroundColor: '#ffffff60', width: '100%' }}>
-                        {(confirmedCount === 0) ? (<Empty />) : (<Confirmed userid={id} />)}
-                    </TabView.Item>
-
-                    <TabView.Item style={{ backgroundColor: '#ffffff60', width: '100%' }}>
-                        <Text h1>Cart</Text>
-                    </TabView.Item>
-
-                </TabView>
             </View>
-        </SafeAreaView>
+
+        </SafeAreaView >
 
     )
 
@@ -172,7 +189,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginLeft: 60,
         marginTop: 2,
-        color: 'red',
+        color: 'white',
         fontWeight: 'bold',
     },
 
@@ -183,8 +200,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'yellow',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: -41,
-        marginLeft: WIDTH / 4,
+        marginTop: -(HEIGHT / 15),
+        marginLeft: WIDTH / 3.5,
         marginBottom: 20
     },
 
@@ -196,7 +213,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: -40,
-        marginLeft: WIDTH / 1.68,
+        marginLeft: WIDTH / 1.6,
         marginBottom: 20
     },
 

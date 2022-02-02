@@ -62,7 +62,7 @@ const BookingDetails = ({ navigation, route }) => {
                 borderTopLeftRadius: 20,
                 height: 50,
                 paddingTop: 6,
-                shadowColor: '#E41B17',
+                shadowColor: '#000',
                 shadowOffset: {
                     width: 0,
                     height: 5,
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
         marginLeft: WIDTH / 25,
         paddingBottom: 25,
         borderRadius: 20,
-        shadowColor: '#E41B17',
+        shadowColor: '#000',
         shadowOffset: {
             width: 0,
             height: 5,

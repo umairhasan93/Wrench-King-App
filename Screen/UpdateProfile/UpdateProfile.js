@@ -1,4 +1,4 @@
-import React, { useState, UseEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -10,23 +10,43 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontIcon from 'react-native-vector-icons/FontAwesome5'
 import AsyncStorage from '@react-native-community/async-storage'
 import { Card } from 'react-native-paper';
+import { REACT_NATIVE_APP_API_KEY } from '@env'
+
+const API = REACT_NATIVE_APP_API_KEY
 
 const WIDTH = Dimensions.get('window').width
 const HEIGHT = Dimensions.get('window').height
 
-const UpdateProfile = ({ navigation }) => {
+const UpdateProfile = ({ navigation, route }) => {
+    const { id } = route.params
     const [user, setUser] = useState([])
-    const [name, setName] = useState()
-    const [number, setNumber] = useState()
+    console.log(id)
+    const [localUser, setLocalUser] = useState([])
 
-    AsyncStorage.getItem('user').then(data => {
-        setUser(JSON.parse(data))
-        // console.log(user);
-    })
-    const id = user.id
-    const fname = user.fname
-    const lname = user.lname
-    // console.log(id);
+    useEffect(() => {
+        // AsyncStorage.getItem('user').then(data => {
+        //     setLocalUser(JSON.parse(data))
+        // })
+        let url = `${API}user/`
+        // console.log(url)
+        fetch(url + id)
+            .then(resp => resp.json())
+            .then(resp => {
+                setUser(resp)
+            })
+    }, [])
+
+    const fname = user.firstname
+    const lname = user.lastname
+    const name = fname + ' ' + lname
+
+    const email = user.email
+
+    console.log(id);
+    console.log(name)
+    console.log(email);
+
+
     return (
 
         <View style={styles.profilemodalView}>
@@ -54,7 +74,7 @@ const UpdateProfile = ({ navigation }) => {
             </View>
 
             <View style={{ alignItems: "center", marginTop: 30, backgroundColor: '#ffffff90' }}>
-                <Card style={styles.profileCard} onPress={() => { navigation.navigate('UpdateNameScreen', { userId: id, userfname: fname, userlname: lname }) }}>
+                <Card style={styles.profileCard} onPress={() => { navigation.navigate('UpdateNameScreen', { id: id }) }}>
                     <View style={{ flexDirection: 'row' }}>
 
                         <View style={styles.tagView}>
@@ -71,7 +91,7 @@ const UpdateProfile = ({ navigation }) => {
 
                     </View>
                     <View style={{ height: 45, justifyContent: 'center' }}>
-                        <Text style={styles.userDetail}>{user.name}</Text>
+                        <Text style={styles.userDetail}>{name}</Text>
                     </View>
 
                 </Card>
@@ -102,20 +122,12 @@ const UpdateProfile = ({ navigation }) => {
                     <View style={{ flexDirection: 'row' }}>
 
                         <View style={styles.tagView}>
-                            <Text style={styles.cardTag}>Mobile Number</Text>
-                        </View>
-
-                        <View style={styles.penIconView}>
-                            <Icon
-                                style={styles.penIcon}
-                                name="pencil-outline"
-                                size={24}
-                                color="red" />
+                            <Text style={styles.cardTag}>Email</Text>
                         </View>
 
                     </View>
                     <View style={{ height: 45, justifyContent: 'center' }}>
-                        <Text style={styles.userDetail}>{user.contact}</Text>
+                        <Text style={styles.userDetail}>{email}</Text>
                     </View>
 
                 </Card>

@@ -12,6 +12,9 @@ import {
 import { Card } from 'react-native-paper';
 import MenuButton from '../Components/NavigationDrawerHeader'
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { REACT_NATIVE_APP_API_KEY } from '@env'
+
+const API = REACT_NATIVE_APP_API_KEY
 
 const WIDTH = Dimensions.get('window').width
 const HEIGHT = Dimensions.get('window').height
@@ -37,7 +40,9 @@ const CarMechanic = ({ navigation }) => {
         uri: 'https://lh3.googleusercontent.com/dyJJ3ZiyZrjqVq3Elc_54F2pKBUcefH9ztENLVPgDITMkGctbDMV7Q7koCLtd3iI4Wx_1xAICLTHKM_x=w1080-h608-p-no-v0'
     }
     useEffect(() => {
-        fetch('http://192.168.100.15:5000/api/mechanics/cartuning')
+        let tuningURL = `${API}mechanics/cartuning`
+        console.log(tuningURL)
+        fetch(tuningURL)
             .then((response) => response.json())
             .then((json) => setTuningMechanic(json))
             .catch((error) => console.error(error))
@@ -45,7 +50,9 @@ const CarMechanic = ({ navigation }) => {
     }, []);
 
     useEffect(() => {
-        fetch('http://192.168.100.15:5000/api/mechanics/caraxle')
+        let axleURL = `${API}mechanics/caraxle`
+        console.log(axleURL)
+        fetch(axleURL)
             .then((response) => response.json())
             .then((json) => setAxleMechanic(json))
             .catch((error) => console.error(error))
@@ -53,7 +60,9 @@ const CarMechanic = ({ navigation }) => {
     }, []);
 
     useEffect(() => {
-        fetch('http://192.168.100.15:5000/api/mechanics/carac')
+        let acURL = `${API}mechanics/carac`
+        console.log(acURL)
+        fetch(acURL)
             .then((response) => response.json())
             .then((json) => setACMechanic(json))
             .catch((error) => console.error(error))
@@ -70,7 +79,7 @@ const CarMechanic = ({ navigation }) => {
                 borderTopLeftRadius: 20,
                 height: 50,
                 paddingTop: 6,
-                shadowColor: '#E41B17',
+                shadowColor: '#000',
                 shadowOffset: {
                     width: 0,
                     height: 5,
@@ -101,7 +110,8 @@ const CarMechanic = ({ navigation }) => {
                                         number: mechanic.contactNo,
                                         address: mechanic.address,
                                         rating: mechanic.rating,
-                                        speciality: mechanic.speciality
+                                        speciality: mechanic.speciality,
+                                        type: mechanic.mechanicType
                                     })}
                                         key={index} style={{ marginLeft: 3, marginTop: 12 }}>
                                         <ImageBackground source={image} key={index} style={styles.CardImage}>
@@ -153,7 +163,8 @@ const CarMechanic = ({ navigation }) => {
                                         number: mechanic.contactNo,
                                         address: mechanic.address,
                                         rating: mechanic.rating,
-                                        speciality: mechanic.speciality
+                                        speciality: mechanic.speciality,
+                                        type: mechanic.mechanicType,
                                     })}
                                         key={index} style={{ marginLeft: 3, marginTop: 12 }}>
                                         <ImageBackground source={image1} key={index} style={styles.CardImage}>
@@ -205,7 +216,8 @@ const CarMechanic = ({ navigation }) => {
                                         number: mechanic.contactNo,
                                         address: mechanic.address,
                                         rating: mechanic.rating,
-                                        speciality: mechanic.speciality
+                                        speciality: mechanic.speciality,
+                                        type: mechanic.mechanicType,
                                     })}
                                         key={index} style={{ margin: 3, marginTop: 12 }} >
                                         <ImageBackground key={index} source={image2} style={styles.CardImage}>
@@ -280,9 +292,9 @@ const styles = StyleSheet.create({
         marginTop: 5,
         marginRight: WIDTH / 32.3,
         marginLeft: 10,
-        backgroundColor: '#7E6CCA',
+        backgroundColor: '#52595D60',
         overflow: 'hidden',
-        shadowColor: '#E41B17',
+        shadowColor: '#000',
         shadowOffset: {
             width: 1,
             height: 1,

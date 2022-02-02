@@ -7,13 +7,16 @@ import {
     StyleSheet,
     TouchableOpacity,
     Alert,
-    Dimensions
+    Dimensions,
+    Linking
 
 } from 'react-native';
 import { Card } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { Badge } from 'react-native-elements';
-// import AsyncStorage from '@react-native-community/async-storage'
+// import { SpeedDial } from 'react-native-elements';
+import { REACT_NATIVE_APP_API_KEY } from '@env'
+
+const API = REACT_NATIVE_APP_API_KEY
 
 const WIDTH = Dimensions.get('window').width
 const HEIGHT = Dimensions.get('window').height
@@ -21,13 +24,22 @@ const HEIGHT = Dimensions.get('window').height
 
 const Confirmed = (props) => {
 
+    const dialCall = (number) => {
+        let phoneNumber = ''
+
+        phoneNumber = 'tel:$' + number
+
+        Linking.openURL(phoneNumber)
+    }
+
+    const [open, setOpen] = React.useState(false);
     const [bookings, setBooking] = useState([])
     const [confirmed, SetConfirmed] = useState(0)
     const id = props.userid
 
     useEffect(() => {
-
-        fetch("http://192.168.100.15:5000/api/booking/confirmed/" + id)
+        let url = `${API}booking/confirmed/`
+        fetch(url + id)
             .then(resp => resp.json())
             .then(resp => {
 
@@ -39,8 +51,8 @@ const Confirmed = (props) => {
 
     const Delete = (booking) => {
         console.log(booking._id);
-
-        fetch("http://192.168.100.15:5000/api/booking/" + booking._id, {
+        let url = `${API}booking/`
+        fetch(url + booking._id, {
             method: 'DELETE',
         })
             .then(resp => resp.json())
@@ -130,13 +142,47 @@ const Confirmed = (props) => {
 
                                 </View>
                             </View>
-                            <View style={{ alignItems: 'center', marginTop: 20 }}>
+
+                            <View style={{ marginTop: 20, flexDirection: 'row', alignItems: 'center', alignContent: 'center' }}>
                                 <TouchableOpacity onPress={() =>
 
                                     showConfirmDialog(booking)
-                                }>
-                                    <Text style={{ fontSize: 16, color: 'red', textDecorationLine: 'underline' }}>Cancel</Text>
+                                }
+                                    style={{
+                                        backgroundColor: '#ff000099',
+                                        height: HEIGHT / 25,
+                                        width: WIDTH / 5,
+                                        borderRadius: 30,
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        marginLeft: WIDTH / 3
+                                    }}
+                                >
+                                    <Text style={{ fontSize: 15, color: 'white', marginTop: -1.5, marginLeft: -2 }}>Cancel</Text>
                                 </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    style={{
+                                        marginLeft: WIDTH / 3.8,
+                                        marginLeft: WIDTH / 5,
+                                        height: HEIGHT / 17,
+                                        width: HEIGHT / 17,
+                                        borderRadius: HEIGHT / 34,
+                                        backgroundColor: '#12AD2B',
+                                        alignItems: 'center',
+                                        justifyContent: 'center'
+                                    }}
+                                    onPress={() => dialCall(booking.Mechanic_Number)}
+                                >
+                                    <Icon
+                                        name="phone-alt"
+                                        size={20}
+                                        color='#fff'
+                                    />
+                                    {/* <Text style={{ marginLeft: -(WIDTH / 14) }}>{HEIGHT / 34}</Text> */}
+                                </TouchableOpacity>
+
+
                             </View>
                         </Card>
                     )

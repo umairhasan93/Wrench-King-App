@@ -22,6 +22,9 @@ import MenuButton from '../Components/NavigationDrawerHeader'
 // import Header from './Header'
 import MechanicDeatils from "./MechanicDetailCard"
 import AsyncStorage from '@react-native-community/async-storage'
+import { REACT_NATIVE_APP_API_KEY } from '@env'
+
+const API = REACT_NATIVE_APP_API_KEY
 
 
 const WIDTH = Dimensions.get('window').width
@@ -47,7 +50,7 @@ const BookingScreen = ({ navigation, route }) => {
         );
     };
 
-    const { name, number, address, rating, speciality } = route.params;
+    const { name, number, address, rating, speciality, type } = route.params;
     const [calenderModalVisible, setCalenderModalVisible] = useState(false);
 
     const Companies = ["Daihatsu", "Faw", "Honda", "Hyundai", "Kia", "Nissan", "Suzuki", "Toyota"]
@@ -70,6 +73,9 @@ const BookingScreen = ({ navigation, route }) => {
 
     const [dropOff, setDropOff] = useState(false)
     const [pickUp, setPickUp] = useState(false)
+
+    const [value, setValue] = useState('')
+
 
     const onDateChange = (date) => {
         setSelectedDate(date);
@@ -163,12 +169,12 @@ const BookingScreen = ({ navigation, route }) => {
 
         // setRequestedDate()
 
-        if (selectedCompany === undefined || selectedModel === undefined || selectedYear === undefined || selectedDate === undefined) {
+        if (selectedCompany === undefined || selectedModel === undefined || selectedYear === undefined || selectedDate === undefined || (dropOff === false && pickUp === false)) {
             showToastWithGravity()
 
         }
         else {
-            console.log(requestedDate);
+            // console.log(requestedDate);
 
             navigation.navigate('BookingDetails', {
                 mechanicname: name,
@@ -198,10 +204,13 @@ const BookingScreen = ({ navigation, route }) => {
                 Mechanic_Speciality: speciality,
                 Booking_Date: date,
                 Requested_Date: requestedDate,
+                Type: value,
                 Status: 'Pending'
             };
 
-            fetch('http://192.168.100.15:5000/api/booking/booking', {
+            let url = `${API}booking/booking`
+            console.log(url)
+            fetch(url, {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
@@ -242,7 +251,7 @@ const BookingScreen = ({ navigation, route }) => {
                 borderTopLeftRadius: 20,
                 height: 50,
                 paddingTop: 6,
-                shadowColor: '#E41B17',
+                shadowColor: '#000',
                 shadowOffset: {
                     width: 0,
                     height: 5,
@@ -374,22 +383,51 @@ const BookingScreen = ({ navigation, route }) => {
                             </TouchableOpacity>
 
                             <View style={{ flexDirection: 'row', marginTop: 20 }}>
-                                <TouchableOpacity style={{ flexDirection: 'row', width: 150 }}>
+                                <TouchableOpacity
+                                    style={{ flexDirection: 'row', width: 150 }}
+                                    onPress={() => {
+                                        setDropOff(!dropOff)
+                                        setPickUp(false)
+                                        if (dropOff === true) {
+                                            setValue('Drop-Off')
+                                        }
+                                    }}
+                                >
                                     <CheckBox
                                         value={dropOff}
                                         onValueChange={() => {
                                             setDropOff(!dropOff)
                                             setPickUp(false)
                                         }}
+                                        onChange={() => {
+                                            if (dropOff === true) {
+                                                setValue('Drop-Off')
+                                            }
+                                        }}
                                     />
                                     <Text style={{ marginTop: 6 }}>Drop Off</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={{ flexDirection: 'row', width: 150 }}>
+
+                                <TouchableOpacity
+                                    style={{ flexDirection: 'row', width: 150 }}
+                                    onPress={() => {
+                                        setPickUp(!pickUp)
+                                        setDropOff(false)
+                                        if (pickUp === true) {
+                                            setValue('Pick-Up')
+                                        }
+                                    }}
+                                >
                                     <CheckBox
                                         value={pickUp}
                                         onValueChange={() => {
                                             setPickUp(!pickUp)
                                             setDropOff(false)
+                                        }}
+                                        onChange={() => {
+                                            if (pickUp === true) {
+                                                setValue('Pick-Up')
+                                            }
                                         }}
                                     />
                                     <Text style={{ marginTop: 6 }}>Pick Up</Text>
@@ -443,14 +481,14 @@ const BookingScreen = ({ navigation, route }) => {
                     </KeyboardAvoidingView>
 
                 </View>
-                <View style={{ alignItems: 'center', height: 140, paddingTop: 10 }}>
+                <View style={{ alignItems: 'center', height: 140, paddingTop: 10, marginTop: HEIGHT / 25 }}>
                     <TouchableOpacity
                         style={styles.buttonContainer}
                         activeOpacity={0.7}
                         onPress={onSubmit}
 
                     >
-                        <Text style={styles.buttonText}>Confirm{WIDTH}</Text>
+                        <Text style={styles.buttonText}>Confirm</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView >
@@ -484,7 +522,7 @@ const styles = StyleSheet.create({
         paddingBottom: 25,
         alignItems: 'center',
         backgroundColor: '#ffffff',
-        shadowColor: '#E41B17',
+        shadowColor: '#000',
         shadowOffset: {
             width: 0,
             height: 5,

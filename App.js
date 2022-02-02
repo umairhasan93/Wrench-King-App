@@ -11,6 +11,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import SplashScreen from './Screen/SplashScreen';
 import LoginScreen from './Screen/LoginScreen';
 import RegisterScreen from './Screen/RegisterScreen';
+import OTPScreen from './Screen/OTPScreen'
 import ForgetPasswordScreen from './Screen/ForgetPasswordScreen';
 import DrawerNavigationRoutes from './Screen/DrawerNavigationRoutes';
 
@@ -20,6 +21,12 @@ const Auth = () => {
   // Stack Navigator for Login and Sign up Screen
   return (
     <Stack.Navigator initialRouteName="LoginScreen" screenOptions={{ headerShown: false }}>
+      <Stack.Screen
+        name="OTPScreen"
+        component={OTPScreen}
+        options={{ headerShown: false }}
+      />
+
       <Stack.Screen
         name="LoginScreen"
         component={LoginScreen}
