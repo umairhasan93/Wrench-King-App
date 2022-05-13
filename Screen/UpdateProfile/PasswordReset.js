@@ -8,7 +8,8 @@ import {
     TextInput,
     ScrollView,
     KeyboardAvoidingView,
-    SafeAreaView
+    SafeAreaView,
+    ToastAndroid
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontIcon from 'react-native-vector-icons/FontAwesome5'
@@ -23,9 +24,25 @@ const API = REACT_NATIVE_APP_API_KEY
 const WIDTH = Dimensions.get('window').width
 const HEIGHT = Dimensions.get('window').height
 
-const ChangePassword = ({ navigation }) => {
-    const [user, setUser] = useState([])
-    const [localUser, setLocalUser] = useState([])
+const ChangePassword = ({ navigation, route }) => {
+
+    const { id } = route.params
+    console.log(id)
+    const showToastWithGravity = () => {
+        ToastAndroid.showWithGravity(
+            "Password Changed Succesfully !",
+            ToastAndroid.LONG,
+            ToastAndroid.CENTER
+        );
+    };
+
+    const showErrorToastWithGravity = () => {
+        ToastAndroid.showWithGravity(
+            "Current Password Is Not Correct !",
+            ToastAndroid.LONG,
+            ToastAndroid.CENTER
+        );
+    };
 
     const { passwordVisibility, rightIcon, handlePasswordVisibility } =
         useTogglePasswordVisibility();
@@ -36,13 +53,13 @@ const ChangePassword = ({ navigation }) => {
     const [currentPassword, setCurrentPassword] = useState('')
     const [newPassword, setNewPassword] = useState('');
 
-    const id = localUser.id
-    AsyncStorage.getItem('user').then(data => {
-        if (data) {
-            setLocalUser(JSON.parse(data))
-            // console.log(localUser);
-        }
-    })
+    // const id = localUser.id
+    // AsyncStorage.getItem('user').then(data => {
+    //     if (data) {
+    //         setLocalUser(JSON.parse(data))
+    //         // console.log(localUser);
+    //     }
+    // })
 
 
 
@@ -61,12 +78,23 @@ const ChangePassword = ({ navigation }) => {
 
             .then((response) => response.json())
             .then((json) => {
-                console.log(json)
-                setUser(json)
+                if (json.code > 200 || json.code < 400) {
+                    showToastWithGravity()
+                    console.log('Success')
+                    navigation.navigate('HomeScreen')
+                }
+                else {
+                    console.log('Error')
+                    showErrorToastWithGravity()
+                }
+
+
 
             }).catch(err => {
                 console.log({ err });
                 reject(err);
+                showErrorToastWithGravity()
+
             })
     }
 
@@ -76,7 +104,7 @@ const ChangePassword = ({ navigation }) => {
                 <View style={{ width: 118.3 }}>
                     <TouchableOpacity
                         onPress={() => {
-                            navigation.navigate('UpdateProfileScreen')
+                            navigation.navigate('UpdateProfileScreen', { id: id })
                         }} style={{ width: 118.3 }}>
                         <FontIcon
                             style={styles.cancelIcon}

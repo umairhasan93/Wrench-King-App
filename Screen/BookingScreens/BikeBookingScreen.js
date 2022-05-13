@@ -42,7 +42,15 @@ const BikeBookingScreen = ({ navigation, route }) => {
 
     const showToastWithGravity = () => {
         ToastAndroid.showWithGravity(
-            "Please Select Car Details",
+            "Please Select Bike Details",
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER
+        );
+    };
+
+    const showSuccessToastWithGravity = () => {
+        ToastAndroid.showWithGravity(
+            "Booking Succesfull",
             ToastAndroid.SHORT,
             ToastAndroid.CENTER
         );
@@ -77,19 +85,6 @@ const BikeBookingScreen = ({ navigation, route }) => {
 
         }
         else {
-            navigation.navigate('BookingDetails', {
-                mechanicname: name,
-                mechanicnumber: number,
-                mechanicaddress: address,
-                mechanictype: type,
-                username: user.name,
-                usernumber: user.contact,
-                useremail: user.email,
-                model: selectedModel,
-                bookingdate: date,
-
-            })
-
             const data = {
                 User_Name: user.name,
                 User_Number: user.contact,
@@ -121,9 +116,21 @@ const BikeBookingScreen = ({ navigation, route }) => {
             })
                 .then((response) => response.json())
                 .then((responseJson) => {
+                    if (responseJson) {
+                        showSuccessToastWithGravity()
+                        navigation.navigate('BookingDetails', {
+                            mechanicname: name,
+                            mechanicnumber: number,
+                            mechanicaddress: address,
+                            mechanictype: type,
+                            username: user.name,
+                            usernumber: user.contact,
+                            useremail: user.email,
+                            model: selectedModel,
+                            bookingdate: date,
 
-                    console.log(responseJson);
-
+                        })
+                    }
                 })
                 .catch((error) => {
                     console.error(error);

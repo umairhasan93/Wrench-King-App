@@ -50,6 +50,14 @@ const BookingScreen = ({ navigation, route }) => {
         );
     };
 
+    const showSuccessToastWithGravity = () => {
+        ToastAndroid.showWithGravity(
+            "Booking Succesfull",
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER
+        );
+    };
+
     const { name, number, address, rating, speciality, type } = route.params;
     const [calenderModalVisible, setCalenderModalVisible] = useState(false);
 
@@ -174,22 +182,6 @@ const BookingScreen = ({ navigation, route }) => {
 
         }
         else {
-            // console.log(requestedDate);
-
-            navigation.navigate('BookingDetails', {
-                mechanicname: name,
-                mechanicnumber: number,
-                mechanicaddress: address,
-                mechanicspeciality: speciality,
-                username: user.name,
-                usernumber: user.contact,
-                useremail: user.email,
-                carcompany: selectedCompany,
-                year: selectedYear,
-                model: selectedModel,
-                bookingdate: date,
-
-            })
 
             const data = {
                 User_Name: user.name,
@@ -222,8 +214,23 @@ const BookingScreen = ({ navigation, route }) => {
             })
                 .then((response) => response.json())
                 .then((responseJson) => {
+                    if (responseJson) {
+                        showSuccessToastWithGravity()
+                        navigation.navigate('BookingDetails', {
+                            mechanicname: name,
+                            mechanicnumber: number,
+                            mechanicaddress: address,
+                            mechanicspeciality: speciality,
+                            username: user.name,
+                            usernumber: user.contact,
+                            useremail: user.email,
+                            carcompany: selectedCompany,
+                            year: selectedYear,
+                            model: selectedModel,
+                            bookingdate: date,
+                        })
 
-                    console.log(responseJson);
+                    }
 
                 })
                 .catch((error) => {

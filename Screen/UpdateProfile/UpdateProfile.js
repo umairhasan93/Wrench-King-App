@@ -96,7 +96,7 @@ const UpdateProfile = ({ navigation, route }) => {
 
                 </Card>
 
-                <Card style={styles.profileCard} onPress={() => navigation.navigate('PasswordResetScreen')}>
+                <Card style={styles.profileCard} onPress={() => navigation.navigate('PasswordResetScreen', { id: id })}>
                     <View style={{ flexDirection: 'row' }}>
 
                         <View style={styles.tagView}>

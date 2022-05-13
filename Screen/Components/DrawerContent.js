@@ -100,7 +100,7 @@ export function DrawerContent(props) {
                             { id: localUser.contact }
                         )}
                     >
-                        <View style={{ marginLeft: -(WIDTH - 383) }}>
+                        <View>
                             <Icon
                                 name='calendar'
                                 size={15}
@@ -120,7 +120,7 @@ export function DrawerContent(props) {
                             { username: name, useremail: email }
                         )}
                     >
-                        <View style={{ marginLeft: -(WIDTH - 382.8) }}>
+                        <View>
                             <Icon
                                 name='at'
                                 size={18}

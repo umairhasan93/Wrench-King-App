@@ -11,7 +11,8 @@ import {
     KeyboardAvoidingView,
     Alert,
     ToastAndroid,
-    Dimensions
+    Dimensions,
+    Modal
 } from 'react-native';
 import { Card } from 'react-native-paper';
 // import Icon from 'react-native-vector-icons/FontAwesome5'
@@ -20,17 +21,18 @@ import Loader from './Components/loader';
 import { REACT_NATIVE_APP_API_KEY } from '@env'
 
 const API = REACT_NATIVE_APP_API_KEY
+const WIDTH = Dimensions.get('window').width
+const HEIGHT = Dimensions.get('window').height
 // console.log(API)
 const LoginScreen = ({ navigation }) => {
-    const [userName, setUserName] = useState('');
-    const [password, setPassword] = useState('');
+    const [userName, setUserName] = useState('umairhasan93');
+    const [password, setPassword] = useState('12345');
     const [loading, setLoading] = useState(false);
     const [errortext, setErrortext] = useState();
     const [userNameError, setUserNameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
 
-    const WIDTH = Dimensions.get('window').width
-    const HEIGHT = Dimensions.get('window').height
+
 
     const passwordInputRef = createRef();
 
@@ -112,6 +114,7 @@ const LoginScreen = ({ navigation }) => {
 
     return (
         <View style={styles.mainBody}>
+
             <Loader loading={loading} />
             <ScrollView
 
@@ -124,6 +127,7 @@ const LoginScreen = ({ navigation }) => {
                 <View>
                     <KeyboardAvoidingView enabled>
                         <View>
+                            {/* <Text>Hello</Text> */}
                             <Image
                                 source={require('../Image/bg.jpeg')}
                                 style={{
@@ -305,4 +309,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 14,
     },
+
+
 });
