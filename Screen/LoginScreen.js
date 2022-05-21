@@ -25,8 +25,8 @@ const WIDTH = Dimensions.get('window').width
 const HEIGHT = Dimensions.get('window').height
 // console.log(API)
 const LoginScreen = ({ navigation }) => {
-    const [userName, setUserName] = useState('umairhasan93');
-    const [password, setPassword] = useState('12345');
+    const [userName, setUserName] = useState('');
+    const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [errortext, setErrortext] = useState();
     const [userNameError, setUserNameError] = useState('');

@@ -85,7 +85,7 @@ const Pending = (props) => {
     const [showBox, setShowBox] = useState(true);
 
     const showConfirmDialog = (booking) => {
-        console.log('Ddialog');
+        // console.log('Ddialog');
         return Alert.alert(
             "Are your sure?",
             "Are you sure you want to Cancel Your Booking?",

@@ -77,7 +77,7 @@ const BookingScreen = ({ navigation, route }) => {
     const [selectedModel, setSelectedModel] = useState();
     const [date, setDate] = useState();
     const [selectedDate, setSelectedDate] = useState();
-    const [requestedDate, setRequestedDate] = useState(moment(now).format("DD - MMM - YYYY"));
+    const [requestedDate, setRequestedDate] = useState(moment(now).format("DD - MM - YYYY"));
 
     const [dropOff, setDropOff] = useState(false)
     const [pickUp, setPickUp] = useState(false)
@@ -87,7 +87,7 @@ const BookingScreen = ({ navigation, route }) => {
 
     const onDateChange = (date) => {
         setSelectedDate(date);
-        setDate(moment(selectedDate).format("DD - MMM - YYYY"))
+        setDate(moment(selectedDate).format("DD - MM - YYYY"))
         setCalenderModalVisible(!calenderModalVisible)
     }
 

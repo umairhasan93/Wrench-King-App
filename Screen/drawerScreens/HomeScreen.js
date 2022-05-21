@@ -41,10 +41,10 @@ const HomeScreen = ({ navigation }) => {
     // console.log(bookings)
 
     const id = dataa.contact
-    const username = dataa.username
-    // const number = dataa.contact
-    const mechanicname = bookings[0].Mechanic_Name
-    const mechanicnumber = bookings[0].Mechanic_Number
+    // const username = dataa.username
+    // // const number = dataa.contact
+    // const mechanicname = bookings[0].Mechanic_Name
+    // const mechanicnumber = bookings[0].Mechanic_Number
     // console.log(mechanicname)
     // console.log(mechanicnumber)
     const [modalVisible, setModalVisible] = useState(false);
@@ -54,7 +54,7 @@ const HomeScreen = ({ navigation }) => {
             setData(JSON.parse(data))
         })
 
-        let url = `${API}confirmedbooking/completebooking/`
+        let url = `${API}completedbooking/`
         // console.log(url)
         fetch(url + id)
             .then(resp => resp.json())
@@ -98,6 +98,8 @@ const HomeScreen = ({ navigation }) => {
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson) {
+
+                    let url1 = `${API}confirmedbooking/`
                     setModalVisible(false)
                     showSuccessToastWithGravity()
                 }
