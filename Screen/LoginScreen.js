@@ -23,7 +23,7 @@ import { REACT_NATIVE_APP_API_KEY } from '@env'
 const API = REACT_NATIVE_APP_API_KEY
 const WIDTH = Dimensions.get('window').width
 const HEIGHT = Dimensions.get('window').height
-// console.log(API)
+console.log(API)
 const LoginScreen = ({ navigation }) => {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');

@@ -15,6 +15,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { REACT_NATIVE_APP_API_KEY } from '@env'
 
 const API = REACT_NATIVE_APP_API_KEY
+console.log(API)
 
 const WIDTH = Dimensions.get('window').width
 const HEIGHT = Dimensions.get('window').height
